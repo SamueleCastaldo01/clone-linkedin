@@ -10,7 +10,6 @@ import {
   Search,
   WorkRounded,
 } from "@mui/icons-material";
-import ProfileSearch from "./searchbar2";
 
 const NavComponent = () => {
   return (
@@ -44,15 +43,12 @@ const NavComponent = () => {
               id="outlined-basic"
               placeholder="Search"
               className="w-50"
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                      <ProfileSearch />
-                    </InputAdornment>
-                  ),
-                },
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
               }}
               style={{ width: "300px" }}
             />
@@ -64,14 +60,12 @@ const NavComponent = () => {
               id="outlined-basic"
               placeholder="Search"
               className="w-75"
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                },
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
               }}
             />
           </div>
