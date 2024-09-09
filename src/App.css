@@ -141,3 +141,6 @@ header {
   color: #0477f3 !important;
   text-decoration: underline;
 }
+.nav {
+  --bs-nav-link-color: #575757 !important;
+}
