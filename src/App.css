@@ -137,7 +137,7 @@ header {
 }
 
 .divFooter a:hover {
-  color: #0477f3;
+  color: #0477f3 !important;
   text-decoration: underline;
 }
 
