@@ -14,25 +14,30 @@ import {
 const NavComponent = () => {
   return (
     <Navbar bg="light" data-bs-theme="light" className="px-5">
-      <Container fluid className="d-flex justify-content-between align-items-center px-5">
+      <Container fluid className="justify-content-center">
         <Navbar.Brand href="#home">
           <img
             src="https://img.icons8.com/?size=100&id=13930&format=png&color=000000"
             alt="logoLinkedin"
           />
+          
+          <TextField
+            className="inp"
+            id="outlined-basic"
+            placeholder="Search"
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search/>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+
         </Navbar.Brand>
 
-        <TextField
-          className="flex-grow-1 mx-4"
-          placeholder="Search"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          }}
-        />
 
     
         <Nav className="d-flex align-items-center">
