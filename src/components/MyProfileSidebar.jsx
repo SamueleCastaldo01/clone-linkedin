@@ -52,8 +52,14 @@ const MySidebar = () => {
 
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        className="rounded-2"
+        className="rounded-2 mb-2"
       >
+        <ListItem disablePadding>
+          <div id="news">
+            <h4>Persone che potresti conoscere</h4>
+            <p>Dalla tua scuola o università</p>
+          </div>
+        </ListItem>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
