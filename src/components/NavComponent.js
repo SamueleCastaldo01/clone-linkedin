@@ -118,7 +118,7 @@ const NavComponent = () => {
 
       {/* Footer con i tasti Home, Rete, Notifiche, Lavoro visibili su mobile */}
       <div className="d-lg-none fixed-bottom bg-light">
-        <Nav className="d-flex justify-content-around align-items-center py-2">
+        <Nav className="d-flex justify-content-around  align-items-center">
           <Nav.Link href="#home" className="text-center">
             <HomeRounded fontSize="large" />
           </Nav.Link>
