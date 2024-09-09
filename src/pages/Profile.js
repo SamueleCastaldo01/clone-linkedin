@@ -1,3 +1,4 @@
+import MyHomeSIdebar from "../components/MyHomeSidebar";
 import MyProfileSidebar from "../components/MyProfileSidebar";
 
 function Profile() {
@@ -12,7 +13,8 @@ function Profile() {
               <h2>Ciao</h2>
             </div>
             <div className="col-4 bg-body-secondary">
-              <MyProfileSidebar />
+              {/* <MyProfileSidebar /> */}
+              <MyHomeSIdebar />
             </div>
           </div>
         </main>
