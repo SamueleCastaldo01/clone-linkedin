@@ -27,7 +27,6 @@ const NavComponent = () => {
     <>
       {/* Navbar per desktop e mobile */}
       <Navbar bg="light" expand="lg" className="py-1">
-        <Container fluid className="px-5">
           {/* Logo visibile solo su desktop */}
           <Navbar.Brand
             href="#home"
@@ -123,12 +122,11 @@ const NavComponent = () => {
               <Person2Rounded fontSize="large" />
               <div className="fs-6">Tu</div>
             </Nav.Link>
-            <Nav.Link href="#apps" className="text-center">
+            <Nav.Link href="#apps" className="text-center pe-0">
               <AppsRounded fontSize="large" />
               <div className="fs-6">Per le aziende</div>
             </Nav.Link>
           </Nav>
-        </Container>
       </Navbar>
 
       {/* Footer con i tasti Home, Rete, Notifiche, Lavoro visibili su mobile */}
