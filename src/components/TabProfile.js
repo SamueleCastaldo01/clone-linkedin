@@ -1,10 +1,27 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProfile } from '../redux/actions/profileActions';
 import Avatar from "@mui/material/Avatar";
-import { deepOrange, deepPurple } from "@mui/material/colors";
+import { deepOrange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import EditIcon from "@mui/icons-material/Edit";
 
 function TabProfile() {
+  const dispatch = useDispatch();
+  const profile = useSelector(state => state.profile.profile);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchProfile());
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [dispatch]);
+
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <>
       <div className="bg-white rounded-4 position-relative tabPro">
@@ -16,8 +33,11 @@ function TabProfile() {
         </div>
 
         <div className="divAv">
-          <Avatar sx={{ bgcolor: deepOrange[500], width: 130, height: 130 }}>
-            N
+          <Avatar
+            src={profile.image}
+            sx={{ bgcolor: deepOrange[500], width: 130, height: 130 }}
+          >
+            {profile.name[0]}
           </Avatar>
         </div>
 
@@ -30,11 +50,13 @@ function TabProfile() {
         <div className="p-3">
           <div className="row mt-4">
             <div className="col-8">
-              <h3 className="m-0">Samuele Castaldo</h3>
-              <p className="m-0">Studente presso Uni</p>
+              <h3 className="m-0">
+                {profile.name.charAt(0).toUpperCase() + profile.name.slice(1)} {profile.surname.charAt(0).toUpperCase() + profile.surname.slice(1)}
+              </h3>
+              <p className="m-0">{profile.title}</p> {/* Qui viene mostrato il titolo di lavoro */}
               <p className="pTabProfile mt-1">
-                Napoli -{" "}
-                <span className=" fw-medium" style={{ color: "#0A66C2" }}>
+                {profile.area} -{" "}
+                <span className="fw-medium" style={{ color: "#0A66C2" }}>
                   <a>Informazioni di contatto</a>
                 </span>
               </p>
@@ -55,4 +77,5 @@ function TabProfile() {
     </>
   );
 }
+
 export default TabProfile;
