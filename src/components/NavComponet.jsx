@@ -68,7 +68,7 @@ const NavComponent = () => {
         </Nav>
       </Container>
       <Container fluid>
-        <Nav className="ms-auto">
+        <Nav>
           <Nav.Link href="#pricing">
             <Person2Rounded fontSize="large" />
             <div className="fs-6">Tu</div>
