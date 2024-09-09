@@ -31,15 +31,12 @@ const NavComponent = () => {
       }}
     /> */}
         <TextField
-        //   className="inp"
-        //   id="outlined-basic"
           placeholder="Search"
-        //   variant="filled"
           slotProps={{
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <Search/>
+                  <Search />
                 </InputAdornment>
               ),
             },
