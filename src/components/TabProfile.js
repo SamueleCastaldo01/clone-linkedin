@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProfile } from '../redux/actions/profileActions';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfile } from "../redux/actions/profileActions";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
@@ -9,7 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 function TabProfile() {
   const dispatch = useDispatch();
-  const profile = useSelector(state => state.profile.profile);
+  const profile = useSelector((state) => state.profile.profile);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function TabProfile() {
   }, [dispatch]);
 
   if (isLoading) return <p>Loading...</p>;
-
+  console.log(profile);
   return (
     <>
       <div className="bg-white rounded-4 position-relative tabPro">
@@ -51,9 +51,12 @@ function TabProfile() {
           <div className="row mt-4">
             <div className="col-8">
               <h3 className="m-0">
-                {profile.name.charAt(0).toUpperCase() + profile.name.slice(1)} {profile.surname.charAt(0).toUpperCase() + profile.surname.slice(1)}
+                {profile.name.charAt(0).toUpperCase() + profile.name.slice(1)}{" "}
+                {profile.surname.charAt(0).toUpperCase() +
+                  profile.surname.slice(1)}
               </h3>
-              <p className="m-0">{profile.title}</p> {/* Qui viene mostrato il titolo di lavoro */}
+              <p className="m-0">{profile.bio}</p>{" "}
+              {/* Qui viene mostrato il titolo di lavoro */}
               <p className="pTabProfile mt-1">
                 {profile.area} -{" "}
                 <span className="fw-medium" style={{ color: "#0A66C2" }}>
