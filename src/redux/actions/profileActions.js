@@ -7,12 +7,21 @@ const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRlYjEzNjRkMGRl
 // Funzione per ottenere la lista dei profili utente o cercare profili
 export const fetchProfiles = (searchTerm = '') => async (dispatch) => {
     try {
-        const response = await axios.get(`${API_URL}${searchTerm ? `?search=${searchTerm}` : ''}`, {
+        // Chiamata API per ottenere tutti i profili
+        const response = await axios.get(`${API_URL}`, {
             headers: { Authorization: `Bearer ${TOKEN}` }
         });
+
+        // Filtrare i profili in base ai criteri di ricerca
+        const filteredProfiles = response.data.filter(profile =>
+            profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
         dispatch({
             type: FETCH_PROFILES,
-            payload: response.data
+            payload: filteredProfiles
         });
     } catch (error) {
         dispatch({
