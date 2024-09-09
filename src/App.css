@@ -1,11 +1,10 @@
-
 .App {
   text-align: center;
 }
 
 .nav {
-    padding-left: 13%;
-    padding-right: 13%;
+  padding-left: 13%;
+  padding-right: 13%;
 }
 
 .App-logo {
@@ -18,7 +17,6 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
 
 .App-header {
   display: flex;
@@ -47,10 +45,27 @@ main {
     transform: rotate(360deg);
   }
 }
+#news {
+  padding: 16px;
+}
+#news h4 {
+  font-weight: bold;
+}
+#news p {
+  font-weight: bold;
+  opacity: 0.5;
+}
 
-.buTabProfile, .butProSec, .butProGra {
+.tabPro {
+  width: 90%;
+  margin: auto;
+}
+
+.buTabProfile,
+.butProSec,
+.butProGra {
   color: white;
-  background-color: #0A66C2;
+  background-color: #0a66c2;
   border: none;
   border-radius: 20px;
   padding: 5px;
@@ -58,15 +73,16 @@ main {
   padding-right: 15px;
 }
 
-.butProSec, .butProGra {
-  color: #0A66C2;
+.butProSec,
+.butProGra {
+  color: #0a66c2;
   background-color: white;
-  border: 1px solid #0A66C2;
+  border: 1px solid #0a66c2;
   font-weight: 500;
 }
 
 .butProSec:hover {
-  background-color: #EBF4FD;
+  background-color: #ebf4fd;
 }
 
 .butProGra {
@@ -75,7 +91,7 @@ main {
 }
 
 .butProGra:hover {
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
 }
 
 .bannerProfile {

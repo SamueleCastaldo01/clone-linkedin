@@ -6,7 +6,9 @@ function Profile() {
   return (
     <>
       <div className="App">
-        <header className=""><NavComponent /></header>
+        <header className="">
+          <NavComponent />
+        </header>
         <main>
           <h2>Ciao</h2>
           <div className="row">
@@ -14,7 +16,7 @@ function Profile() {
               <TabProfile />
             </div>
             <div className="col-4">
-                <MySidebar />
+              <MySidebar />
             </div>
           </div>
         </main>
