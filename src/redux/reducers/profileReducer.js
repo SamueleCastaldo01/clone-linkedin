@@ -1,16 +1,23 @@
-import { FETCH_PROFILE, UPDATE_PROFILE, PROFILE_ERROR } from '../actions/types';
+import { FETCH_PROFILES, FETCH_PROFILE, UPDATE_PROFILE, PROFILE_ERROR } from '../actions/types';
 
-// Questo è il reducer Redux per gestire lo stato del profilo utente. 
-// Gestisce le azioni FETCH_PROFILE, UPDATE_PROFILE e PROFILE_ERROR, 
-// aggiornando lo stato dell'applicazione di conseguenza.
-
+// Stato iniziale con una lista di profili e un profilo utente singolo
 const initialState = {
-    profile: {},
-    error: null
+    profiles: [],  // Lista di profili ottenuti dalla ricerca
+    profile: {},   // Profilo utente corrente
+    error: null    // Messaggio di errore
 };
 
+// Reducer per gestire le azioni relative ai profili
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
+        // Gestisce la lista di profili
+        case FETCH_PROFILES:
+            return {
+                ...state,
+                profiles: action.payload,
+                error: null
+            };
+        // Gestisce il profilo utente corrente e aggiornamenti del profilo
         case FETCH_PROFILE:
         case UPDATE_PROFILE:
             return {
@@ -18,11 +25,13 @@ const profileReducer = (state = initialState, action) => {
                 profile: action.payload,
                 error: null
             };
+        // Gestisce gli errori
         case PROFILE_ERROR:
             return {
                 ...state,
                 error: action.payload
             };
+        // Ritorna lo stato invariato per azioni non gestite
         default:
             return state;
     }
