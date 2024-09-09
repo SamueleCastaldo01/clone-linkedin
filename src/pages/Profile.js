@@ -1,6 +1,8 @@
 import TabProfile from "../components/TabProfile";
 import MySidebar from "../components/MyProfileSidebar";
 import NavComponent from "../components/NavComponent";
+import MyFooter from "../components/MyFooter";
+import MyHomeSIdebar from "../components/MyHomeSidebar";
 
 function Profile() {
   return (
@@ -17,10 +19,13 @@ function Profile() {
             </div>
             <div className="col-4">
               <MySidebar />
+              <MyHomeSIdebar />
             </div>
           </div>
         </main>
-        <footer></footer>
+        <footer>
+          <MyFooter />
+        </footer>
       </div>
     </>
   );
