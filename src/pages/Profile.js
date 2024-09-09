@@ -13,7 +13,7 @@ function Profile() {
         </header>
         <main>
           {/* <h2>Ciao</h2> */}
-          <div className="row">
+          <div className="row mt-3">
             <div className="col-8 p-0">
               <TabProfile />
             </div>
