@@ -3,7 +3,6 @@ import MySidebar from "../components/MyProfileSidebar";
 import NavComponent from "../components/NavComponent";
 import MyFooter from "../components/MyFooter";
 import MyHomeSIdebar from "../components/MyHomeSidebar";
-import AttackOnAldo from "../components/AttackOnAldo";
 
 function Profile() {
   return (
@@ -17,7 +16,6 @@ function Profile() {
           <div className="row mt-3">
             <div className="col-8 p-0">
               <TabProfile />
-              <AttackOnAldo />
             </div>
             <div className="col-4">
               <MySidebar />

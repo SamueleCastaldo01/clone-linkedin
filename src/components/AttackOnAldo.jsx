@@ -6,10 +6,35 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfiles } from "../redux/actions/profileActions";
 
 const AttackOnAldo = () => {
+  const { searchTerm } = useParams(); // Ottieni il parametro dalla route
+  const dispatch = useDispatch();
+  const profiles = useSelector((state) => state.profile.profiles);
+
+  React.useEffect(() => {
+    if (searchTerm) {
+      dispatch(fetchProfiles(searchTerm));
+    }
+  }, [dispatch, searchTerm]);
   return (
     <div className="tabPro mt-2">
+      <h2>Risultati della ricerca per "{searchTerm}"</h2>
+      {profiles.length > 0 ? (
+        <ul>
+          {profiles.map((profile) => (
+            <li key={profile._id}>
+              {profile.username} - {profile.name} {profile.surname}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nessun profilo trovato.</p>
+      )}
+
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         className="rounded-2 mb-2"

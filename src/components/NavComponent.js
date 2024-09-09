@@ -10,9 +10,19 @@ import {
   Search,
   WorkRounded,
 } from "@mui/icons-material";
-import ProfileSearch from "./searchbar2";
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 const NavComponent = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate(); // Cambiato da useHistory a useNavigate
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/search/${searchTerm}`);
+    }
+  };
+
   return (
     <>
       {/* Navbar per desktop e mobile */}
@@ -43,16 +53,16 @@ const NavComponent = () => {
             <TextField
               id="outlined-basic"
               placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               className="w-50"
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                      <ProfileSearch />
-                    </InputAdornment>
-                  ),
-                },
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search onClick={handleSearch} />
+                  </InputAdornment>
+                ),
               }}
               style={{ width: "300px" }}
             />
