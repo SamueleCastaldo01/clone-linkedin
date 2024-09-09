@@ -82,7 +82,7 @@ main {
 
 .divAv {
   position: absolute;
-  bottom: 160px;
+  bottom: 150px;
   left: 30px;
 }
 
@@ -92,4 +92,14 @@ main {
   right: 10px;
   background-color: white;
   border-radius: 100%;
+}
+
+.divEdi {
+  position: absolute;
+  right: 10px;
+}
+
+.pTabProfile {
+  font-size: 13px;
+  color: gray;
 }
