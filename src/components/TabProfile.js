@@ -7,7 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 function TabProfile() {
   return (
     <>
-      <div className="bg-white rounded-4 position-relative">
+      <div className="bg-white rounded-4 position-relative w-100">
         <div className="bannerProfile rounded-4"></div>
         <div className="divCam">
           <IconButton size="small" aria-label="delete">

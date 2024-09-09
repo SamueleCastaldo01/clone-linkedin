@@ -1,11 +1,12 @@
 import TabProfile from "../components/TabProfile";
 import MySidebar from "../components/MyProfileSidebar";
+import NavComponent from "../components/NavComponent";
 
 function Profile() {
   return (
     <>
       <div className="App">
-        <header className="App-header"></header>
+        <header className=""><NavComponent /></header>
         <main>
           <h2>Ciao</h2>
           <div className="row">
