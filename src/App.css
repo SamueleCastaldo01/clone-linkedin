@@ -44,3 +44,16 @@ main {
     transform: rotate(360deg);
   }
 }
+
+/* footer style hover */
+.divFooter a {
+  text-decoration: none;
+  color: #6c757d; 
+  
+}
+
+
+.divFooter a:hover {
+  color: #0477f3; 
+  text-decoration: underline;
+}

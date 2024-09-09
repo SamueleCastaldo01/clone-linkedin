@@ -1,4 +1,7 @@
+
 import MyProfileSidebar from "../components/MyProfileSidebar";
+import MyFooter from "../components/MyFooter";
+
 
 function Profile() {
   return (
@@ -16,7 +19,7 @@ function Profile() {
             </div>
           </div>
         </main>
-        <footer></footer>
+        <footer><MyFooter /></footer>
       </div>
     </>
   );
