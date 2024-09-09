@@ -1,6 +1,6 @@
+
 .App {
   text-align: center;
-  background-color: gray;
 }
 
 .App-logo {
@@ -43,4 +43,39 @@ main {
   to {
     transform: rotate(360deg);
   }
+}
+
+.buTabProfile, .butProSec, .butProGra {
+  color: white;
+  background-color: #0A66C2;
+  border: none;
+  border-radius: 20px;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.butProSec, .butProGra {
+  color: #0A66C2;
+  background-color: white;
+  border: 1px solid #0A66C2;
+  font-weight: 500;
+}
+
+.butProSec:hover {
+  background-color: #EBF4FD;
+}
+
+.butProGra {
+  color: #181818;
+  border: 1px solid #181818;
+}
+
+.butProGra:hover {
+  background-color: #F3F3F3;
+}
+
+.bannerProfile {
+  height: 200px;
+  background-color: gray;
 }
