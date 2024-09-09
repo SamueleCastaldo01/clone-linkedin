@@ -8,7 +8,7 @@ function Profile() {
   return (
     <>
       <div className="App">
-        <header className="">
+        <header className=" bg-white">
           <NavComponent />
         </header>
         <main>
