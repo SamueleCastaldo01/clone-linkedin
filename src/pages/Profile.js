@@ -13,7 +13,7 @@ function Profile() {
               <h2>Ciao</h2>
             </div>
             <div className="col-4 bg-body-secondary">
-              {/* <MyProfileSidebar /> */}
+              <MyProfileSidebar />
               <MyHomeSIdebar />
             </div>
           </div>

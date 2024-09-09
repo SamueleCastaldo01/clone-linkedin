@@ -52,7 +52,7 @@ const MySidebar = () => {
 
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        className="rounded-2"
+        className="rounded-2 mb-2"
       >
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
