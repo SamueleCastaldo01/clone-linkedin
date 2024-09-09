@@ -48,6 +48,11 @@ main {
   }
 }
 
+.tabPro {
+  width: 90%;
+  margin: auto;
+}
+
 .buTabProfile, .butProSec, .butProGra {
   color: white;
   background-color: #0A66C2;
