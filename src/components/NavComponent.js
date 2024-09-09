@@ -66,7 +66,7 @@ const NavComponent = () => {
                   <Search onClick={handleSearch} />
                 </InputAdornment>
               ),
-              style: { height: "35px" }, // Mantieni l'altezza desiderata
+              style: { height: "32px" }, // Mantieni l'altezza desiderata
               sx: {
                 "& .MuiOutlinedInput-notchedOutline": {
                   border: "none", // Rimuovi il bordo
