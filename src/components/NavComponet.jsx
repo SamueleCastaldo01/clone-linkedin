@@ -1,6 +1,13 @@
-import { Container, Navbar, Nav } from "react-bootstrap"
-import { TextField, InputAdornment } from '@mui/material';  // Importa TextField e InputAdornment
-import { Search } from '@mui/icons-material';  // Importa l'icona di ricerca
+import { Container, Navbar, Nav } from "react-bootstrap";
+import { TextField, InputAdornment } from "@mui/material"; // Importa TextField e InputAdornment
+import {
+  ChatBubbleRounded,
+  GroupRounded,
+  HomeRounded,
+  NotificationsRounded,
+  Search,
+  WorkRounded,
+} from "@mui/icons-material";
 
 const NavComponent = () => {
   return (
@@ -12,21 +19,48 @@ const NavComponent = () => {
             alt="logoLinkedin"
           />
         </Navbar.Brand>
-        <TextField
+        {/* <TextField
       variant="outlined"
       placeholder="Search"
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <Search />  {/* Aggiungi l'icona qui */}
+            <Search />
           </InputAdornment>
         ),
       }}
-    />
+    /> */}
+        <TextField
+        //   className="inp"
+        //   id="outlined-basic"
+          placeholder="Search"
+        //   variant="filled"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search/>
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
         <Nav className="mx-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#features">Features</Nav.Link>
-          <Nav.Link href="#pricing">Pricing</Nav.Link>
+          <Nav.Link href="#home">
+            <HomeRounded fontSize="large" />
+          </Nav.Link>
+          <Nav.Link href="#features">
+            <GroupRounded fontSize="large" />
+          </Nav.Link>
+          <Nav.Link href="#pricing">
+            <WorkRounded fontSize="large" />
+          </Nav.Link>
+          <Nav.Link href="#pricing">
+            <ChatBubbleRounded fontSize="large" />
+          </Nav.Link>
+          <Nav.Link href="#pricing">
+            <NotificationsRounded fontSize="large" />
+          </Nav.Link>
         </Nav>
       </Container>
     </Navbar>
