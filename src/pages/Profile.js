@@ -9,7 +9,7 @@ function Profile() {
         <main>
           <h2>Ciao</h2>
           <div className="row">
-            <div className="col-8 bg-black">
+            <div className="col-8 p-0">
               <TabProfile />
             </div>
             <div className="col-4 bg-body-secondary">
