@@ -1,5 +1,5 @@
 import { Container, Navbar, Nav } from "react-bootstrap";
-import { TextField, InputAdornment } from "@mui/material"; // Importa TextField e InputAdornment
+import { TextField, InputAdornment } from "@mui/material";
 import {
   AppsRounded,
   ChatBubbleRounded,
@@ -14,32 +14,30 @@ import {
 const NavComponent = () => {
   return (
     <Navbar bg="light" data-bs-theme="light" className="">
-      <Container className="nav">
-        <Navbar.Brand href="#home">
+      <Container className="nav d-flex justify-content-between align-items-center">
+        <Navbar.Brand href="#home" className="d-flex align-items-center">
           <img
             src="https://img.icons8.com/?size=100&id=13930&format=png&color=000000"
             alt="logoLinkedin"
+            style={{ width: '50px', height: '50px' }}
           />
-          
-          <TextField
-            className="inp"
-            id="outlined-basic"
-            placeholder="Search"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search/>
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-
         </Navbar.Brand>
 
+        <TextField
+          className="mx-3"
+          id="outlined-basic"
+          placeholder="Search"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          style={{ width: '300px' }}
+        />
 
-    
+        
         <Nav className="d-flex align-items-center">
           <Nav.Link href="#home" className="text-center">
             <HomeRounded fontSize="large" />
@@ -63,7 +61,6 @@ const NavComponent = () => {
           </Nav.Link>
         </Nav>
 
-    
         <Nav className="d-flex align-items-center ms-auto">
           <Nav.Link href="#profile" className="text-center">
             <Person2Rounded fontSize="large" />
@@ -77,7 +74,6 @@ const NavComponent = () => {
       </Container>
     </Navbar>
   );
-    
 };
 
 export default NavComponent;
