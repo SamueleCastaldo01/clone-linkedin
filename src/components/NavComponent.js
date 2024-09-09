@@ -108,7 +108,7 @@ const NavComponent = () => {
           </Nav>
 
           {/* Navbar secondaria su desktop */}
-          <Nav className="d-flex align-items-center ms-auto d-none d-lg-flex">
+          <Nav className="d-none d-lg-flex justify-content-center align-items-center ms-5">
             <Nav.Link href="#profile" className="text-center">
               <Person2Rounded fontSize="large" />
               <div className="fs-6">Tu</div>
