@@ -1,22 +1,23 @@
 import TabProfile from "../components/TabProfile";
+import MySidebar from "../components/MyProfileSidebar";
 
 function Profile() {
   return (
     <>
-    <div className="App">
-      <header className="App-header"></header>
-      <main>
-        <h2>NAv</h2>
-        <div className="row">
-          <div className="col-8 bg--body-secondary">
-            <TabProfile />
+      <div className="App">
+        <header className="App-header"></header>
+        <main>
+          <h2>Ciao</h2>
+          <div className="row">
+            <div className="col-8 bg-black">
+              <TabProfile />
+            </div>
+            <div className="col-4 bg-body-secondary">
+                <MySidebar />
+            </div>
           </div>
-          <div className="col-4 bg-body-secondary">
-            <h3>Cosa</h3>
-          </div>
-        </div>
-      </main>
-      <footer></footer>
+        </main>
+        <footer></footer>
       </div>
     </>
   );
