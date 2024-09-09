@@ -27,17 +27,19 @@ const NavComponent = () => {
           className="mx-3"
           id="outlined-basic"
           placeholder="Search"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search/>
+                </InputAdornment>
+              )
+            }
           }}
           style={{ width: '300px' }}
         />
 
-        
+
         <Nav className="d-flex align-items-center">
           <Nav.Link href="#home" className="text-center">
             <HomeRounded fontSize="large" />
