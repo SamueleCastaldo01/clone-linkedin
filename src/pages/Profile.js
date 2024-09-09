@@ -12,7 +12,7 @@ function Profile() {
             <div className="col-8 p-0">
               <TabProfile />
             </div>
-            <div className="col-4 bg-body-secondary">
+            <div className="col-4">
                 <MySidebar />
             </div>
           </div>
