@@ -28,11 +28,12 @@
   color: white;
 }
 
-main {
+main, footer {
   text-align: left;
   padding-left: 12%;
   padding-right: 12%;
 }
+
 
 header {
   text-align: left;
