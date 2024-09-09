@@ -12,7 +12,7 @@ function Profile() {
           <NavComponent />
         </header>
         <main>
-          <h2>Ciao</h2>
+          {/* <h2>Ciao</h2> */}
           <div className="row">
             <div className="col-8 p-0">
               <TabProfile />
