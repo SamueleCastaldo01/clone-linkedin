@@ -10,6 +10,7 @@ import {
   Search,
   WorkRounded,
 } from "@mui/icons-material";
+import ProfileSearch from "./searchbar2";
 
 const NavComponent = () => {
   return (
@@ -18,11 +19,14 @@ const NavComponent = () => {
       <Navbar bg="light" expand="lg" className="py-1">
         <Container fluid className="px-5">
           {/* Logo visibile solo su desktop */}
-          <Navbar.Brand href="#home" className="d-none d-lg-flex align-items-center">
+          <Navbar.Brand
+            href="#home"
+            className="d-none d-lg-flex align-items-center"
+          >
             <img
               src="https://img.icons8.com/?size=100&id=13930&format=png&color=000000"
               alt="logoLinkedin"
-              style={{ width: '50px', height: '50px' }}
+              style={{ width: "50px", height: "50px" }}
               className="me-2"
             />
           </Navbar.Brand>
@@ -41,15 +45,16 @@ const NavComponent = () => {
               placeholder="Search"
               className="w-50"
               slotProps={{
-                input:{
-                  startAdornment:(
+                input: {
+                  startAdornment: (
                     <InputAdornment position="start">
-                      <Search/>
+                      <Search />
+                      <ProfileSearch />
                     </InputAdornment>
-                  )
-                }
+                  ),
+                },
               }}
-              style={{ width: '300px' }}
+              style={{ width: "300px" }}
             />
           </div>
 
@@ -60,13 +65,13 @@ const NavComponent = () => {
               placeholder="Search"
               className="w-75"
               slotProps={{
-                input:{
-                  startAdornment:(
+                input: {
+                  startAdornment: (
                     <InputAdornment position="start">
-                      <Search/>
+                      <Search />
                     </InputAdornment>
-                  )
-                }
+                  ),
+                },
               }}
             />
           </div>
@@ -118,7 +123,7 @@ const NavComponent = () => {
 
       {/* Footer con i tasti Home, Rete, Notifiche, Lavoro visibili su mobile */}
       <div className="d-lg-none fixed-bottom bg-light">
-        <Nav className="d-flex justify-content-around align-items-center py-2">
+        <Nav className="d-flex justify-content-around align-items-center ">
           <Nav.Link href="#home" className="text-center">
             <HomeRounded fontSize="large" />
           </Nav.Link>
