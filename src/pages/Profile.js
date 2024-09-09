@@ -1,8 +1,10 @@
+import NavComponent from "../components/NavComponet";
+
 function Profile() {
   return (
     <>
     <div className="App">
-      <header className="App-header"></header>
+      <header className="App-header"><NavComponent/></header>
       <main>
         <h2>Ciao</h2>
         <div className="row">
