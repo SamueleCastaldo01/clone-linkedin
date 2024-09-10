@@ -15,7 +15,7 @@ function TabProfile() {
   const profile = useSelector((state) => state.profile.profile);
   const [isLoading, setIsLoading] = useState(true);
 
-  const idAldo = "63b4d3a8f6b0b9b5f5b6b7b8"
+  const idAldo = "63b4d3a8f6b0b9b5f5b6b7b8";
 
   function awaitAldo() {
     const fetchData = async () => {
@@ -39,30 +39,28 @@ function TabProfile() {
     } else {
       awaitAldo();
     }
-
-  }, [userId])
-
-
+  }, [userId]);
 
   if (isLoading) return <p>Loading...</p>;
   console.log(profile);
   return (
     <>
-      <div className="bg-white rounded-4 position-relative tabPro">
-        <div className="bannerProfile rounded-4"></div>
-        <div className="divCam">
-          <IconButton size="small" aria-label="delete">
-            <CameraAltIcon style={{ color: "#0A66C2" }} />
-          </IconButton>
-        </div>
+      <div className="bg-white rounded-4 tabPro">
+        <div className="bannerProfile rounded-4">
+          <div className="divCam">
+            <IconButton size="small" aria-label="delete">
+              <CameraAltIcon style={{ color: "#0A66C2" }} />
+            </IconButton>
+          </div>
 
-        <div className="divAv">
-          <Avatar
-            src={profile.image}
-            sx={{ bgcolor: deepOrange[500], width: 130, height: 130 }}
-          >
-            {profile.name[0]}
-          </Avatar>
+          <div className="divAv">
+            <Avatar
+              src={profile.image}
+              sx={{ bgcolor: deepOrange[500], width: 130, height: 130 }}
+            >
+              {profile.name[0]}
+            </Avatar>
+          </div>
         </div>
 
         <div className="divEdi">

@@ -103,13 +103,14 @@ header {
 }
 
 .bannerProfile {
+  position: relative;
   height: 200px;
   background-color: gray;
 }
 
 .divAv {
   position: absolute;
-  bottom: 150px;
+  bottom: -40px;
   left: 30px;
 }
 
