@@ -37,7 +37,7 @@ const Experience = () => {
     e.preventDefault();
     // Simulazione dell'aggiunta esperienza (puoi integrarla con Redux se necessario)
     //dispatch della chiamta POST
-    dispatch(AddExperience(newExperience))
+    dispatch(AddExperience(profile._id))
     setNewExperience({
       role: "",
       company: "",

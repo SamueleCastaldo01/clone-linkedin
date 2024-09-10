@@ -123,7 +123,10 @@ export const Experiencesfetch = (userId) => async (dispatch) => {
 export const AddExperience = (userId) => async (dispatch) => {
   try {
     const response = await axios.post(PROFILE_URL + userId + '/experiences', {
-      headers: { Authorization: 'Bearer ' + TOKEN},
+      headers: { 
+        Authorization: 'Bearer ' + TOKEN,
+        "Content-Type": "application/json",
+      },
     })
     dispatch({
       type: ADD_EXPERIENCE,
