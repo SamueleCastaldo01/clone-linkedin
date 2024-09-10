@@ -68,10 +68,10 @@ function Experience() {
         throw new Error(`Response status: ${response.status}, Body: ${errorBody}`);
       }
       
-      const data = await response.json();
-      console.log("Server response:", data);
-      setExperiences([...experiences, data]);
-      console.log("Current experiences:", experiences);
+      console.log("Server response:", await response.json());
+      
+      // Ricarica le esperienze dal server
+      await fetchExperiences();
       
       setNewExperience({
         role: '',
@@ -104,9 +104,10 @@ function Experience() {
         throw new Error(`Response status: ${response.status}, Body: ${errorBody}`);
       }
 
-      // Rimuovi l'esperienza eliminata dallo stato locale
-      setExperiences(experiences.filter(experience => experience._id !== id));
       console.log("Experience deleted:", id);
+
+      // Ricarica le esperienze dal server
+      await fetchExperiences();
     } catch (error) {
       console.error("Full error object:", error);
       console.error("Error message:", error.message);
@@ -150,9 +151,9 @@ function Experience() {
               <p className="m-0">{experience.area}</p>
               <p className="m-0">
                 Data inizio 
-                {moment(experience.startDate).format('MM/YY')} - 
+                {moment(experience.startDate).format('DD/MM/YY')} - 
                 Data fine 
-                {experience.endDate ? moment(experience.endDate).format('MM/YY') : ' Presente'}
+                {experience.endDate ? moment(experience.endDate).format('DD/MM/YY') : ' Presente'}
               </p>
               <p className="m-0">{experience.company}</p>
             </div>
