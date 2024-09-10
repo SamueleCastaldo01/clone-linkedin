@@ -15,11 +15,11 @@ function Profile() {
         <main>
           {/* <h2>Ciao</h2> */}
           <div className="row mt-3">
-            <div className="col-9">
+            <div className="col-lg-9 col-sm-12">
               <TabProfile />
               <Experience />
             </div>
-            <div className="col-3 d-flex flex-column align-items-end">
+            <div className="col-lg-3 d-md-none d-lg-flex flex-column align-items-end">
               <MySidebar />
               <MyHomeSIdebar />
             </div>

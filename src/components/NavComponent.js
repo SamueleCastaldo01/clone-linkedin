@@ -62,14 +62,13 @@ const NavComponent = () => {
         </Nav>
 
         {/* Barra di ricerca visibile su desktop */}
-        <div className="d-flex flex-grow-1 justify-content-center d-none d-lg-block">
+        <div className="d-flex flex-grow-1 justify-content-center d-lg-block">
           <TextField
             id="outlined-basic"
             placeholder="Cerca"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-            className="w-50"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -86,28 +85,12 @@ const NavComponent = () => {
             inputProps={{
               style: { padding: "5px 10px" }, // Mantieni il padding interno
             }}
-            style={{ width: "300px", backgroundColor: "#ebf4fd" }}
+            style={{width: "85%", backgroundColor: "#ebf4fd" }}
             variant="outlined" // Mantieni la variante outlined
           />
         </div>
 
-        {/* Barra di ricerca visibile su mobile */}
-        <div className="d-flex flex-grow-1 justify-content-center d-lg-none">
-          <TextField
-            id="outlined-basic"
-            placeholder="Search"
-            className="w-75"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        </div>
+
 
         {/* Navbar completa visibile solo su desktop */}
         <Nav className="d-flex align-items-center d-none d-lg-flex">
