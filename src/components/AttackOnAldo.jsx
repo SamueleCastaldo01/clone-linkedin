@@ -36,10 +36,21 @@ const AttackOnAldo = () => {
             >
               <ListItem alignItems="flex-start" key={profile._id}>
                 <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  <Avatar
+                    alt={profile.username}
+                    src="/static/images/avatar/1.jpg"
+                  />
                 </ListItemAvatar>
                 <ListItemText
-                  primary="User"
+                  primary={
+                    <Typography
+                      component="span"
+                      variant="body"
+                      sx={{ color: "text.primary", display: "inline" }}
+                    >
+                      {profile.username}
+                    </Typography>
+                  }
                   secondary={
                     <React.Fragment>
                       <Typography
@@ -47,7 +58,7 @@ const AttackOnAldo = () => {
                         variant="body"
                         sx={{ color: "text.primary", display: "inline" }}
                       >
-                        {profile.username} - {profile.name} {profile.surname}
+                        {profile.name} {profile.surname}
                       </Typography>
                     </React.Fragment>
                   }
