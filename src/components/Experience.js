@@ -33,10 +33,13 @@ const Experience = () => {
   });
 
   useEffect(() => {
+    console.log("entrato effect")
     if (profile && profile._id) {
       dispatch(Experiencesfetch(profile._id));
     }
   }, [dispatch, profile]);
+
+
 
   const handleClose = () => {
     resetForm();

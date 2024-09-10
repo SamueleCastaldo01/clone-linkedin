@@ -160,21 +160,27 @@ export const deleteExperienceAction = (userId, experienceId) => async (dispatch)
   }
 }
 
-export const modifyExperienceAction = (userId, experienceId, updadateExperience) => async (dispatch) => {
+export const modifyExperienceAction = (userId, experienceId, updateExperience) => async (dispatch) => {
   try {
-    const response= await axios.put(PROFILE_URL + userId + '/experiences/' + experienceId, updadateExperience, {
+    const response = await axios.put(`${PROFILE_URL}${userId}/experiences/${experienceId}`, updateExperience, {
       headers: {
-        Authorization: 'Bearer ' + TOKEN,
+        Authorization: `Bearer ${TOKEN}`,
       },
-    })
+    });
+
+    // Dispatch della modifica
     dispatch({
       type: MODIFY_EXPERIENCE,
-      payload: {id: experienceId, data: response.data}
-    })
+      payload: { id: experienceId, data: response.data },
+    });
+
+    // Esegui il refetch delle esperienze per aggiornare lo stato
+    dispatch(Experiencesfetch(userId)); // Refetch delle esperienze
+
   } catch (error) {
     dispatch({
-      type:EXPERIENCE_ERROR,
-      payload: error.message
-    })
+      type: EXPERIENCE_ERROR,
+      payload: error.message,
+    });
   }
-}
+};
