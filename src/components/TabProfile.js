@@ -45,7 +45,7 @@ function TabProfile() {
   console.log(profile);
   return (
     <>
-      <div className="bg-white rounded-4 tabPro">
+      <div className="bg-white rounded-4 position-relative tabPro">
         <div className="bannerProfile rounded-4">
           <div className="divCam">
             <IconButton size="small" aria-label="delete">
