@@ -19,7 +19,7 @@ function Profile() {
               <TabProfile />
               <Experience />
             </div>
-            <div className="col-lg-3 d-md-none d-lg-flex flex-column align-items-end">
+            <div className="col-lg-3 d-sm-none d-lg-flex flex-column align-items-end">
               <MySidebar />
               <MyHomeSIdebar />
             </div>
