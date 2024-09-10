@@ -36,9 +36,13 @@ export const fetchProfiles =
         );
         console.log("Filtered profiles:", filteredProfiles);
 
+        // Prendere massimo i primi 5 profili
+        const limitedProfiles = filteredProfiles.slice(0, 5);
+        console.log("Limited profiles:", limitedProfiles);
+
         dispatch({
           type: FETCH_PROFILES,
-          payload: filteredProfiles,
+          payload: limitedProfiles,
         });
       } catch (error) {
         dispatch({

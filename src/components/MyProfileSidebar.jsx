@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import {
   Box,
   ListItemButton,
@@ -12,11 +13,22 @@ import {
   List,
 } from "@mui/material";
 import ModeIcon from "@mui/icons-material/Mode";
-import { useSelector } from "react-redux";
+import { fetchProfiles } from "../redux/actions/profileActions";
+import { useSelector, useDispatch } from "react-redux";
 
 const MySidebar = () => {
+  const dispatch = useDispatch()
   const profiles = useSelector((state) => state.profile.profiles);
-  console.log("ciao", profiles);
+
+  useEffect(() => {
+    console.log("sono entrato 1")
+    console.log(profiles)
+    if(profiles.length < 1) {
+      console.log("sono entrato 2")
+      dispatch(fetchProfiles());
+    }
+  }, [])
+
   return (
     <>
       <Box
