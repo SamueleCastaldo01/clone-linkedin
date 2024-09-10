@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
-import moment from 'moment';
+import moment from "moment";
 
-const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRlYjEzNjRkMGRlZjAwMTVjZWYxMDAiLCJpYXQiOjE3MjU4NzAzOTAsImV4cCI6MTcyNzA3OTk5MH0.nK4vV-AVZXmSgtCSvtzNJCdksRFTv8gCSK4Pr8tzr9Y";
+const TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRlYjEzNjRkMGRlZjAwMTVjZWYxMDAiLCJpYXQiOjE3MjU4NzAzOTAsImV4cCI6MTcyNzA3OTk5MH0.nK4vV-AVZXmSgtCSvtzNJCdksRFTv8gCSK4Pr8tzr9Y";
 
 function Experience() {
   const [show, setShow] = useState(false);
   const [experiences, setExperiences] = useState([]);
   const [newExperience, setNewExperience] = useState({
-    role: '',
-    company: '',
-    startDate: '',
-    endDate: '',
-    description: '',
-    area: '',
+    role: "",
+    company: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    area: "",
   });
   const profile = useSelector((state) => state.profile.profile);
 
@@ -30,11 +31,14 @@ function Experience() {
   // Funzione per fetchare le esperienze
   const fetchExperiences = async () => {
     try {
-      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`, {
-        headers: {
-          'Authorization': `Bearer ${TOKEN}`,
-        },
-      });
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
@@ -48,39 +52,53 @@ function Experience() {
   // Funzione per aggiungere una nuova esperienza
   const addExperience = async (event) => {
     event.preventDefault();
-    
+
     // Log dell'oggetto newExperience prima dell'invio
-    console.log("New experience to be submitted:", JSON.stringify(newExperience, null, 2));
-    
+    console.log(
+      "New experience to be submitted:",
+      JSON.stringify(newExperience, null, 2)
+    );
+
     try {
-      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${TOKEN}`,
-        },
-        body: JSON.stringify(newExperience),
-      });
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${TOKEN}`,
+          },
+          body: JSON.stringify(newExperience),
+        }
+      );
 
       if (!response.ok) {
-        const errorBody = await response.text();  // Cattura il corpo della risposta in caso di errore
+        const errorBody = await response.text(); // Cattura il corpo della risposta in caso di errore
         console.error("Error response body:", errorBody);
-        throw new Error(`Response status: ${response.status}, Body: ${errorBody}`);
+        throw new Error(
+          `Response status: ${response.status}, Body: ${errorBody}`
+        );
       }
-      
-      console.log("Server response:", await response.json());
-      
-      // Ricarica le esperienze dal server
+
+      const newExp = await response.json();
+      console.log("Server response:", newExp);
+
+      // Aggiorna manualmente lo stato delle esperienze con la nuova esperienza aggiunta
+      setExperiences([...experiences, newExp]); // Aggiunge l'esperienza all'array
+
+      // Ricarica le esperienze dal server (opzionale, per garantire coerenza)
       await fetchExperiences();
-      
+
+      // Reset del form
       setNewExperience({
-        role: '',
-        company: '',
-        startDate: '',
-        endDate: '',
-        description: '',
-        area: '',
+        role: "",
+        company: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        area: "",
       });
+
       handleClose();
     } catch (error) {
       console.error("Full error object:", error);
@@ -91,17 +109,22 @@ function Experience() {
   // Funzione per eliminare un'esperienza
   const deleteExperience = async (id) => {
     try {
-      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${TOKEN}`,
-        },
-      });
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorBody = await response.text();
         console.error("Error response body:", errorBody);
-        throw new Error(`Response status: ${response.status}, Body: ${errorBody}`);
+        throw new Error(
+          `Response status: ${response.status}, Body: ${errorBody}`
+        );
       }
 
       console.log("Experience deleted:", id);
@@ -150,10 +173,11 @@ function Experience() {
               <h6 className="m-0 fw-bold">{experience.role}</h6>
               <p className="m-0">{experience.area}</p>
               <p className="m-0">
-                Data inizio 
-                {moment(experience.startDate).format('DD/MM/YY')} - 
-                Data fine 
-                {experience.endDate ? moment(experience.endDate).format('DD/MM/YY') : ' Presente'}
+                Data inizio
+                {moment(experience.startDate).format("DD/MM/YY")} - Data fine
+                {experience.endDate
+                  ? moment(experience.endDate).format("DD/MM/YY")
+                  : " Presente"}
               </p>
               <p className="m-0">{experience.company}</p>
             </div>
@@ -178,7 +202,9 @@ function Experience() {
               variant="outlined"
               className="w-100"
               value={newExperience.role}
-              onChange={(e) => setNewExperience({ ...newExperience, role: e.target.value })}
+              onChange={(e) =>
+                setNewExperience({ ...newExperience, role: e.target.value })
+              }
             />
             <TextField
               id="outlined-basic"
@@ -186,7 +212,9 @@ function Experience() {
               variant="outlined"
               className="w-100 mt-3"
               value={newExperience.company}
-              onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
+              onChange={(e) =>
+                setNewExperience({ ...newExperience, company: e.target.value })
+              }
             />
             <TextField
               id="outlined-basic"
@@ -194,7 +222,9 @@ function Experience() {
               variant="outlined"
               className="w-100 mt-3"
               value={newExperience.area}
-              onChange={(e) => setNewExperience({ ...newExperience, area: e.target.value })}
+              onChange={(e) =>
+                setNewExperience({ ...newExperience, area: e.target.value })
+              }
             />
             <div className="d-flex justify-content-between">
               <TextField
@@ -207,7 +237,12 @@ function Experience() {
                 }}
                 style={{ width: "47%" }}
                 value={newExperience.startDate}
-                onChange={(e) => setNewExperience({ ...newExperience, startDate: e.target.value })}
+                onChange={(e) =>
+                  setNewExperience({
+                    ...newExperience,
+                    startDate: e.target.value,
+                  })
+                }
               />
               <TextField
                 id="date"
@@ -219,7 +254,12 @@ function Experience() {
                 }}
                 style={{ width: "47%" }}
                 value={newExperience.endDate}
-                onChange={(e) => setNewExperience({ ...newExperience, endDate: e.target.value })}
+                onChange={(e) =>
+                  setNewExperience({
+                    ...newExperience,
+                    endDate: e.target.value,
+                  })
+                }
               />
             </div>
             <TextField
@@ -230,12 +270,22 @@ function Experience() {
               variant="outlined"
               className="w-100 mt-3"
               value={newExperience.description}
-              onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
+              onChange={(e) =>
+                setNewExperience({
+                  ...newExperience,
+                  description: e.target.value,
+                })
+              }
             />
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="contained" className="rounded-4" type="button" onClick={addExperience}>
+          <Button
+            variant="contained"
+            className="rounded-4"
+            type="button"
+            onClick={addExperience}
+          >
             Salva
           </Button>
         </Modal.Footer>
