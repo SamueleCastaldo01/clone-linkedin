@@ -13,21 +13,22 @@ import {
   List,
 } from "@mui/material";
 import ModeIcon from "@mui/icons-material/Mode";
+import { useParams, Link } from "react-router-dom";
 import { fetchProfiles } from "../redux/actions/profileActions";
 import { useSelector, useDispatch } from "react-redux";
 
 const MySidebar = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const profiles = useSelector((state) => state.profile.profiles);
 
   useEffect(() => {
-    console.log("sono entrato 1")
-    console.log(profiles)
-    if(profiles.length < 1) {
-      console.log("sono entrato 2")
+    console.log("sono entrato 1");
+    console.log(profiles);
+    if (profiles.length < 1) {
+      console.log("sono entrato 2");
       dispatch(fetchProfiles());
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -77,35 +78,43 @@ const MySidebar = () => {
         </ListItem>
         {profiles.map((profile) => {
           return (
-            <div key={profiles._id}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Typography
-                      component="span"
-                      variant="body1"
-                      sx={{ color: "text.primary", display: "inline" }}
-                    >
-                      {profile.username}
-                    </Typography>
-                  }
-                  secondary={
-                    <React.Fragment>
+            <div key={profile._id}>
+              <Link
+                to={`/profile/${profile._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <ListItem alignItems="flex-start">
+                  <ListItemAvatar>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="/static/images/avatar/1.jpg"
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
                       <Typography
                         component="span"
-                        variant="body2"
-                        sx={{ color: "text.secondary", display: "inline" }}
+                        variant="body1"
+                        sx={{ color: "text.primary", display: "inline" }}
                       >
-                        {profile.name} {profile.surname}
+                        {profile.username}
                       </Typography>
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
+                    }
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          sx={{ color: "text.secondary", display: "inline" }}
+                        >
+                          {profile.name} {profile.surname}
+                        </Typography>
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </Link>
             </div>
           );
         })}
