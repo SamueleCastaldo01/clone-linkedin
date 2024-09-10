@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchProfile } from "../redux/actions/profileActions";
 import { fetchSpecificProfile } from "../redux/actions/profileActions";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
@@ -14,13 +15,34 @@ function TabProfile() {
   const profile = useSelector((state) => state.profile.profile);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const idAldo = "63b4d3a8f6b0b9b5f5b6b7b8"
+
+  function awaitAldo() {
+    const fetchData = async () => {
+      await dispatch(fetchProfile(idAldo));
+      setIsLoading(false);
+    };
+    fetchData();
+  }
+
+  function searchAldo() {
     const fetchData = async () => {
       await dispatch(fetchSpecificProfile(userId));
       setIsLoading(false);
     };
     fetchData();
-  }, [dispatch, userId]);
+  }
+
+  useEffect(() => {
+    if (userId) {
+      searchAldo();
+    } else {
+      awaitAldo();
+    }
+
+  }, [userId])
+
+
 
   if (isLoading) return <p>Loading...</p>;
   console.log(profile);
