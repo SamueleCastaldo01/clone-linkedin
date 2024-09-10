@@ -16,10 +16,7 @@ const experienceReducer = (state = initialState, action) => {
         case ADD_EXPERIENCE:
             return {
                 ...state,
-                profile: {
-                ...state.profile,
-                experiences: [...state.profile.experiences, action.payload]
-                },
+                experiences: [...state.experiences, action.payload],
                 error: null
             }
 

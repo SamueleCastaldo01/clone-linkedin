@@ -120,12 +120,11 @@ export const Experiencesfetch = (userId) => async (dispatch) => {
   }
 }
 
-export const AddExperience = (userId) => async (dispatch) => {
+export const AddExperience = (userId,experienceData) => async (dispatch) => {
   try {
-    const response = await axios.post(PROFILE_URL + userId + '/experiences', {
+    const response = await axios.post(PROFILE_URL + userId + '/experiences', experienceData, {
       headers: { 
         Authorization: 'Bearer ' + TOKEN,
-        "Content-Type": "application/json",
       },
     })
     dispatch({

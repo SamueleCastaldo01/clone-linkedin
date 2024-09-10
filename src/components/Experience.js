@@ -33,12 +33,10 @@ const Experience = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const addExperience = async (e) => {
+  const addExperience = (e) => {
     e.preventDefault();
-    // Simulazione dell'aggiunta esperienza (puoi integrarla con Redux se necessario)
-    //dispatch della chiamta POST
-    dispatch(AddExperience(profile._id))
-    setNewExperience({
+    dispatch(AddExperience(profile._id, newExperience));  // Passa i dati del form all'azione
+    setNewExperience({  // Resetta il form
       role: "",
       company: "",
       startDate: "",
