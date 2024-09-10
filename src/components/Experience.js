@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Experiencesfetch } from "../actions/profileActions"; // Importa l'azione
+import { Experiencesfetch } from "../redux/actions/profileActions"; // Importa l'azione
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "react-bootstrap/Modal";
@@ -36,6 +36,8 @@ const Experience = () => {
   const addExperience = async (event) => {
     event.preventDefault();
     // Simulazione dell'aggiunta esperienza (puoi integrarla con Redux se necessario)
+    //dispatch della chiamta POST
+    
     setNewExperience({
       role: "",
       company: "",
@@ -166,6 +168,7 @@ const Experience = () => {
               variant="contained"
               color="primary"
               type="submit"
+              onClick={addExperience}
               className="w-100 mt-3"
             >
               Salva

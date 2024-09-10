@@ -5,8 +5,10 @@ import {
   UPDATE_PROFILE,
   PROFILE_ERROR,
   FETCH_EXPERIENCES,
-  EXPERIENCE_ERROR
+  EXPERIENCE_ERROR,
+  ADD_EXPERIENCE
 } from "./types";
+import { type } from "@testing-library/user-event/dist/type";
 
 const PROFILE_URL = "https://striveschool-api.herokuapp.com/api/profile/";
 const TOKEN =
@@ -103,8 +105,8 @@ export const updateProfile = (profile) => async (dispatch) => {
 
 export const Experiencesfetch = (userId) => async (dispatch) => {
   try {
-    const response = await axios.get(PROFILE_URL + userId +'/experiences', {
-      headers: { Authorization: 'Bearer' + TOKEN },
+    const response = await axios.get(PROFILE_URL + userId + '/experiences', {
+      headers: { Authorization: 'Bearer ' + TOKEN },
     })
     dispatch({
       type: FETCH_EXPERIENCES,
@@ -113,6 +115,23 @@ export const Experiencesfetch = (userId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: EXPERIENCE_ERROR,
+      payload: error.message
+    })
+  }
+}
+
+export const AddExperience = (userId) => async (dispatch) => {
+  try {
+    const response = await axios.post(PROFILE_URL + userId + '/experiences', {
+      headers: { Authorization: 'Bearer ' + TOKEN },
+    })
+    dispatch({
+      type: ADD_EXPERIENCE,
+      payload: response.data,
+    })
+  } catch (error){
+    dispatch ({
+      type:EXPERIENCE_ERROR,
       payload:error.message
     })
   }
