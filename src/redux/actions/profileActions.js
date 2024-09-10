@@ -4,9 +4,11 @@ import {
   FETCH_PROFILE,
   UPDATE_PROFILE,
   PROFILE_ERROR,
+  FETCH_EXPERIENCES,
+  EXPERIENCE_ERROR
 } from "./types";
 
-const API_URL = "https://striveschool-api.herokuapp.com/api/profile/";
+const PROFILE_URL = "https://striveschool-api.herokuapp.com/api/profile/";
 const TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
 
@@ -16,7 +18,7 @@ export const fetchProfiles =
     async (dispatch) => {
       try {
         // Chiamata API per ottenere tutti i profili
-        const response = await axios.get(`${API_URL}`, {
+        const response = await axios.get(`${PROFILE_URL}`, {
           headers: { Authorization: `Bearer ${TOKEN}` },
         });
         console.log("Fetch profiles:", response.data);
@@ -45,7 +47,7 @@ export const fetchProfiles =
 // Funzione per ottenere il profilo utente
 export const fetchProfile = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL}me`, {
+    const response = await axios.get(`${PROFILE_URL}me`, {
       headers: { Authorization: `Bearer ${TOKEN}` },
     });
     dispatch({
@@ -63,7 +65,7 @@ export const fetchProfile = () => async (dispatch) => {
 // Funzione per ottenere un profilo specifico
 export const fetchSpecificProfile = (userId) => async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL}${userId}`, {
+    const response = await axios.get(`${PROFILE_URL}${userId}`, {
       headers: { Authorization: `Bearer ${TOKEN}` },
     });
     dispatch({
@@ -81,7 +83,7 @@ export const fetchSpecificProfile = (userId) => async (dispatch) => {
 // Funzione per aggiornare il profilo utente
 export const updateProfile = (profile) => async (dispatch) => {
   try {
-    const response = await axios.put(API_URL, profile, {
+    const response = await axios.put(PROFILE_URL, profile, {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
         "Content-Type": "application/json",
@@ -98,3 +100,20 @@ export const updateProfile = (profile) => async (dispatch) => {
     });
   }
 };
+
+export const Experiencesfetch = (userId) => async (dispatch) => {
+  try {
+    const response = await axios.get(PROFILE_URL + userId + '/xperiences', {
+      headers: { Authorization: 'Bearer' + TOKEN },
+    })
+    dispatch({
+      type: FETCH_EXPERIENCES,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: EXPERIENCE_ERROR,
+      payload:error.message
+    })
+  }
+}

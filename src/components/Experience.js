@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Experiencesfetch } from "../actions/experienceActions"; // Importa l'azione
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
 import Modal from "react-bootstrap/Modal";
-import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
 import moment from "moment";
 
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRlYjEzNjRkMGRlZjAwMTVjZWYxMDAiLCJpYXQiOjE3MjU4NzAzOTAsImV4cCI6MTcyNzA3OTk5MH0.nK4vV-AVZXmSgtCSvtzNJCdksRFTv8gCSK4Pr8tzr9Y";
+const Experience = () => {
+  const dispatch = useDispatch();
+  const experiences = useSelector((state) => state.experiences.experiences); // Recupera le esperienze dallo stato Redux
+  const profile = useSelector((state) => state.profile.profile); // Recupera il profilo dallo stato Redux
 
-function Experience() {
   const [show, setShow] = useState(false);
-  const [experiences, setExperiences] = useState([]);
   const [newExperience, setNewExperience] = useState({
     role: "",
     company: "",
@@ -23,182 +22,77 @@ function Experience() {
     description: "",
     area: "",
   });
-  const profile = useSelector((state) => state.profile.profile);
+
+  // Effettua il dispatch dell'azione per fetchare le esperienze quando il profilo è disponibile
+  useEffect(() => {
+    if (profile && profile._id) {
+      dispatch(Experiencesfetch(profile._id));
+    }
+  }, [dispatch, profile]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // Funzione per fetchare le esperienze
-  const fetchExperiences = async () => {
-    try {
-      const response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`,
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-      const data = await response.json();
-      setExperiences(data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  // Funzione per aggiungere una nuova esperienza
   const addExperience = async (event) => {
     event.preventDefault();
-
-    // Log dell'oggetto newExperience prima dell'invio
-    console.log(
-      "New experience to be submitted:",
-      JSON.stringify(newExperience, null, 2)
-    );
-
-    try {
-      const response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${TOKEN}`,
-          },
-          body: JSON.stringify(newExperience),
-        }
-      );
-
-      if (!response.ok) {
-        const errorBody = await response.text(); // Cattura il corpo della risposta in caso di errore
-        console.error("Error response body:", errorBody);
-        throw new Error(
-          `Response status: ${response.status}, Body: ${errorBody}`
-        );
-      }
-
-      const newExp = await response.json();
-      console.log("Server response:", newExp);
-
-      // Aggiorna manualmente lo stato delle esperienze con la nuova esperienza aggiunta
-      setExperiences([...experiences, newExp]); // Aggiunge l'esperienza all'array
-
-      // Ricarica le esperienze dal server (opzionale, per garantire coerenza)
-      await fetchExperiences();
-
-      // Reset del form
-      setNewExperience({
-        role: "",
-        company: "",
-        startDate: "",
-        endDate: "",
-        description: "",
-        area: "",
-      });
-
-      handleClose();
-    } catch (error) {
-      console.error("Full error object:", error);
-      console.error("Error message:", error.message);
-    }
+    // Simulazione dell'aggiunta esperienza (puoi integrarla con Redux se necessario)
+    setNewExperience({
+      role: "",
+      company: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      area: "",
+    });
+    handleClose(); // Chiude il modal
   };
-
-  // Funzione per eliminare un'esperienza
-  const deleteExperience = async (id) => {
-    try {
-      const response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorBody = await response.text();
-        console.error("Error response body:", errorBody);
-        throw new Error(
-          `Response status: ${response.status}, Body: ${errorBody}`
-        );
-      }
-
-      console.log("Experience deleted:", id);
-
-      // Ricarica le esperienze dal server
-      await fetchExperiences();
-    } catch (error) {
-      console.error("Full error object:", error);
-      console.error("Error message:", error.message);
-    }
-  };
-
-  // Esegui la fetch quando il componente è montato
-  useEffect(() => {
-    if (profile && profile._id) {
-      fetchExperiences();
-    }
-  }, [profile]);
 
   return (
     <>
       <div className="bg-white rounded-4 position-relative tabPro mt-3 p-4">
         <div className="d-flex align-items-center justify-content-between mb-3">
-          <div>
-            <h5 className="fw-bold m-0 p-0">Esperienza</h5>
-          </div>
-          <div>
-            <IconButton onClick={handleShow}>
-              <AddIcon style={{ color: "black", fontSize: "30px" }} />
-            </IconButton>
-            <IconButton>
-              <EditIcon style={{ color: "black", fontSize: "30px" }} />
-            </IconButton>
-          </div>
+          <h5 className="fw-bold m-0">Esperienza</h5>
+          <IconButton onClick={handleShow}>
+            <AddIcon style={{ color: "black", fontSize: "30px" }} />
+          </IconButton>
         </div>
 
-        {experiences.map((experience, index) => (
-          <div key={index} className="d-flex align-items-center mb-4">
-            <div className="me-2">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
-                style={{ width: "50px", height: "50px" }}
-              />
+        {experiences.length > 0 ? (
+          experiences.map((experience, index) => (
+            <div key={index} className="d-flex align-items-center mb-4">
+              <div className="me-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
+                  style={{ width: "50px", height: "50px" }}
+                  alt="company"
+                />
+              </div>
+              <div>
+                <h6 className="m-0 fw-bold">{experience.role}</h6>
+                <p className="m-0">{experience.area}</p>
+                <p className="m-0">
+                  {moment(experience.startDate).format("DD/MM/YY")} -{" "}
+                  {experience.endDate
+                    ? moment(experience.endDate).format("DD/MM/YY")
+                    : "Presente"}
+                </p>
+                <p className="m-0">{experience.company}</p>
+              </div>
             </div>
-            <div>
-              <h6 className="m-0 fw-bold">{experience.role}</h6>
-              <p className="m-0">{experience.area}</p>
-              <p className="m-0">
-                Data inizio
-                {moment(experience.startDate).format("DD/MM/YY")} - Data fine
-                {experience.endDate
-                  ? moment(experience.endDate).format("DD/MM/YY")
-                  : " Presente"}
-              </p>
-              <p className="m-0">{experience.company}</p>
-            </div>
-            <div>
-              <IconButton onClick={() => deleteExperience(experience._id)}>
-                <DeleteIcon style={{ color: "black", fontSize: "30px" }} />
-              </IconButton>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>Nessuna esperienza trovata</p>
+        )}
       </div>
 
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal Experience</Modal.Title>
+          <Modal.Title>Aggiungi Esperienza</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form id="experience-form" onSubmit={addExperience}>
+          <form onSubmit={addExperience}>
             <TextField
-              id="outlined-basic"
-              label="Role"
+              label="Ruolo"
               variant="outlined"
               className="w-100"
               value={newExperience.role}
@@ -207,8 +101,7 @@ function Experience() {
               }
             />
             <TextField
-              id="outlined-basic"
-              label="Company"
+              label="Azienda"
               variant="outlined"
               className="w-100 mt-3"
               value={newExperience.company}
@@ -217,7 +110,6 @@ function Experience() {
               }
             />
             <TextField
-              id="outlined-basic"
               label="Area"
               variant="outlined"
               className="w-100 mt-3"
@@ -226,16 +118,13 @@ function Experience() {
                 setNewExperience({ ...newExperience, area: e.target.value })
               }
             />
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between mt-3">
               <TextField
-                id="date"
-                label="Seleziona data di inizio"
+                label="Data Inizio"
                 type="date"
-                className="mt-3"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                style={{ width: "47%" }}
+                variant="outlined"
+                className="w-50"
+                InputLabelProps={{ shrink: true }}
                 value={newExperience.startDate}
                 onChange={(e) =>
                   setNewExperience({
@@ -245,14 +134,11 @@ function Experience() {
                 }
               />
               <TextField
-                id="date"
-                label="Seleziona data di fine"
+                label="Data Fine"
                 type="date"
-                className="mt-3"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                style={{ width: "47%" }}
+                variant="outlined"
+                className="w-50"
+                InputLabelProps={{ shrink: true }}
                 value={newExperience.endDate}
                 onChange={(e) =>
                   setNewExperience({
@@ -263,7 +149,6 @@ function Experience() {
               />
             </div>
             <TextField
-              id="outlined-basic"
               label="Descrizione"
               rows={4}
               multiline
@@ -277,21 +162,19 @@ function Experience() {
                 })
               }
             />
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className="w-100 mt-3"
+            >
+              Salva
+            </Button>
           </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="contained"
-            className="rounded-4"
-            type="button"
-            onClick={addExperience}
-          >
-            Salva
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );
-}
+};
 
 export default Experience;
