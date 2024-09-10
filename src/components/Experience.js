@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
 
 const Experience = () => {
