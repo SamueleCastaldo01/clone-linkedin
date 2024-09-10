@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Experiencesfetch } from "../redux/actions/profileActions"; // Importa l'azione
+import { AddExperience, Experiencesfetch } from "../redux/actions/profileActions"; // Importa l'azione
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "react-bootstrap/Modal";
@@ -33,11 +33,11 @@ const Experience = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const addExperience = async (event) => {
-    event.preventDefault();
+  const addExperience = async (e) => {
+    e.preventDefault();
     // Simulazione dell'aggiunta esperienza (puoi integrarla con Redux se necessario)
     //dispatch della chiamta POST
-    
+    dispatch(AddExperience(newExperience))
     setNewExperience({
       role: "",
       company: "",
