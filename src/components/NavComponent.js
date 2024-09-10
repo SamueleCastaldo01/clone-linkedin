@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Cambiato da useHistory a useNavigate
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { TextField, InputAdornment } from "@mui/material";
 import {
   AppsRounded,
