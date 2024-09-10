@@ -3,6 +3,7 @@ import MySidebar from "../components/MyProfileSidebar";
 import NavComponent from "../components/NavComponent";
 import MyFooter from "../components/MyFooter";
 import MyHomeSIdebar from "../components/MyHomeSidebar";
+import Experience from "../components/Experience";
 
 function Profile() {
   return (
@@ -16,6 +17,7 @@ function Profile() {
           <div className="row mt-3">
             <div className="col-9">
               <TabProfile />
+              <Experience />
             </div>
             <div className="col-3 d-flex flex-column align-items-end">
               <MySidebar />
