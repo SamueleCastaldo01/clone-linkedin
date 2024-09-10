@@ -6,7 +6,6 @@ import SecurityIcon from "@mui/icons-material/Security";
 const MyFooter = () => {
   return (
     <div className="text-center text-lg-start divFooter">
-      <Container className="p-4 ">
         <Row>
           <Col lg={9}>
             <Row>
@@ -198,7 +197,7 @@ const MyFooter = () => {
           </Col>
         </Row>
         <div>LinkedIn Corporation © 2024</div>
-      </Container>
+    
 
       {/* Copyright */}
     </div>

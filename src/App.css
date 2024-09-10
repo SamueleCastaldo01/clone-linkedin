@@ -28,17 +28,20 @@
   color: white;
 }
 
-main {
+main, footer {
   text-align: left;
   padding-left: 12%;
   padding-right: 12%;
 }
 
+
+
 header {
   text-align: left;
   padding-left: 12%;
   padding-right: 12%;
-  background-color: rgb(248, 249, 250);
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
 .App-link {
@@ -64,10 +67,7 @@ header {
   opacity: 0.5;
 }
 
-.tabPro {
-  width: 90%;
-  margin: auto;
-}
+
 
 .buTabProfile,
 .butProSec,
@@ -143,4 +143,8 @@ header {
 }
 .nav {
   --bs-nav-link-color: #575757 !important;
+}
+
+.navFs {
+  font-size: 12px;
 }

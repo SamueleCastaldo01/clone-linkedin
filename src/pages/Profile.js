@@ -8,16 +8,16 @@ function Profile() {
   return (
     <>
       <div className="App">
-        <header className="">
+        <header className=" bg-white">
           <NavComponent />
         </header>
         <main>
           {/* <h2>Ciao</h2> */}
           <div className="row mt-3">
-            <div className="col-8 p-0">
+            <div className="col-9">
               <TabProfile />
             </div>
-            <div className="col-4">
+            <div className="col-3 d-flex flex-column align-items-end">
               <MySidebar />
               <MyHomeSIdebar />
             </div>
@@ -29,6 +29,6 @@ function Profile() {
       </div>
     </>
   );
-};
+}
 
 export default Profile;
