@@ -65,8 +65,8 @@ const MySidebar = () => {
         </ListItem>
         {profiles.map((profile) => {
           return (
-            <>
-              <ListItem alignItems="flex-start" key={profiles._id}>
+            <div key={profiles._id}>
+              <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>
@@ -94,7 +94,7 @@ const MySidebar = () => {
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
-            </>
+            </div>
           );
         })}
       </List>
