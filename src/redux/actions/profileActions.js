@@ -6,7 +6,8 @@ import {
   PROFILE_ERROR,
   FETCH_EXPERIENCES,
   EXPERIENCE_ERROR,
-  ADD_EXPERIENCE
+  ADD_EXPERIENCE,
+  DELETE_EXPERIENCE
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -120,10 +121,10 @@ export const Experiencesfetch = (userId) => async (dispatch) => {
   }
 }
 
-export const AddExperience = (userId,experienceData) => async (dispatch) => {
+export const AddExperience = (userId, experienceData) => async (dispatch) => {
   try {
     const response = await axios.post(PROFILE_URL + userId + '/experiences', experienceData, {
-      headers: { 
+      headers: {
         Authorization: 'Bearer ' + TOKEN,
       },
     })
@@ -131,10 +132,29 @@ export const AddExperience = (userId,experienceData) => async (dispatch) => {
       type: ADD_EXPERIENCE,
       payload: response.data,
     })
-  } catch (error){
-    dispatch ({
+  } catch (error) {
+    dispatch({
+      type: EXPERIENCE_ERROR,
+      payload: error.message
+    })
+  }
+}
+
+export const deleteExperience = (userId, experienceId) => async (dispatch) => {
+  try {
+    await axios.delete(PROFILE_URL + userId + '/experiences/' + experienceId, {
+      headers: {
+        Authorization: 'Bearer ' + TOKEN,
+      },
+    })
+    dispatch({
+      type: DELETE_EXPERIENCE,
+      payload: experienceId
+    })
+  } catch (error) {
+    dispatch({
       type:EXPERIENCE_ERROR,
-      payload:error.message
+      payload: error.message
     })
   }
 }
