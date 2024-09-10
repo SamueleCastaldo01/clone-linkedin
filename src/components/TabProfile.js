@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfile } from "../redux/actions/profileActions";
+import { fetchSpecificProfile } from "../redux/actions/profileActions";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import EditIcon from "@mui/icons-material/Edit";
+import { useParams } from "react-router";
 
 function TabProfile() {
   const dispatch = useDispatch();
+  const { userId } = useParams();
   const profile = useSelector((state) => state.profile.profile);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchProfile());
+      await dispatch(fetchSpecificProfile(userId));
       setIsLoading(false);
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
   if (isLoading) return <p>Loading...</p>;
   console.log(profile);

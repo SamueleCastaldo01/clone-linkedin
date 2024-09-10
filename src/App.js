@@ -8,6 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Profile />} />
+        <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/search/:searchTerm" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>

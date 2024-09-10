@@ -6,7 +6,7 @@ import {
   GroupRounded,
   HomeRounded,
   NotificationsRounded,
-  Person2Rounded,  // Assicurati che sia importato
+  Person2Rounded,
   Search,
   WorkRounded
 } from "@mui/icons-material";
@@ -15,7 +15,17 @@ import { useState } from "react";
 
 const NavComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate(); // Cambiato da useHistory a useNavigate
+  const navigate = useNavigate();
+
+  const getUserIdFromToken = (token) => {
+    const payload = token.split('.')[1];
+    const decodedPayload = atob(payload);
+    const jsonPayload = JSON.parse(decodedPayload);
+    return jsonPayload._id;
+  };
+
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
+  const userId = getUserIdFromToken(token);
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
@@ -121,7 +131,7 @@ const NavComponent = () => {
             <NotificationsRounded fontSize="medium" />
             <div className="navFs">Notifiche</div>
           </Nav.Link>
-          <Nav.Link href="#profile" className="text-center mx-2">
+          <Nav.Link href={`/profile/${userId}`} className="text-center mx-2">
             <Person2Rounded fontSize="medium" />
             <div className="navFs">Tu</div>
           </Nav.Link>

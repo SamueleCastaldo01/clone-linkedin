@@ -8,7 +8,7 @@ import {
 
 const API_URL = "https://striveschool-api.herokuapp.com/api/profile/";
 const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRlYjEzNjRkMGRlZjAwMTVjZWYxMDAiLCJpYXQiOjE3MjU4NzAzOTAsImV4cCI6MTcyNzA3OTk5MH0.nK4vV-AVZXmSgtCSvtzNJCdksRFTv8gCSK4Pr8tzr9Y";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
 
 // Funzione per ottenere la lista dei profili utente o cercare profili
 export const fetchProfiles =
@@ -19,6 +19,7 @@ export const fetchProfiles =
         const response = await axios.get(`${API_URL}`, {
           headers: { Authorization: `Bearer ${TOKEN}` },
         });
+        console.log("Fetch profiles:", response.data);
 
         // Filtrare i profili in base ai criteri di ricerca
         const filteredProfiles = response.data.filter(
@@ -27,6 +28,7 @@ export const fetchProfiles =
             profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
         );
+        console.log("Filtered profiles:", filteredProfiles);
 
         dispatch({
           type: FETCH_PROFILES,

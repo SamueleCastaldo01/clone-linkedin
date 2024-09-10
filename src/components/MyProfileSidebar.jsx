@@ -12,8 +12,11 @@ import {
   List,
 } from "@mui/material";
 import ModeIcon from "@mui/icons-material/Mode";
+import { useSelector } from "react-redux";
 
 const MySidebar = () => {
+  const profiles = useSelector((state) => state.profile.profiles);
+  console.log("ciao", profiles);
   return (
     <>
       <Box
@@ -49,7 +52,7 @@ const MySidebar = () => {
         </nav>
         <Divider />
       </Box>
-
+      {/* qua verrà inserito il map delle persone che conosciamo */}
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         className="rounded-2 mb-2"
@@ -60,68 +63,40 @@ const MySidebar = () => {
             <p>Dalla tua scuola o università</p>
           </div>
         </ListItem>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: "text.primary", display: "inline" }}
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Summer BBQ"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: "text.primary", display: "inline" }}
-                >
-                  to Scott, Alex, Jennifer
-                </Typography>
-                {" — Wish I could come, but I'm out of town this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Oui Oui"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: "text.primary", display: "inline" }}
-                >
-                  Sandra Adams
-                </Typography>
-                {" — Do you have Paris recommendations? Have you ever…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
+        {profiles.map((profile) => {
+          return (
+            <>
+              <ListItem alignItems="flex-start" key={profiles._id}>
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      sx={{ color: "text.primary", display: "inline" }}
+                    >
+                      {profile.username}
+                    </Typography>
+                  }
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        sx={{ color: "text.secondary", display: "inline" }}
+                      >
+                        {profile.name} {profile.surname}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </>
+          );
+        })}
       </List>
     </>
   );
