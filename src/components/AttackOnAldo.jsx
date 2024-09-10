@@ -26,82 +26,40 @@ const AttackOnAldo = () => {
       {profiles.length > 0 ? (
         <ul>
           {profiles.map((profile) => (
-            <li key={profile._id}>
-              {profile.username} - {profile.name} {profile.surname}
-            </li>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                bgcolor: "background.paper",
+              }}
+              className="rounded-2 "
+            >
+              <ListItem alignItems="flex-start" key={profile._id}>
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary="User"
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body"
+                        sx={{ color: "text.primary", display: "inline" }}
+                      >
+                        {profile.username} - {profile.name} {profile.surname}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </List>
           ))}
         </ul>
       ) : (
         <p>Nessun profilo trovato.</p>
       )}
-
-      <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        className="rounded-2 mb-2"
-      >
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Aldo 1"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: "text.primary", display: "inline" }}
-                >
-                  Studente
-                </Typography>
-                {" Ogni tanto fa finta di fare domande in classe"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Aldo 2"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: "text.primary", display: "inline" }}
-                >
-                  Programmatore
-                </Typography>
-                {"Fa più danni che altro"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Aldo 3"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: "text.primary", display: "inline" }}
-                >
-                  Profilo Linkedln
-                </Typography>
-                {"Ha un foto che palesemente non è lui"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-      </List>
     </div>
   );
 };
