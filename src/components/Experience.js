@@ -20,6 +20,9 @@ const Experience = () => {
   const experiences = useSelector((state) => state.experiences.experiences);
   const profile = useSelector((state) => state.profile.profile);
 
+  const idAldo = "66dff513af434b00159d8330";
+  const [flagPerm, setFlagPerm] = useState(false)
+
   const [show, setShow] = useState(false);
   const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
   const [currentId, setCurrentId] = useState(null);
@@ -32,9 +35,16 @@ const Experience = () => {
     area: "",
   });
 
+
   useEffect(() => {
     if (profile && profile._id) {
       dispatch(Experiencesfetch(profile._id));
+    }
+
+    if(idAldo === profile._id) {
+      setFlagPerm(true)
+    }else {
+      setFlagPerm(false)
     }
   }, [dispatch, profile]);
 
@@ -96,9 +106,11 @@ const Experience = () => {
       <div className="bg-white rounded-4 position-relative tabPro mt-3 p-4">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <h5 className="fw-bold m-0">Esperienza</h5>
+          {flagPerm && 
           <IconButton onClick={handleShow}>
             <AddIcon style={{ color: "black", fontSize: "30px" }} />
           </IconButton>
+          }
         </div>
 
         {experiences.length > 0 ? (
@@ -121,12 +133,16 @@ const Experience = () => {
                 <p className="m-0">{experience.company}</p>
               </div>
               <div>
+                {flagPerm && 
+                <>
                 <IconButton onClick={() => deleteExperience(experience._id)}>
                   <DeleteIcon style={{ color: "black", fontSize: "30px" }} />
                 </IconButton>
                 <IconButton onClick={() => handleEditExperience(experience)}>
                   <EditIcon style={{ color: "black", fontSize: "30px" }} />
                 </IconButton>
+                </>
+                }
               </div>
             </div>
           ))

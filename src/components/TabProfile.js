@@ -12,10 +12,11 @@ import { useParams } from "react-router";
 function TabProfile() {
   const dispatch = useDispatch();
   const { userId } = useParams();
+  const [flagPerm, setFlagPerm] = useState(false)
   const profile = useSelector((state) => state.profile.profile);
   const [isLoading, setIsLoading] = useState(true);
 
-  const idAldo = "63b4d3a8f6b0b9b5f5b6b7b8";
+  const idAldo = "66dff513af434b00159d8330";
 
   function awaitAldo() {
     const fetchData = async () => {
@@ -38,6 +39,11 @@ function TabProfile() {
       searchAldo();
     } else {
       awaitAldo();
+    }
+    if(userId === idAldo) {
+      setFlagPerm(true);
+    }else {
+      setFlagPerm(false);
     }
   }, [userId]);
 
@@ -64,9 +70,11 @@ function TabProfile() {
         </div>
 
         <div className="divEdi">
+          {flagPerm &&
           <IconButton size="medium" aria-label="delete">
             <EditIcon style={{ color: "black" }} />
           </IconButton>
+          }
         </div>
 
         <div className="p-3">
