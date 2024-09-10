@@ -1,4 +1,4 @@
-import { ADD_EXPERIENCE, DELETE_EXPERIENCE, EXPERIENCE_ERROR, FETCH_EXPERIENCES } from "../actions/types"
+import { ADD_EXPERIENCE, DELETE_EXPERIENCE, EXPERIENCE_ERROR, FETCH_EXPERIENCES, MODIFY_EXPERIENCE } from "../actions/types"
 
 const initialState = {
     experiences: [],
@@ -19,6 +19,13 @@ export const experienceReducer = (state = initialState, action) => {
                 experiences: [...state.experiences, action.payload],
                 error: null
             }
+case MODIFY_EXPERIENCE:
+    return{
+        ...state,
+        experiences: state.experiences.map(exp =>
+          exp._id === action.payload.id ? { ...exp, ...action.payload.data } : exp),
+        error: null
+    }
 
         case DELETE_EXPERIENCE:
             return {

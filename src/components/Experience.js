@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddExperience, deleteExperienceAction, Experiencesfetch, } from "../redux/actions/profileActions"; // Importa l'azione
+import {
+  AddExperience,
+  deleteExperienceAction,
+  Experiencesfetch,
+  modifyExperienceAction,
+} from "../redux/actions/profileActions";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
 
 const Experience = () => {
   const dispatch = useDispatch();
-  const experiences = useSelector((state) => state.experiences.experiences); // Recupera le esperienze dallo stato Redux
-  const profile = useSelector((state) => state.profile.profile); // Recupera il profilo dallo stato Redux
+  const experiences = useSelector((state) => state.experiences.experiences);
+  const profile = useSelector((state) => state.profile.profile);
 
   const [show, setShow] = useState(false);
+  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
+  const [currentId, setCurrentId] = useState(null);
   const [newExperience, setNewExperience] = useState({
     role: "",
     company: "",
@@ -24,20 +32,52 @@ const Experience = () => {
     area: "",
   });
 
-  // Effettua il dispatch dell'azione per fetchare le esperienze quando il profilo è disponibile
   useEffect(() => {
     if (profile && profile._id) {
       dispatch(Experiencesfetch(profile._id));
     }
   }, [dispatch, profile]);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    resetForm();
+    setShow(false);
+  };
 
-  const addExperience = (e) => {
+  const handleShow = () => {
+    setModalMode("add");
+    setShow(true);
+  };
+
+  const handleEditExperience = (experience) => {
+    setNewExperience({
+      role: experience.role,
+      company: experience.company,
+      startDate: experience.startDate,
+      endDate: experience.endDate,
+      description: experience.description,
+      area: experience.area,
+    });
+    setCurrentId(experience._id);
+    setModalMode("edit");
+    setShow(true);
+  };
+
+  const deleteExperience = (experienceId) => {
+    dispatch(deleteExperienceAction(profile._id, experienceId));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(AddExperience(profile._id, newExperience));  // Passa i dati del form all'azione
-    setNewExperience({  // Resetta il form
+    if (modalMode === "add") {
+      dispatch(AddExperience(profile._id, newExperience));
+    } else if (modalMode === "edit") {
+      dispatch(modifyExperienceAction(profile._id, currentId, newExperience));
+    }
+    handleClose();
+  };
+
+  const resetForm = () => {
+    setNewExperience({
       role: "",
       company: "",
       startDate: "",
@@ -45,12 +85,9 @@ const Experience = () => {
       description: "",
       area: "",
     });
-    handleClose(); // Chiude il modal
+    setModalMode("add");
+    setCurrentId(null);
   };
-
-  const deleteExperience = (experienceId) => {
-    dispatch(deleteExperienceAction(profile._id, experienceId))
-  }
 
   return (
     <>
@@ -76,16 +113,17 @@ const Experience = () => {
                 <h6 className="m-0 fw-bold">{experience.role}</h6>
                 <p className="m-0">{experience.area}</p>
                 <p className="m-0">
-                  {moment(experience.startDate).format("DD/MM/YY")} -{" "}
-                  {experience.endDate
-                    ? moment(experience.endDate).format("DD/MM/YY")
-                    : "Presente"}
+                  {moment(experience.startDate).format("DD/MM/YY")} - 
+                  {experience.endDate ? moment(experience.endDate).format("DD/MM/YY") : "Presente"}
                 </p>
                 <p className="m-0">{experience.company}</p>
               </div>
               <div>
                 <IconButton onClick={() => deleteExperience(experience._id)}>
                   <DeleteIcon style={{ color: "black", fontSize: "30px" }} />
+                </IconButton>
+                <IconButton onClick={() => handleEditExperience(experience)}>
+                  <EditIcon style={{ color: "black", fontSize: "30px" }} />
                 </IconButton>
               </div>
             </div>
@@ -97,10 +135,10 @@ const Experience = () => {
 
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Aggiungi Esperienza</Modal.Title>
+          <Modal.Title>{modalMode === "add" ? "Aggiungi Esperienza" : "Modifica Esperienza"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={addExperience}>
+          <form onSubmit={handleSubmit}>
             <TextField
               label="Ruolo"
               variant="outlined"
@@ -176,10 +214,9 @@ const Experience = () => {
               variant="contained"
               color="primary"
               type="submit"
-              onClick={addExperience}
               className="w-100 mt-3"
             >
-              Salva
+              {modalMode === "add" ? "Aggiungi" : "Modifica"}
             </Button>
           </form>
         </Modal.Body>
@@ -189,3 +226,4 @@ const Experience = () => {
 };
 
 export default Experience;
+

@@ -7,7 +7,8 @@ import {
   FETCH_EXPERIENCES,
   EXPERIENCE_ERROR,
   ADD_EXPERIENCE,
-  DELETE_EXPERIENCE
+  DELETE_EXPERIENCE,
+  MODIFY_EXPERIENCE
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -150,6 +151,25 @@ export const deleteExperienceAction = (userId, experienceId) => async (dispatch)
     dispatch({
       type: DELETE_EXPERIENCE,
       payload: experienceId
+    })
+  } catch (error) {
+    dispatch({
+      type:EXPERIENCE_ERROR,
+      payload: error.message
+    })
+  }
+}
+
+export const modifyExperienceAction = (userId, experienceId, updadateExperience) => async (dispatch) => {
+  try {
+    const response= await axios.put(PROFILE_URL + userId + '/experiences/' + experienceId, updadateExperience, {
+      headers: {
+        Authorization: 'Bearer ' + TOKEN,
+      },
+    })
+    dispatch({
+      type: MODIFY_EXPERIENCE,
+      payload: {id: experienceId, data: response.data}
     })
   } catch (error) {
     dispatch({
