@@ -3,9 +3,9 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import Form from "react-bootstrap/Form";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 
 function Experience() {
   const [show, setShow] = useState(false);
@@ -41,7 +41,7 @@ function Experience() {
             <div>
               <h6 className="m-0 fw-bold">Ruolo</h6>
               <p className="m-0">Area</p>
-              <p className="m-0">Data inizio- Data fine</p>
+              <p className="m-0">Data inizio - Data fine</p>
               <p className="m-0">Company</p>
             </div>
           </div>
@@ -59,7 +59,7 @@ function Experience() {
             <div>
               <h6 className="m-0 fw-bold">Ruolo</h6>
               <p className="m-0">Area</p>
-              <p className="m-0">Data inizio- Data fine</p>
+              <p className="m-0">Data inizio - Data fine</p>
               <p className="m-0">Company</p>
             </div>
           </div>
@@ -67,24 +67,70 @@ function Experience() {
         </div>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal Experience</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={""}>
-          <TextField id="outlined-basic" label="Role" variant="outlined" className="w-100"/>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Example textarea</Form.Label>
-              <Form.Control as="textarea" rows={3} />
-            </Form.Group>
+            <TextField
+              id="outlined-basic"
+              label="Role"
+              variant="outlined"
+              className="w-100"
+            />
+            <TextField
+              id="outlined-basic"
+              label="Company"
+              variant="outlined"
+              className="w-100 mt-3"
+            />
+            <TextField
+              id="outlined-basic"
+              label="Area"
+              variant="outlined"
+              className="w-100 mt-3"
+            />
+            <div className="d-flex justify-content-between">
+            <TextField
+              id="date"
+              label="Seleziona data di inizio"
+              className="mt-3"
+              type="date"
+              InputLabelProps={{
+                shrink: true, // Questo consente di mantenere l'etichetta visibile sopra il campo
+              }}
+              style={{ width: "47%" }}
+            />
+            <TextField
+              id="date"
+              label="Seleziona data di fine"
+            className="mt-3"
+              type="date"
+              InputLabelProps={{
+                shrink: true, // Questo consente di mantenere l'etichetta visibile sopra il campo
+              }}
+              style={{ width: "47%" }}
+            />
+            </div>
+            <TextField
+              id="outlined-basic"
+              label="Descrizione"
+              rows={4}
+              multiline
+              variant="outlined"
+              className="w-100 mt-3"
+            />
           </form>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="contained" className="rounded-4"  onClick={handleClose}>Salva</Button>
+          <Button
+            variant="contained"
+            className="rounded-4"
+            onClick={handleClose}
+          >
+            Salva
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
