@@ -56,7 +56,7 @@ const AttackOnAldo = () => {
                       <Typography
                         component="span"
                         variant="body"
-                        sx={{ color: "text.primary", display: "inline" }}
+                        sx={{ color: "text.secondary", display: "inline" }}
                       >
                         {profile.name} {profile.surname}
                       </Typography>
