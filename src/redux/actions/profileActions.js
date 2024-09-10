@@ -140,7 +140,7 @@ export const AddExperience = (userId, experienceData) => async (dispatch) => {
   }
 }
 
-export const deleteExperience = (userId, experienceId) => async (dispatch) => {
+export const deleteExperienceAction = (userId, experienceId) => async (dispatch) => {
   try {
     await axios.delete(PROFILE_URL + userId + '/experiences/' + experienceId, {
       headers: {

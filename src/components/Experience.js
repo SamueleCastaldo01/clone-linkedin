@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddExperience, Experiencesfetch } from "../redux/actions/profileActions"; // Importa l'azione
+import { AddExperience, deleteExperienceAction, Experiencesfetch, } from "../redux/actions/profileActions"; // Importa l'azione
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import Modal from "react-bootstrap/Modal";
@@ -47,6 +47,10 @@ const Experience = () => {
     handleClose(); // Chiude il modal
   };
 
+  const deleteExperience = (experienceId) => {
+    dispatch(deleteExperienceAction(profile._id, experienceId))
+  }
+
   return (
     <>
       <div className="bg-white rounded-4 position-relative tabPro mt-3 p-4">
@@ -77,6 +81,11 @@ const Experience = () => {
                     : "Presente"}
                 </p>
                 <p className="m-0">{experience.company}</p>
+              </div>
+              <div>
+                <IconButton onClick={() => deleteExperience(experience._id)}>
+                  <DeleteIcon style={{ color: "black", fontSize: "30px" }} />
+                </IconButton>
               </div>
             </div>
           ))
