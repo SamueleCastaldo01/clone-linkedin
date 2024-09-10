@@ -25,7 +25,7 @@ function Profile() {
             </div>
           </div>
         </main>
-        <footer>
+        <footer className="mt-5">
           <MyFooter />
         </footer>
       </div>
