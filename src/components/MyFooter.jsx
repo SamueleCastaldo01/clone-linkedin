@@ -15,7 +15,7 @@ const MyFooter = () => {
                   href="https://about.linkedin.com/it-it"
                   className="text-body text-muted"
                 >
-                  <h6 className="text-muted">Informazioni</h6>
+                  Informazioni
                 </a>
                 <ul className="list-unstyled">
                   <li>
@@ -59,7 +59,7 @@ const MyFooter = () => {
                   href=" https://it.linkedin.com/accessibility?"
                   className="text-body text-muted"
                 >
-                  <h6 className="text-muted">Accessibilità</h6>
+                  Accessibilità
                 </a>
                 <ul className="list-unstyled">
                   <li>
@@ -95,7 +95,7 @@ const MyFooter = () => {
                   href="https://business.linkedin.com/it-it/talent-solutions?trk=flagship_nav&veh=li-footer-lts-control-it-it&src=li-footer"
                   className="text-body text-muted"
                 >
-                  <h6 className="text-muted">Talent Solutions</h6>
+                  Talent Solutions
                 </a>
                 <ul className="list-unstyled mb-0">
                   <li>
@@ -135,7 +135,7 @@ const MyFooter = () => {
                         href="https://www.linkedin.com/help/linkedin?trk=d_flagship3_profile_view_base"
                         className="text-body"
                       >
-                        <h6 className="text-body mb-0">Domande?</h6>
+                        <h6 className="mb-0">Domande?</h6>
                       </a>
                       <p className="text-muted">
                         Visita il nostro Centro assistenza
@@ -149,7 +149,7 @@ const MyFooter = () => {
                         href="https://www.linkedin.com/mypreferences/d/categories/account"
                         className="text-body"
                       >
-                        <h6 className="text-body mb-0">
+                        <h6 className="mb-0">
                           Gestisci il tuo account e la tua privacy
                         </h6>
                       </a>
@@ -164,7 +164,7 @@ const MyFooter = () => {
                         href="https://www.linkedin.com/help/linkedin/answer/a1339724"
                         className="text-body"
                       >
-                        <h6 className="text-body mb-0">
+                        <h6 className="mb-0">
                           Trasparenza sui contenuti consigliati
                         </h6>
                       </a>
