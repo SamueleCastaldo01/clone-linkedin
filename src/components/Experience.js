@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
-import Form from "react-bootstrap/Form";
+import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from "@mui/material/TextField";
 import moment from 'moment';
 
@@ -88,6 +88,31 @@ function Experience() {
     }
   };
 
+  // Funzione per eliminare un'esperienza
+  const deleteExperience = async (id) => {
+    try {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${TOKEN}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        console.error("Error response body:", errorBody);
+        throw new Error(`Response status: ${response.status}, Body: ${errorBody}`);
+      }
+
+      // Rimuovi l'esperienza eliminata dallo stato locale
+      setExperiences(experiences.filter(experience => experience._id !== id));
+      console.log("Experience deleted:", id);
+    } catch (error) {
+      console.error("Full error object:", error);
+      console.error("Error message:", error.message);
+    }
+  };
+
   // Esegui la fetch quando il componente è montato
   useEffect(() => {
     if (profile && profile._id) {
@@ -127,9 +152,14 @@ function Experience() {
                 Data inizio 
                 {moment(experience.startDate).format('MM/YY')} - 
                 Data fine 
-                 {experience.endDate ? moment(experience.endDate).format('MM/YY') : ' Presente'}
+                {experience.endDate ? moment(experience.endDate).format('MM/YY') : ' Presente'}
               </p>
               <p className="m-0">{experience.company}</p>
+            </div>
+            <div>
+              <IconButton onClick={() => deleteExperience(experience._id)}>
+                <DeleteIcon style={{ color: "black", fontSize: "30px" }} />
+              </IconButton>
             </div>
           </div>
         ))}
