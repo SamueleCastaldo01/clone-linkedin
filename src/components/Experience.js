@@ -1,17 +1,99 @@
+import React, { useEffect, useState } from 'react';
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Form from "react-bootstrap/Form";
 import TextField from "@mui/material/TextField";
+import moment from 'moment';
+
+const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRlYjEzNjRkMGRlZjAwMTVjZWYxMDAiLCJpYXQiOjE3MjU4NzAzOTAsImV4cCI6MTcyNzA3OTk5MH0.nK4vV-AVZXmSgtCSvtzNJCdksRFTv8gCSK4Pr8tzr9Y";
 
 function Experience() {
   const [show, setShow] = useState(false);
+  const [experiences, setExperiences] = useState([]);
+  const [newExperience, setNewExperience] = useState({
+    role: '',
+    company: '',
+    startDate: '',
+    endDate: '',
+    description: '',
+    area: '',
+  });
+  const profile = useSelector((state) => state.profile.profile);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // Funzione per fetchare le esperienze
+  const fetchExperiences = async () => {
+    try {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`, {
+        headers: {
+          'Authorization': `Bearer ${TOKEN}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const data = await response.json();
+      setExperiences(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  // Funzione per aggiungere una nuova esperienza
+  const addExperience = async (event) => {
+    event.preventDefault();
+    
+    // Log dell'oggetto newExperience prima dell'invio
+    console.log("New experience to be submitted:", JSON.stringify(newExperience, null, 2));
+    
+    try {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${profile._id}/experiences`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify(newExperience),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();  // Cattura il corpo della risposta in caso di errore
+        console.error("Error response body:", errorBody);
+        throw new Error(`Response status: ${response.status}, Body: ${errorBody}`);
+      }
+      
+      const data = await response.json();
+      console.log("Server response:", data);
+      setExperiences([...experiences, data]);
+      console.log("Current experiences:", experiences);
+      
+      setNewExperience({
+        role: '',
+        company: '',
+        startDate: '',
+        endDate: '',
+        description: '',
+        area: '',
+      });
+      handleClose();
+    } catch (error) {
+      console.error("Full error object:", error);
+      console.error("Error message:", error.message);
+    }
+  };
+
+  // Esegui la fetch quando il componente è montato
+  useEffect(() => {
+    if (profile && profile._id) {
+      fetchExperiences();
+    }
+  }, [profile]);
 
   return (
     <>
@@ -30,8 +112,8 @@ function Experience() {
           </div>
         </div>
 
-        <div>
-          <div className="d-flex align-items-center">
+        {experiences.map((experience, index) => (
+          <div key={index} className="d-flex align-items-center mb-4">
             <div className="me-2">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
@@ -39,32 +121,18 @@ function Experience() {
               />
             </div>
             <div>
-              <h6 className="m-0 fw-bold">Ruolo</h6>
-              <p className="m-0">Area</p>
-              <p className="m-0">Data inizio - Data fine</p>
-              <p className="m-0">Company</p>
+              <h6 className="m-0 fw-bold">{experience.role}</h6>
+              <p className="m-0">{experience.area}</p>
+              <p className="m-0">
+                Data inizio 
+                {moment(experience.startDate).format('MM/YY')} - 
+                Data fine 
+                 {experience.endDate ? moment(experience.endDate).format('MM/YY') : ' Presente'}
+              </p>
+              <p className="m-0">{experience.company}</p>
             </div>
           </div>
-          <hr></hr>
-        </div>
-
-        <div>
-          <div className="d-flex align-items-center">
-            <div className="me-2">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
-                style={{ width: "50px", height: "50px" }}
-              />
-            </div>
-            <div>
-              <h6 className="m-0 fw-bold">Ruolo</h6>
-              <p className="m-0">Area</p>
-              <p className="m-0">Data inizio - Data fine</p>
-              <p className="m-0">Company</p>
-            </div>
-          </div>
-          <hr></hr>
-        </div>
+        ))}
       </div>
 
       <Modal size="lg" show={show} onHide={handleClose}>
@@ -72,46 +140,56 @@ function Experience() {
           <Modal.Title>Modal Experience</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={""}>
+          <form id="experience-form" onSubmit={addExperience}>
             <TextField
               id="outlined-basic"
               label="Role"
               variant="outlined"
               className="w-100"
+              value={newExperience.role}
+              onChange={(e) => setNewExperience({ ...newExperience, role: e.target.value })}
             />
             <TextField
               id="outlined-basic"
               label="Company"
               variant="outlined"
               className="w-100 mt-3"
+              value={newExperience.company}
+              onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
             />
             <TextField
               id="outlined-basic"
               label="Area"
               variant="outlined"
               className="w-100 mt-3"
+              value={newExperience.area}
+              onChange={(e) => setNewExperience({ ...newExperience, area: e.target.value })}
             />
             <div className="d-flex justify-content-between">
-            <TextField
-              id="date"
-              label="Seleziona data di inizio"
-              className="mt-3"
-              type="date"
-              InputLabelProps={{
-                shrink: true, // Questo consente di mantenere l'etichetta visibile sopra il campo
-              }}
-              style={{ width: "47%" }}
-            />
-            <TextField
-              id="date"
-              label="Seleziona data di fine"
-            className="mt-3"
-              type="date"
-              InputLabelProps={{
-                shrink: true, // Questo consente di mantenere l'etichetta visibile sopra il campo
-              }}
-              style={{ width: "47%" }}
-            />
+              <TextField
+                id="date"
+                label="Seleziona data di inizio"
+                type="date"
+                className="mt-3"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                style={{ width: "47%" }}
+                value={newExperience.startDate}
+                onChange={(e) => setNewExperience({ ...newExperience, startDate: e.target.value })}
+              />
+              <TextField
+                id="date"
+                label="Seleziona data di fine"
+                type="date"
+                className="mt-3"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                style={{ width: "47%" }}
+                value={newExperience.endDate}
+                onChange={(e) => setNewExperience({ ...newExperience, endDate: e.target.value })}
+              />
             </div>
             <TextField
               id="outlined-basic"
@@ -120,15 +198,13 @@ function Experience() {
               multiline
               variant="outlined"
               className="w-100 mt-3"
+              value={newExperience.description}
+              onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
             />
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant="contained"
-            className="rounded-4"
-            onClick={handleClose}
-          >
+          <Button variant="contained" className="rounded-4" type="button" onClick={addExperience}>
             Salva
           </Button>
         </Modal.Footer>
@@ -136,4 +212,5 @@ function Experience() {
     </>
   );
 }
+
 export default Experience;
