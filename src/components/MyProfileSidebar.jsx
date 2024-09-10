@@ -87,7 +87,7 @@ const MySidebar = () => {
                   <ListItemAvatar>
                     <Avatar
                       alt="Remy Sharp"
-                      src="/static/images/avatar/1.jpg"
+                      src={profile.image}
                     />
                   </ListItemAvatar>
                   <ListItemText
