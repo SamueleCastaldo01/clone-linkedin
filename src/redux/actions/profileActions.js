@@ -103,7 +103,7 @@ export const updateProfile = (profile) => async (dispatch) => {
 
 export const Experiencesfetch = (userId) => async (dispatch) => {
   try {
-    const response = await axios.get(PROFILE_URL + userId + '/xperiences', {
+    const response = await axios.get(PROFILE_URL + userId +'/experiences', {
       headers: { Authorization: 'Bearer' + TOKEN },
     })
     dispatch({
