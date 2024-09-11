@@ -21,6 +21,10 @@ const AttackOnAldo = () => {
     }
   }, [dispatch, searchTerm]);
 
+  const handleClick = () => {
+    dispatch(fetchProfiles());
+  }
+
   return (
     <div className="tabPro mt-2">
       <h2>Risultati della ricerca per "{searchTerm}"</h2>
@@ -40,6 +44,7 @@ const AttackOnAldo = () => {
               <Link
                 to={`/profile/${profile._id}`}
                 style={{ textDecoration: "none", color: "inherit" }}
+                onClick={() => {handleClick()}}
               >
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar>

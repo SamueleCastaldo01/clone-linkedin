@@ -21,7 +21,7 @@ const Experience = () => {
   const profile = useSelector((state) => state.profile.profile);
 
   const idAldo = "66dff513af434b00159d8330";
-  const [flagPerm, setFlagPerm] = useState(false)
+  const [flagPerm, setFlagPerm] = useState(false);
 
   const [show, setShow] = useState(false);
   const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
@@ -35,20 +35,17 @@ const Experience = () => {
     area: "",
   });
 
-
   useEffect(() => {
     if (profile && profile._id) {
       dispatch(Experiencesfetch(profile._id));
     }
 
-    if(idAldo === profile._id) {
-      setFlagPerm(true)
-    }else {
-      setFlagPerm(false)
+    if (idAldo === profile._id) {
+      setFlagPerm(true);
+    } else {
+      setFlagPerm(false);
     }
   }, [dispatch, profile]);
-
-
 
   const handleClose = () => {
     resetForm();
@@ -76,6 +73,7 @@ const Experience = () => {
 
   const deleteExperience = (experienceId) => {
     dispatch(deleteExperienceAction(profile._id, experienceId));
+    setShow(false);
   };
 
   const handleSubmit = (e) => {
@@ -106,43 +104,49 @@ const Experience = () => {
       <div className="bg-white rounded-4 position-relative tabPro mt-3 p-4">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <h5 className="fw-bold m-0">Esperienza</h5>
-          {flagPerm && 
-          <IconButton onClick={handleShow}>
-            <AddIcon style={{ color: "black", fontSize: "30px" }} />
-          </IconButton>
-          }
+          {flagPerm && (
+            <IconButton onClick={handleShow}>
+              <AddIcon style={{ color: "black", fontSize: "30px" }} />
+            </IconButton>
+          )}
         </div>
 
         {experiences.length > 0 ? (
           experiences.map((experience, index) => (
-            <div key={index} className="d-flex align-items-center mb-4">
-              <div className="me-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
-                  style={{ width: "50px", height: "50px" }}
-                  alt="company"
-                />
+            <div
+              key={index}
+              className="d-flex align-items-center justify-content-between mb-4"
+            >
+              <div className="d-flex align-items-center">
+                <div className="me-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
+                    style={{ width: "50px", height: "50px" }}
+                    alt="company"
+                  />
+                </div>
+                <div>
+                  <h6 className="m-0 fw-bold">{experience.role}</h6>
+                  <p className="m-0">{experience.area}</p>
+                  <p className="m-0">
+                    {moment(experience.startDate).format("DD/MM/YY")} -
+                    {experience.endDate
+                      ? moment(experience.endDate).format("DD/MM/YY")
+                      : "Presente"}
+                  </p>
+                  <p className="m-0">{experience.company}</p>
+                </div>
               </div>
               <div>
-                <h6 className="m-0 fw-bold">{experience.role}</h6>
-                <p className="m-0">{experience.area}</p>
-                <p className="m-0">
-                  {moment(experience.startDate).format("DD/MM/YY")} - 
-                  {experience.endDate ? moment(experience.endDate).format("DD/MM/YY") : "Presente"}
-                </p>
-                <p className="m-0">{experience.company}</p>
-              </div>
-              <div>
-                {flagPerm && 
-                <>
-                <IconButton onClick={() => deleteExperience(experience._id)}>
-                  <DeleteIcon style={{ color: "black", fontSize: "30px" }} />
-                </IconButton>
-                <IconButton onClick={() => handleEditExperience(experience)}>
-                  <EditIcon style={{ color: "black", fontSize: "30px" }} />
-                </IconButton>
-                </>
-                }
+                {flagPerm && (
+                  <>
+                    <IconButton
+                      onClick={() => handleEditExperience(experience)}
+                    >
+                      <EditIcon style={{ color: "black", fontSize: "25px" }} />
+                    </IconButton>
+                  </>
+                )}
               </div>
             </div>
           ))
@@ -153,7 +157,11 @@ const Experience = () => {
 
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{modalMode === "add" ? "Aggiungi Esperienza" : "Modifica Esperienza"}</Modal.Title>
+          <Modal.Title>
+            {modalMode === "add"
+              ? "Aggiungi Esperienza"
+              : "Modifica Esperienza"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit}>
@@ -228,14 +236,28 @@ const Experience = () => {
                 })
               }
             />
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              className="w-100 mt-3"
-            >
-              {modalMode === "add" ? "Aggiungi" : "Modifica"}
-            </Button>
+            {modalMode === "add" ? (
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className="w-100 mt-3"
+              >
+                Aggiungi
+              </Button>
+            ) : (
+              <>
+              <Button onClick={() => deleteExperience(currentId)} variant="outlined" color="error" className="w-50 mt-3">Delete</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className="w-50 mt-3"
+              >
+                Modifica
+              </Button>
+              </>
+            )}
           </form>
         </Modal.Body>
       </Modal>
@@ -244,4 +266,3 @@ const Experience = () => {
 };
 
 export default Experience;
-
