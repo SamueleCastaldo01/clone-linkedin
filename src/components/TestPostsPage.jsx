@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPostsAction } from "../redux/actions/profileActions";
 
@@ -6,6 +6,9 @@ const TestPostsPage = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts); // Accesso ai post dal reducer
   const error = useSelector((state) => state.posts.error); // Accesso agli errori dal reducer
+  const [newPostText, setNewPostText] = useState("");
+  const [editPostText, setEditPostText] = useState("");
+
 
   useEffect(() => {
     // Richiama l'azione al caricamento della pagina
@@ -25,9 +28,8 @@ const TestPostsPage = () => {
         <p>Error: {error}</p>
       ) : (
         <ul>
-          {posts && posts.map((post, index) => (
-            <li key={index}>{post.text}</li>
-          ))}
+          {posts &&
+            posts.map((post, index) => <li key={index}>{post.text}</li>)}
         </ul>
       )}
     </div>
@@ -35,4 +37,3 @@ const TestPostsPage = () => {
 };
 
 export default TestPostsPage;
-
