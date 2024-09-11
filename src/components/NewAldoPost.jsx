@@ -4,53 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArticleIcon from "@mui/icons-material/Article";
-import { useEffect, useState } from "react";
-import {
-  AddExperience,
-  deleteExperienceAction,
-  Experiencesfetch,
-  modifyExperienceAction,
-} from "../redux/actions/profileActions";
+import { useState } from "react";
+import { addPostAction } from "../redux/actions/profileActions"; // Azione per creare un post
 import { Modal } from "react-bootstrap";
-import CardTravelIcon from "@mui/icons-material/CardTravel";
-import DescriptionIcon from "@mui/icons-material/Description";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import StarsIcon from "@mui/icons-material/Stars";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 
 const NewAldoPost = () => {
   const dispatch = useDispatch();
-  const experiences = useSelector((state) => state.experiences.experiences);
   const profile = useSelector((state) => state.profile.profile);
 
-  const idAldo = "66dff513af434b00159d8330";
-  const [flagPerm, setFlagPerm] = useState(false);
-
   const [show, setShow] = useState(false);
-  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
-  const [currentId, setCurrentId] = useState(null);
-  const [newExperience, setNewExperience] = useState({
-    role: "",
-    company: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-    area: "",
+  const [newPost, setNewPost] = useState({
+    text: "", // Solo il campo "text" è necessario per creare un post
   });
-
-  useEffect(() => {
-    if (profile && profile._id) {
-      dispatch(Experiencesfetch(profile._id));
-    }
-
-    if (idAldo === profile._id) {
-      setFlagPerm(true);
-    } else {
-      setFlagPerm(false);
-    }
-  }, [dispatch, profile]);
 
   const handleClose = () => {
     resetForm();
@@ -58,50 +23,17 @@ const NewAldoPost = () => {
   };
 
   const handleShow = () => {
-    setModalMode("add");
     setShow(true);
-  };
-
-  const handleEditExperience = (experience) => {
-    setNewExperience({
-      role: experience.role,
-      company: experience.company,
-      startDate: experience.startDate,
-      endDate: experience.endDate,
-      description: experience.description,
-      area: experience.area,
-    });
-    setCurrentId(experience._id);
-    setModalMode("edit");
-    setShow(true);
-  };
-
-  const deleteExperience = (experienceId) => {
-    dispatch(deleteExperienceAction(profile._id, experienceId));
-    setShow(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (modalMode === "add") {
-      dispatch(AddExperience(profile._id, newExperience));
-    } else if (modalMode === "edit") {
-      dispatch(modifyExperienceAction(profile._id, currentId, newExperience));
-    }
+    dispatch(addPostAction(newPost)); // Dispatch dell'azione per creare un nuovo post
     handleClose();
   };
 
   const resetForm = () => {
-    setNewExperience({
-      role: "",
-      company: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-      area: "",
-    });
-    setModalMode("add");
-    setCurrentId(null);
+    setNewPost({ text: "" });
   };
 
   return (
@@ -110,9 +42,7 @@ const NewAldoPost = () => {
         <Avatar
           src={profile.image}
           sx={{ bgcolor: deepOrange[500], width: 45, height: 45 }}
-        >
-          {/* {profile.name[0]} */}
-        </Avatar>
+        />
         <Button
           onClick={handleShow}
           className="flex-grow-1 mx-2"
@@ -133,6 +63,7 @@ const NewAldoPost = () => {
           Crea un post
         </Button>
       </div>
+
       <div className="d-flex justify-content-between">
         <div className="d-flex align-items-center">
           <InsertPhotoIcon style={{ color: "#378FE9" }} />
@@ -156,11 +87,7 @@ const NewAldoPost = () => {
 
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {modalMode === "add"
-              ? "Aggiungi Esperienza"
-              : "Modifica Esperienza"}
-          </Modal.Title>
+          <Modal.Title>Crea un nuovo post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit}>
@@ -169,33 +96,20 @@ const NewAldoPost = () => {
               rows={4}
               multiline
               className="w-100 mt-3"
-              value={newExperience.description}
+              value={newPost.text}
               onChange={(e) =>
-                setNewExperience({
-                  ...newExperience,
-                  description: e.target.value,
+                setNewPost({
+                  ...newPost,
+                  text: e.target.value,
                 })
               }
             />
-            <div>
-              <SentimentSatisfiedAltIcon style={{ color: "#666666" }} />
-            </div>
-            <div className="d-flex w-50 justify-content-between mt-3">
-              <InsertPhotoIcon style={{ color: "#666666" }} />
-              <CalendarMonthIcon style={{ color: "#666666" }} />
-              <StarsIcon style={{ color: "#666666" }} />
-              <CardTravelIcon style={{ color: "#666666" }} />
-              <BarChartIcon style={{ color: "#666666" }} />
-              <DescriptionIcon style={{ color: "#666666" }} />
-              <AccountBoxIcon style={{ color: "#666666" }} />
-            </div>
-            <div className="d-flex justify-content-end align-items-center ">
-              <AccessTimeIcon style={{ color: "#666666" }} />
+            <div className="d-flex justify-content-end align-items-center mt-3">
               <Button
                 variant="contained"
                 color="primary"
                 type="submit"
-                className="w-25 m-3"
+                className="w-25"
                 style={{
                   borderRadius: 50,
                 }}
@@ -209,4 +123,6 @@ const NewAldoPost = () => {
     </div>
   );
 };
+
 export default NewAldoPost;
+
