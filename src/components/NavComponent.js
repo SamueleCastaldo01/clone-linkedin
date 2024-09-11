@@ -106,10 +106,12 @@ const NavComponent = () => {
             <GroupRounded fontSize="medium" />
             <div className="navFs">Rete</div>
           </Nav.Link>
-          <Nav.Link href="#pricing" className="text-center mx-2">
-            <WorkRounded fontSize="medium" />
-            <div className="navFs">Lavoro</div>
-          </Nav.Link>
+          <Link to={'/jobs/developer'} className="text-decoration-none">
+            <Nav.Link href="#pricing" className="text-center mx-2">
+              <WorkRounded fontSize="medium" />
+              <div className="navFs">Lavoro</div>
+            </Nav.Link>
+          </Link>
           <Nav.Link href="#chat" className="text-center mx-2">
             <ChatBubbleRounded fontSize="medium" />
             <div className="navFs">Messaggistica</div>
