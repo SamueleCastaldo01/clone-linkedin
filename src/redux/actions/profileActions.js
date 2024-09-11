@@ -8,7 +8,9 @@ import {
   EXPERIENCE_ERROR,
   ADD_EXPERIENCE,
   DELETE_EXPERIENCE,
-  MODIFY_EXPERIENCE
+  MODIFY_EXPERIENCE,
+  FETCH_POSTS,
+  POSTS_ERROR
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -158,7 +160,7 @@ export const deleteExperienceAction = (userId, experienceId) => async (dispatch)
     })
   } catch (error) {
     dispatch({
-      type:EXPERIENCE_ERROR,
+      type: EXPERIENCE_ERROR,
       payload: error.message
     })
   }
@@ -188,3 +190,22 @@ export const modifyExperienceAction = (userId, experienceId, updateExperience) =
     });
   }
 };
+
+const POSTS_URL = 'https://striveschool-api.herokuapp.com/api/posts/'
+
+export const fetchPostsAction = () => async (dispatch) => {
+  try {
+    const response = axios.get(POSTS_URL, {
+      headers: { Authorization: 'Bearer ' + TOKEN },
+    });
+    dispatch({
+      type : FETCH_POSTS,
+      payload : response.data
+    })
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message
+    })
+  }
+}
