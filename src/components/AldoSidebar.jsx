@@ -93,7 +93,7 @@ const AldoSidebar = () => {
 
         <div className="p-3">
           <div className="row mt-4">
-            <div className="col-8">
+            <div className="col-12">
               <h4 className="m-0">
                 {profile.name.charAt(0).toUpperCase() + profile.name.slice(1)} -{" "}
                 {profile.surname.charAt(0).toUpperCase() +
@@ -107,7 +107,7 @@ const AldoSidebar = () => {
                     onClick={handleToggleExpand}
                     style={{ color: "#0A66C2", cursor: "pointer" }}
                   >
-                    {isExpanded ? " Mostra meno" : " Mostra altro"}
+                    {isExpanded ? " Mostra meno aldo" : " Mostra aldo"}
                   </span>
                 )}
               </p>{" "}
