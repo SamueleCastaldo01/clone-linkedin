@@ -9,12 +9,25 @@ import {
   ADD_EXPERIENCE,
   DELETE_EXPERIENCE,
   MODIFY_EXPERIENCE,
+  FETCH_POSTS,
+  POSTS_ERROR,
+  ADD_TO_POST,
+  DELETE_POST,
+  UPDATE_POST,
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
 const PROFILE_URL = "https://striveschool-api.herokuapp.com/api/profile/";
 const TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
 // Funzione per ottenere la lista dei profili utente o cercare profili
 export const fetchProfiles =
@@ -36,13 +49,16 @@ export const fetchProfiles =
       );
       console.log("Filtered profiles:", filteredProfiles);
 
-      // Prendere massimo i primi 5 profili
-      const limitedProfiles = filteredProfiles.slice(0, 5);
-      console.log("Limited profiles:", limitedProfiles);
+      // Mescolare i profili filtrati
+      const shuffledProfiles = shuffleArray(filteredProfiles);
+
+      // Prendere massimo i primi 5 profili casuali
+      const randomProfiles = shuffledProfiles.slice(0, 5);
+      console.log("Random profiles:", randomProfiles);
 
       dispatch({
         type: FETCH_PROFILES,
-        payload: limitedProfiles,
+        payload: randomProfiles,
       });
     } catch (error) {
       dispatch({
@@ -196,6 +212,83 @@ export const modifyExperienceAction =
     } catch (error) {
       dispatch({
         type: EXPERIENCE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
+const POSTS_URL = "https://striveschool-api.herokuapp.com/api/posts/";
+
+export const fetchPostsAction = () => async (dispatch) => {
+  try {
+    const response = await axios.get(POSTS_URL, {
+      headers: { Authorization: "Bearer " + TOKEN },
+    });
+    dispatch({
+      type: FETCH_POSTS,
+      payload: response.data.slice(-30),
+    });
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message,
+    });
+  }
+};
+
+export const addPostAction = (postData) => async (dispatch) => {
+  try {
+    const response = await axios.post(POSTS_URL, postData, {
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+    });
+    dispatch({
+      type: ADD_TO_POST,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message,
+    });
+  }
+};
+
+export const deletePostAction = (postId) => async (dispatch) => {
+  try {
+    await axios.delete(`${POSTS_URL}/${postId}`, {
+      headers: { Authorization: "Bearer " + TOKEN },
+    });
+    dispatch({
+      type: DELETE_POST,
+      payload: postId, // ID del post eliminato
+    });
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message,
+    });
+  }
+};
+
+export const updatePostAction =
+  (postId, updatedPostData) => async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${POSTS_URL}/${postId}`,
+        updatedPostData,
+        {
+          headers: { Authorization: "Bearer " + TOKEN },
+        }
+      );
+      dispatch({
+        type: UPDATE_POST,
+        payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
+      });
+    } catch (error) {
+      dispatch({
+        type: POSTS_ERROR,
         payload: error.message,
       });
     }

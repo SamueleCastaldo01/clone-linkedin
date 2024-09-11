@@ -17,7 +17,6 @@ const SearchPage = () => {
               <AttackOnAldo />
             </div>
             <div className="col-3 d-flex flex-column align-items-end">
-              <MySidebar />
               <MyHomeSIdebar />
             </div>
           </div>
