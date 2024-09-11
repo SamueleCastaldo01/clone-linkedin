@@ -44,7 +44,7 @@ const AllAldoPost = () => {
     setExpanded(!expanded);
   };
   return (
-    <div className="mt-3">
+    <div className="mt-3 rounded-3">
       <Card sx={{ maxWidth: 345 }}>
         <CardHeader
           avatar={
