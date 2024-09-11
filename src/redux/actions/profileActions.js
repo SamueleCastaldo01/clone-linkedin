@@ -13,7 +13,9 @@ import {
   POSTS_ERROR,
   ADD_TO_POST,
   DELETE_POST,
-  UPDATE_POST
+  UPDATE_POST,
+  FETCH_JOBS_SEARCH,
+  JOBS_ERROR
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -32,41 +34,41 @@ const shuffleArray = (array) => {
 // Funzione per ottenere la lista dei profili utente o cercare profili
 export const fetchProfiles =
   (searchTerm = "") =>
-  async (dispatch) => {
-    try {
-      // Chiamata API per ottenere tutti i profili
-      const response = await axios.get(`${PROFILE_URL}`, {
-        headers: { Authorization: `Bearer ${TOKEN}` },
-      });
-      console.log("Fetch profiles:", response.data);
+    async (dispatch) => {
+      try {
+        // Chiamata API per ottenere tutti i profili
+        const response = await axios.get(`${PROFILE_URL}`, {
+          headers: { Authorization: `Bearer ${TOKEN}` },
+        });
+        console.log("Fetch profiles:", response.data);
 
-      // Filtrare i profili in base ai criteri di ricerca
-      const filteredProfiles = response.data.filter(
-        (profile) =>
-          profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      console.log("Filtered profiles:", filteredProfiles);
+        // Filtrare i profili in base ai criteri di ricerca
+        const filteredProfiles = response.data.filter(
+          (profile) =>
+            profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        console.log("Filtered profiles:", filteredProfiles);
 
-      // Mescolare i profili filtrati
-      const shuffledProfiles = shuffleArray(filteredProfiles);
+        // Mescolare i profili filtrati
+        const shuffledProfiles = shuffleArray(filteredProfiles);
 
-      // Prendere massimo i primi 5 profili casuali
-      const randomProfiles = shuffledProfiles.slice(0, 5);
-      console.log("Random profiles:", randomProfiles);
+        // Prendere massimo i primi 5 profili casuali
+        const randomProfiles = shuffledProfiles.slice(0, 5);
+        console.log("Random profiles:", randomProfiles);
 
-      dispatch({
-        type: FETCH_PROFILES,
-        payload: randomProfiles,
-      });
-    } catch (error) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: error.message,
-      });
-    }
-  };
+        dispatch({
+          type: FETCH_PROFILES,
+          payload: randomProfiles,
+        });
+      } catch (error) {
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: error.message,
+        });
+      }
+    };
 
 // Funzione per ottenere il profilo utente
 export const fetchProfile = () => async (dispatch) => {
@@ -207,16 +209,16 @@ export const modifyExperienceAction =
         payload: { id: experienceId, data: response.data },
       });
 
-    // Esegui il refetch delle esperienze per aggiornare lo stato
-    dispatch(Experiencesfetch(userId)); // Refetch delle esperienze
+      // Esegui il refetch delle esperienze per aggiornare lo stato
+      dispatch(Experiencesfetch(userId)); // Refetch delle esperienze
 
-  } catch (error) {
-    dispatch({
-      type: EXPERIENCE_ERROR,
-      payload: error.message,
-    });
-  }
-};
+    } catch (error) {
+      dispatch({
+        type: EXPERIENCE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 
 const POSTS_URL = 'https://striveschool-api.herokuapp.com/api/posts/'
 
@@ -292,3 +294,22 @@ export const updatePostAction = (postId, updatedPostData) => async (dispatch) =>
     });
   }
 };
+
+const JOBS_URL = 'https://strive-benchmark.herokuapp.com/api/jobs'
+const search = '?search='
+const company = '?company='
+
+export const fetchJobsAction = (query) => async (dispatch) => {
+  try {
+    const response = await axios.get(JOBS_URL + search + query)
+    dispatch({
+      type: FETCH_JOBS_SEARCH,
+      payload: response.data
+    })
+  } catch (error) {
+    dispatch({
+      type: JOBS_ERROR,
+      payload: error.messsage
+    })
+  }
+}
