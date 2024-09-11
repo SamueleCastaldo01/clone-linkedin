@@ -193,3 +193,17 @@ header {
 .navFs {
   font-size: 12px;
 }
+
+.jobTitle {
+  color: #0477f3;
+  font-weight: 600;
+}
+
+.jobCity {
+ color: gray;
+ font-size: 12px;
+}
+
+.jobCompany {
+  font-size: 15px;
+}
