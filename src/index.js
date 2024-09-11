@@ -28,8 +28,6 @@ root.render(
   <ThemeProvider theme={darkTheme}>
     <CssBaseline />
     <Provider store={store}>
-      {" "}
-      {/* Aggiungi Provider qui */}
       <App />
     </Provider>
   </ThemeProvider>

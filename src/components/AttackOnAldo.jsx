@@ -17,7 +17,7 @@ const AttackOnAldo = () => {
 
   React.useEffect(() => {
     if (searchTerm) {
-      dispatch(fetchProfiles(searchTerm));
+      dispatch(fetchProfiles());
     }
   }, [dispatch, searchTerm]);
 

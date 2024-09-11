@@ -8,7 +8,7 @@ import {
   EXPERIENCE_ERROR,
   ADD_EXPERIENCE,
   DELETE_EXPERIENCE,
-  MODIFY_EXPERIENCE
+  MODIFY_EXPERIENCE,
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -16,41 +16,42 @@ const PROFILE_URL = "https://striveschool-api.herokuapp.com/api/profile/";
 const TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
 
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 // Funzione per ottenere la lista dei profili utente o cercare profili
-export const fetchProfiles =
-  (searchTerm = "") =>
-    async (dispatch) => {
-      try {
-        // Chiamata API per ottenere tutti i profili
-        const response = await axios.get(`${PROFILE_URL}`, {
-          headers: { Authorization: `Bearer ${TOKEN}` },
-        });
-        console.log("Fetch profiles:", response.data);
+export const fetchProfiles = () =>
+  async (dispatch) => {
+    try {
+      // Chiamata API per ottenere tutti i profili
+      const response = await axios.get(`${PROFILE_URL}`, {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      });
+      console.log("Fetch profiles:", response.data);
 
-        // Filtrare i profili in base ai criteri di ricerca
-        const filteredProfiles = response.data.filter(
-          (profile) =>
-            profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        console.log("Filtered profiles:", filteredProfiles);
+      // Mescolare i profili
+      const shuffledProfiles = shuffleArray(response.data);
 
-        // Prendere massimo i primi 5 profili
-        const limitedProfiles = filteredProfiles.slice(0, 5);
-        console.log("Limited profiles:", limitedProfiles);
+      // Prendere massimo i primi 5 profili casuali
+      const randomProfiles = shuffledProfiles.slice(0, 5);
+      console.log("Random profiles:", randomProfiles);
 
-        dispatch({
-          type: FETCH_PROFILES,
-          payload: limitedProfiles,
-        });
-      } catch (error) {
-        dispatch({
-          type: PROFILE_ERROR,
-          payload: error.message,
-        });
-      }
-    };
+      dispatch({
+        type: FETCH_PROFILES,
+        payload: randomProfiles,
+      });
+    } catch (error) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 
 // Funzione per ottenere il profilo utente
 export const fetchProfile = () => async (dispatch) => {
@@ -111,9 +112,9 @@ export const updateProfile = (profile) => async (dispatch) => {
 
 export const Experiencesfetch = (userId) => async (dispatch) => {
   try {
-    const response = await axios.get(PROFILE_URL + userId + '/experiences', {
-      headers: { Authorization: 'Bearer ' + TOKEN },
-    })
+    const response = await axios.get(PROFILE_URL + userId + "/experiences", {
+      headers: { Authorization: "Bearer " + TOKEN },
+    });
     dispatch({
       type: FETCH_EXPERIENCES,
       payload: response.data,
@@ -121,66 +122,26 @@ export const Experiencesfetch = (userId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: EXPERIENCE_ERROR,
-      payload: error.message
-    })
+      payload: error.message,
+    });
   }
-}
+};
 
 export const AddExperience = (userId, experienceData) => async (dispatch) => {
   try {
-    const response = await axios.post(PROFILE_URL + userId + '/experiences', experienceData, {
-      headers: {
-        Authorization: 'Bearer ' + TOKEN,
-      },
-    })
+    const response = await axios.post(
+      PROFILE_URL + userId + "/experiences",
+      experienceData,
+      {
+        headers: {
+          Authorization: "Bearer " + TOKEN,
+        },
+      }
+    );
     dispatch({
       type: ADD_EXPERIENCE,
       payload: response.data,
-    })
-  } catch (error) {
-    dispatch({
-      type: EXPERIENCE_ERROR,
-      payload: error.message
-    })
-  }
-}
-
-export const deleteExperienceAction = (userId, experienceId) => async (dispatch) => {
-  try {
-    await axios.delete(PROFILE_URL + userId + '/experiences/' + experienceId, {
-      headers: {
-        Authorization: 'Bearer ' + TOKEN,
-      },
-    })
-    dispatch({
-      type: DELETE_EXPERIENCE,
-      payload: experienceId
-    })
-  } catch (error) {
-    dispatch({
-      type:EXPERIENCE_ERROR,
-      payload: error.message
-    })
-  }
-}
-
-export const modifyExperienceAction = (userId, experienceId, updateExperience) => async (dispatch) => {
-  try {
-    const response = await axios.put(`${PROFILE_URL}${userId}/experiences/${experienceId}`, updateExperience, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
     });
-
-    // Dispatch della modifica
-    dispatch({
-      type: MODIFY_EXPERIENCE,
-      payload: { id: experienceId, data: response.data },
-    });
-
-    // Esegui il refetch delle esperienze per aggiornare lo stato
-    dispatch(Experiencesfetch(userId)); // Refetch delle esperienze
-
   } catch (error) {
     dispatch({
       type: EXPERIENCE_ERROR,
@@ -188,3 +149,55 @@ export const modifyExperienceAction = (userId, experienceId, updateExperience) =
     });
   }
 };
+
+export const deleteExperienceAction =
+  (userId, experienceId) => async (dispatch) => {
+    try {
+      await axios.delete(
+        PROFILE_URL + userId + "/experiences/" + experienceId,
+        {
+          headers: {
+            Authorization: "Bearer " + TOKEN,
+          },
+        }
+      );
+      dispatch({
+        type: DELETE_EXPERIENCE,
+        payload: experienceId,
+      });
+    } catch (error) {
+      dispatch({
+        type: EXPERIENCE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
+export const modifyExperienceAction =
+  (userId, experienceId, updateExperience) => async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${PROFILE_URL}${userId}/experiences/${experienceId}`,
+        updateExperience,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      );
+
+      // Dispatch della modifica
+      dispatch({
+        type: MODIFY_EXPERIENCE,
+        payload: { id: experienceId, data: response.data },
+      });
+
+      // Esegui il refetch delle esperienze per aggiornare lo stato
+      dispatch(Experiencesfetch(userId)); // Refetch delle esperienze
+    } catch (error) {
+      dispatch({
+        type: EXPERIENCE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
