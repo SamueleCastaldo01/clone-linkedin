@@ -1,4 +1,4 @@
-import { ADD_TO_POST, DELETE_POST, FETCH_POSTS, POSTS_ERROR } from "../actions/types"
+import { ADD_TO_POST, DELETE_POST, FETCH_POSTS, POSTS_ERROR, UPDATE_POST } from "../actions/types"
 
 
 const initialState = {
@@ -27,6 +27,13 @@ export const postReducer = (state = initialState, action) => {
                 posts: state.posts.filter((post) => post.id !== action.payload), // Rimuovi il post dall'elenco
                 error: null
             };
+
+        case UPDATE_POST:
+            return {
+                ...state,
+                posts: state.posts.map((post) => post.id === action.payload.id ? { ...post, ...action.payload.data } : post),
+                error: null
+            }
 
         case POSTS_ERROR:
             return {

@@ -12,7 +12,8 @@ import {
   FETCH_POSTS,
   POSTS_ERROR,
   ADD_TO_POST,
-  DELETE_POST
+  DELETE_POST,
+  UPDATE_POST
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -242,6 +243,23 @@ export const deletePostAction = (postId) => async (dispatch) => {
     dispatch({
       type: DELETE_POST,
       payload: postId, // ID del post eliminato
+    });
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message,
+    });
+  }
+};
+
+export const updatePostAction = (postId, updatedPostData) => async (dispatch) => {
+  try {
+    const response = await axios.put(`${POSTS_URL}/${postId}`, updatedPostData, {
+      headers: { Authorization: 'Bearer ' + TOKEN },
+    });
+    dispatch({
+      type: UPDATE_POST,
+      payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
     });
   } catch (error) {
     dispatch({
