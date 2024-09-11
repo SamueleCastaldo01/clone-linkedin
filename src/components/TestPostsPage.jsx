@@ -6,8 +6,9 @@ const TestPostsPage = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts); // Accesso ai post dal reducer
   const error = useSelector((state) => state.posts.error); // Accesso agli errori dal reducer
-  const [newPostText, setNewPostText] = useState("");
-  const [editPostText, setEditPostText] = useState("");
+  const [newPostText, setNewPostText] = useState({
+    text: "",
+  });
 
 
   useEffect(() => {
