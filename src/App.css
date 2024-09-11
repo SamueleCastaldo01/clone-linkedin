@@ -195,3 +195,16 @@ header {
 .navFs {
   font-size: 12px;
 }
+
+.css-xiduvl-MuiPaper-root-MuiCard-root {
+  max-width: 100% !important;
+}
+
+.expandIcon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.expandIcon.rotated {
+  transform: rotate(180deg);
+}
