@@ -202,6 +202,7 @@ export const fetchPostsAction = () => async (dispatch) => {
       type : FETCH_POSTS,
       payload : response.data
     })
+    console.log('response',response.data)
   } catch (error) {
     dispatch({
       type: POSTS_ERROR,
