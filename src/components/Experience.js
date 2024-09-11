@@ -143,7 +143,7 @@ const Experience = () => {
                     <IconButton
                       onClick={() => handleEditExperience(experience)}
                     >
-                      <EditIcon style={{ color: "black", fontSize: "28px" }} />
+                      <EditIcon style={{ color: "black", fontSize: "25px" }} />
                     </IconButton>
                   </>
                 )}
