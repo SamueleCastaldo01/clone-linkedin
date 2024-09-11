@@ -15,7 +15,6 @@ const TestPostsPage = () => {
   // Usa un secondo useEffect per loggare i post quando cambiano
   useEffect(() => {
     if (posts && posts.length > 0) {
-      console.log('Array post fetch:', posts);
     }
   }, [posts]);
 
