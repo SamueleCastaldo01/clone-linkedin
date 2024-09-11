@@ -10,7 +10,9 @@ import {
   DELETE_EXPERIENCE,
   MODIFY_EXPERIENCE,
   FETCH_POSTS,
-  POSTS_ERROR
+  POSTS_ERROR,
+  ADD_TO_POST,
+  DELETE_POST
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -199,8 +201,8 @@ export const fetchPostsAction = () => async (dispatch) => {
       headers: { Authorization: 'Bearer ' + TOKEN },
     });
     dispatch({
-      type : FETCH_POSTS,
-      payload : response.data.slice(-30)
+      type: FETCH_POSTS,
+      payload: response.data.slice(-30)
     })
 
   } catch (error) {
@@ -210,3 +212,41 @@ export const fetchPostsAction = () => async (dispatch) => {
     })
   }
 }
+
+export const addPostAction = (postData) => async (dispatch) => {
+  try {
+    const response = await axios.post(POSTS_URL, postData, {
+      headers: {
+        Authorization: 'Bearer ' + TOKEN,
+      },
+    })
+    dispatch({
+      type: ADD_TO_POST,
+      payload: response.data,
+    })
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message
+    })
+  }
+}
+
+
+
+export const deletePostAction = (postId) => async (dispatch) => {
+  try {
+    await axios.delete(`${POSTS_URL}/${postId}`, {
+      headers: { Authorization: 'Bearer ' + TOKEN },
+    });
+    dispatch({
+      type: DELETE_POST,
+      payload: postId, // ID del post eliminato
+    });
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message,
+    });
+  }
+};
