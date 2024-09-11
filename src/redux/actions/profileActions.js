@@ -220,51 +220,48 @@ export const modifyExperienceAction =
     }
   };
 
-const POSTS_URL = 'https://striveschool-api.herokuapp.com/api/posts/'
+const POSTS_URL = "https://striveschool-api.herokuapp.com/api/posts/";
 
 export const fetchPostsAction = () => async (dispatch) => {
   try {
     const response = await axios.get(POSTS_URL, {
-      headers: { Authorization: 'Bearer ' + TOKEN },
+      headers: { Authorization: "Bearer " + TOKEN },
     });
     dispatch({
       type: FETCH_POSTS,
-      payload: response.data.slice(-30)
-    })
-
+      payload: response.data.slice(-30),
+    });
   } catch (error) {
     dispatch({
       type: POSTS_ERROR,
-      payload: error.message
-    })
+      payload: error.message,
+    });
   }
-}
+};
 
 export const addPostAction = (postData) => async (dispatch) => {
   try {
     const response = await axios.post(POSTS_URL, postData, {
       headers: {
-        Authorization: 'Bearer ' + TOKEN,
+        Authorization: "Bearer " + TOKEN,
       },
-    })
+    });
     dispatch({
       type: ADD_TO_POST,
       payload: response.data,
-    })
+    });
   } catch (error) {
     dispatch({
       type: POSTS_ERROR,
-      payload: error.message
-    })
+      payload: error.message,
+    });
   }
-}
-
-
+};
 
 export const deletePostAction = (postId) => async (dispatch) => {
   try {
     await axios.delete(`${POSTS_URL}/${postId}`, {
-      headers: { Authorization: 'Bearer ' + TOKEN },
+      headers: { Authorization: "Bearer " + TOKEN },
     });
     dispatch({
       type: DELETE_POST,
@@ -278,22 +275,27 @@ export const deletePostAction = (postId) => async (dispatch) => {
   }
 };
 
-export const updatePostAction = (postId, updatedPostData) => async (dispatch) => {
-  try {
-    const response = await axios.put(`${POSTS_URL}/${postId}`, updatedPostData, {
-      headers: { Authorization: 'Bearer ' + TOKEN },
-    });
-    dispatch({
-      type: UPDATE_POST,
-      payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
-    });
-  } catch (error) {
-    dispatch({
-      type: POSTS_ERROR,
-      payload: error.message,
-    });
-  }
-};
+export const updatePostAction =
+  (postId, updatedPostData) => async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${POSTS_URL}/${postId}`,
+        updatedPostData,
+        {
+          headers: { Authorization: "Bearer " + TOKEN },
+        }
+      );
+      dispatch({
+        type: UPDATE_POST,
+        payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
+      });
+    } catch (error) {
+      dispatch({
+        type: POSTS_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 
 const JOBS_URL = 'https://strive-benchmark.herokuapp.com/api/jobs'
 const search = '?search='

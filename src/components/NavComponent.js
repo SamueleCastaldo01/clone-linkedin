@@ -8,23 +8,25 @@ import {
   NotificationsRounded,
   Person2Rounded,
   Search,
-  WorkRounded
+  WorkRounded,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const NavComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const getUserIdFromToken = (token) => {
-    const payload = token.split('.')[1];
+    const payload = token.split(".")[1];
     const decodedPayload = atob(payload);
     const jsonPayload = JSON.parse(decodedPayload);
     return jsonPayload._id;
   };
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
   const userId = getUserIdFromToken(token);
 
   const handleSearch = () => {
@@ -46,12 +48,14 @@ const NavComponent = () => {
           href="#home"
           className="d-none d-lg-flex align-items-center"
         >
-          <img
-            src="https://img.icons8.com/?size=100&id=13930&format=png&color=000000"
-            alt="logoLinkedin"
-            style={{ width: "50px", height: "50px" }}
-            className=""
-          />
+          <Link to={"/"}>
+            <img
+              src="https://img.icons8.com/?size=100&id=13930&format=png&color=000000"
+              alt="logoLinkedin"
+              style={{ width: "50px", height: "50px" }}
+              className=""
+            />
+          </Link>
         </Navbar.Brand>
 
         {/* Icona del profilo visibile solo su mobile */}
@@ -85,19 +89,19 @@ const NavComponent = () => {
             inputProps={{
               style: { padding: "5px 10px" }, // Mantieni il padding interno
             }}
-            style={{width: "85%", backgroundColor: "#ebf4fd" }}
+            style={{ width: "85%", backgroundColor: "#ebf4fd" }}
             variant="outlined" // Mantieni la variante outlined
           />
         </div>
 
-
-
         {/* Navbar completa visibile solo su desktop */}
         <Nav className="d-flex align-items-center d-none d-lg-flex">
-          <Nav.Link href="#home" className="text-center mx-2">
-            <HomeRounded fontSize="medium" />
-            <div className="navFs">Home</div>
-          </Nav.Link>
+          <Link to={"/"} className="text-decoration-none">
+            <Nav.Link href="#home" className="text-center mx-2 ">
+              <HomeRounded fontSize="medium" />
+              <div className="navFs ">Home</div>
+            </Nav.Link>
+          </Link>
           <Nav.Link href="#features" className="text-center mx-2">
             <GroupRounded fontSize="medium" />
             <div className="navFs">Rete</div>

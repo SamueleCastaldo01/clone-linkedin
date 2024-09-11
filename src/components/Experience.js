@@ -247,15 +247,22 @@ const Experience = () => {
               </Button>
             ) : (
               <>
-              <Button onClick={() => deleteExperience(currentId)} variant="outlined" color="error" className="w-50 mt-3">Delete</Button>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                className="w-50 mt-3"
-              >
-                Modifica
-              </Button>
+                <Button
+                  onClick={() => deleteExperience(currentId)}
+                  variant="outlined"
+                  color="error"
+                  className="w-50 mt-3"
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  className="w-50 mt-3"
+                >
+                  Modifica
+                </Button>
               </>
             )}
           </form>
