@@ -134,11 +134,13 @@ header {
   position: relative;
   height: 200px;
   background-color: gray;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAABwCAMAAAC6s4C9AAAAYFBMVEWgs7e/0tbc5+nc5urL2dy+0tTA0digs7mfsrbc6OigtLXa6emesbOdsLPa5+mitbi9zM/T4OK6yM6sur+vv8LN3t61xsa0wsaou7zG19rU4+awvsHQ3N+7zM7a6uqfsrkMs0p+AAACyUlEQVR4nO3d23KiQBRG4U6Cw5ZGNirKIZPJ+7/lNIe5mxLv0r+1vlR8gKzazcHQhID/sEvz/oyP4nA4/Hr7UT/9t8qUXScSiiuLp8aQhPmyNj7TkIT5si42xyMJlfmNhOLqQxpDEiqr75Ep1FYNEwm1mRdzo52KJMyYlS0JxVlPQnF2nRoSCrP0e4tHEkqzdGVIQmnpyjCSUFo1pIQ7SJgvSz9+YwqllaWNTSShsJSwJaG0lLAnobSyDN1EQmVpCv2895UhCXOWpjAUJFSWElrLQqosLaR2ZwqlpYSfEwllVcvnMO3cYiNhvpaE5gUJZa1T6CMJZa0J65aEskgob0vYk1DWlrAjoaw14e6ToiTM13pRUTsJlblbCL9JKMw9zWFBQmFLwvGDhLo8mFnLFAqbj4V2IaGweSE99SQUtkxhx7FQ2HJRcSWhsPmE1PzxBkIkzJ9zLBTHFL6AMwmVpdMZI6E6Esojobz68bdNJMydGQnFkfAFnEiojoTySCiPhOo4ndFHQnkspNLmPUlJKM9IqI7b3PpIqG7n0SYS5o7/YHsBJJRHQnU2kFCcdQ8LkjB7fureHz5UQcJ8lcvDaVV9ZwpV/UvIU76y5oTBq/qNhKq2KfSRhKq2KXT2nZG1JmT3J2HLQur1QEJZ20LaPb45Q8Ls1T0JZW17c1/Yj1TWlpCNnXVtW8qyQ76uOaEF3lMhbHtbzJmEstaNnTte+KNrSXi6NySUtU7hFwm1mY8Nl/ayyjSI1XDbKUjCjK0JIwl1zQnrjoTCloRfcedshoQZKy0lHJlCYcux8PaHKdQ1JxwiC6mw72DVPbKQSrP5bCbyXntZy1vT4u5KSsJ8uQef0kJKQllVsG6+QUpCWR7W995xLNRloWhIqMzseiahtlPfkFCbtQ3HQmnpUPhOQmn2ufNMEwlzt62jJNRVFiTUZten1tEsEv4Fzxd3rysH1sAAAAAASUVORK5CYII=);
 }
 .bannerProfile2 {
   position: relative;
   height: 70px;
   background-color: gray;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAABwCAMAAAC6s4C9AAAAYFBMVEWgs7e/0tbc5+nc5urL2dy+0tTA0digs7mfsrbc6OigtLXa6emesbOdsLPa5+mitbi9zM/T4OK6yM6sur+vv8LN3t61xsa0wsaou7zG19rU4+awvsHQ3N+7zM7a6uqfsrkMs0p+AAACyUlEQVR4nO3d23KiQBRG4U6Cw5ZGNirKIZPJ+7/lNIe5mxLv0r+1vlR8gKzazcHQhID/sEvz/oyP4nA4/Hr7UT/9t8qUXScSiiuLp8aQhPmyNj7TkIT5si42xyMJlfmNhOLqQxpDEiqr75Ep1FYNEwm1mRdzo52KJMyYlS0JxVlPQnF2nRoSCrP0e4tHEkqzdGVIQmnpyjCSUFo1pIQ7SJgvSz9+YwqllaWNTSShsJSwJaG0lLAnobSyDN1EQmVpCv2895UhCXOWpjAUJFSWElrLQqosLaR2ZwqlpYSfEwllVcvnMO3cYiNhvpaE5gUJZa1T6CMJZa0J65aEskgob0vYk1DWlrAjoaw14e6ToiTM13pRUTsJlblbCL9JKMw9zWFBQmFLwvGDhLo8mFnLFAqbj4V2IaGweSE99SQUtkxhx7FQ2HJRcSWhsPmE1PzxBkIkzJ9zLBTHFL6AMwmVpdMZI6E6Esojobz68bdNJMydGQnFkfAFnEiojoTySCiPhOo4ndFHQnkspNLmPUlJKM9IqI7b3PpIqG7n0SYS5o7/YHsBJJRHQnU2kFCcdQ8LkjB7fureHz5UQcJ8lcvDaVV9ZwpV/UvIU76y5oTBq/qNhKq2KfSRhKq2KXT2nZG1JmT3J2HLQur1QEJZ20LaPb45Q8Ls1T0JZW17c1/Yj1TWlpCNnXVtW8qyQ76uOaEF3lMhbHtbzJmEstaNnTte+KNrSXi6NySUtU7hFwm1mY8Nl/ayyjSI1XDbKUjCjK0JIwl1zQnrjoTCloRfcedshoQZKy0lHJlCYcux8PaHKdQ1JxwiC6mw72DVPbKQSrP5bCbyXntZy1vT4u5KSsJ8uQef0kJKQllVsG6+QUpCWR7W995xLNRloWhIqMzseiahtlPfkFCbtQ3HQmnpUPhOQmn2ufNMEwlzt62jJNRVFiTUZten1tEsEv4Fzxd3rysH1sAAAAAASUVORK5CYII=);
 }
 
 .divAv {
@@ -192,6 +194,32 @@ header {
 
 .navFs {
   font-size: 12px;
+}
+
+.css-xiduvl-MuiPaper-root-MuiCard-root {
+  max-width: 100% !important;
+}
+
+.expandIcon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.expandIcon.rotated {
+  transform: rotate(180deg);
+}
+
+.css-xiduvl-MuiPaper-root-MuiCard-root {
+  max-width: 100% !important;
+}
+
+.expandIcon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.expandIcon.rotated {
+  transform: rotate(180deg);
 }
 
 .jobTitle {
