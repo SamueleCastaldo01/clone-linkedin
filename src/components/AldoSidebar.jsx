@@ -9,7 +9,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import EditIcon from "@mui/icons-material/Edit";
 import { useParams } from "react-router";
 
-function TabProfile() {
+const AldoSidebar = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
   const [flagPerm, setFlagPerm] = useState(false);
@@ -45,14 +45,15 @@ function TabProfile() {
     } else {
       setFlagPerm(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   if (isLoading) return <p>Loading...</p>;
-  console.log(profile);
+  console.log("profile", profile);
   return (
     <>
       <div className="bg-white rounded-4 position-relative tabPro">
-        <div className="bannerProfile rounded-4">
+        <div className="bannerProfile2 rounded-4">
           <div className="divCam">
             <IconButton size="small" aria-label="delete">
               <CameraAltIcon style={{ color: "#0A66C2" }} />
@@ -62,7 +63,7 @@ function TabProfile() {
           <div className="divAv">
             <Avatar
               src={profile.image}
-              sx={{ bgcolor: deepOrange[500], width: 130, height: 130 }}
+              sx={{ bgcolor: deepOrange[500], width: 90, height: 90 }}
             >
               {profile.name[0]}
             </Avatar>
@@ -81,34 +82,18 @@ function TabProfile() {
           <div className="row mt-4">
             <div className="col-8">
               <h3 className="m-0">
-                {profile.name.charAt(0).toUpperCase() + profile.name.slice(1)}{" "}
+                {profile.name.charAt(0).toUpperCase() + profile.name.slice(1)} -{" "}
                 {profile.surname.charAt(0).toUpperCase() +
                   profile.surname.slice(1)}
               </h3>
               <p className="m-0">{profile.bio}</p>{" "}
               {/* Qui viene mostrato il titolo di lavoro */}
-              <p className="pTabProfile mt-1">
-                {profile.area} -{" "}
-                <span className="fw-medium" style={{ color: "#0A66C2" }}>
-                  <a>Informazioni di contatto</a>
-                </span>
-              </p>
+              <p className="pTabProfile mt-1">{profile.area} </p>
             </div>
-            <div className="col-4">
-              <h5>immagine</h5>
-            </div>
-          </div>
-
-          <div className="d-flex justify-content-start gap-1">
-            <button className="buTabProfile">Disponibile per</button>
-            <button className="butProSec">Aggiungi sezione del profilo</button>
-            <button className="butProSec">Migliora profilo</button>
-            <button className="butProGra">Altro</button>
           </div>
         </div>
       </div>
     </>
   );
-}
-
-export default TabProfile;
+};
+export default AldoSidebar;

@@ -2,8 +2,6 @@
   text-align: center;
 }
 
-
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -30,7 +28,9 @@
   height: 2.5rem;
 }
 
-main, footer, header {
+main,
+footer,
+header {
   text-align: left;
   padding-left: 12%;
   padding-right: 12%;
@@ -38,23 +38,31 @@ main, footer, header {
 
 /* Media query per schermi tra md e lg */
 @media (min-width: 992px) and (max-width: 1360px) {
-  main, footer, header {
+  main,
+  footer,
+  header {
     padding-left: 6%;
     padding-right: 6%;
   }
 }
 
 /* Media query per schermi medi (md) */
-@media (max-width: 992px) { /* Bootstrap md è a 992px */
-  main, footer, header {
+@media (max-width: 992px) {
+  /* Bootstrap md è a 992px */
+  main,
+  footer,
+  header {
     padding-left: 4%;
     padding-right: 4%;
   }
 }
 
 /* Media query per schermi piccoli (sm) */
-@media (max-width: 768px) { /* Bootstrap sm è a 768px */
-  main, footer, header {
+@media (max-width: 768px) {
+  /* Bootstrap sm è a 768px */
+  main,
+  footer,
+  header {
     padding-left: 4%;
     padding-right: 4%;
   }
@@ -62,7 +70,8 @@ main, footer, header {
 
 header {
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
 .App-link {
@@ -87,8 +96,6 @@ header {
   font-weight: bold;
   opacity: 0.5;
 }
-
-
 
 .buTabProfile,
 .butProSec,
@@ -126,6 +133,11 @@ header {
 .bannerProfile {
   position: relative;
   height: 200px;
+  background-color: gray;
+}
+.bannerProfile2 {
+  position: relative;
+  height: 70px;
   background-color: gray;
 }
 

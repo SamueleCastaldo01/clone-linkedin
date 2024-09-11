@@ -1,14 +1,11 @@
-import { Row, Col, Dropdown } from "react-bootstrap";
-import HelpIcon from "@mui/icons-material/Help";
-import SettingsIcon from "@mui/icons-material/Settings";
-import SecurityIcon from "@mui/icons-material/Security";
+import { Col, Row } from "react-bootstrap";
 
-const MyFooter = () => {
+const FootAldo = () => {
   return (
     <div className="text-center text-lg-start divFooter">
       <Row>
-        <Col lg={9}>
-          <Row>
+        <Col lg={12}>
+          <Row className="justify-content-around">
             {/* Section: Links 1 */}
             <Col lg={3} md={6} className="mb-4">
               <a
@@ -124,83 +121,10 @@ const MyFooter = () => {
                 </li>
               </ul>
             </Col>
-
-            {/* Section: Links 4 */}
-            <Col lg={3} md={6} className="mb-4">
-              <ul className="list-unstyled">
-                <div className="d-flex align-items-start">
-                  <HelpIcon className="me-2" />
-                  <li>
-                    <a
-                      href="https://www.linkedin.com/help/linkedin?trk=d_flagship3_profile_view_base"
-                      className="text-body"
-                    >
-                      <h6 className="mb-0">Domande?</h6>
-                    </a>
-                    <p className="text-muted">
-                      Visita il nostro Centro assistenza
-                    </p>
-                  </li>
-                </div>
-                <div className="d-flex align-items-start">
-                  <SettingsIcon className="me-2" />
-                  <li>
-                    <a
-                      href="https://www.linkedin.com/mypreferences/d/categories/account"
-                      className="text-body"
-                    >
-                      <h6 className="mb-0">
-                        Gestisci il tuo account e la tua privacy
-                      </h6>
-                    </a>
-                    <p className="text-muted">Vai alle impostazioni</p>
-                  </li>
-                </div>
-                <div className="d-flex align-items-start">
-                  <SecurityIcon className="me-2" />
-
-                  <li>
-                    <a
-                      href="https://www.linkedin.com/help/linkedin/answer/a1339724"
-                      className="text-body"
-                    >
-                      <h6 className="mb-0">
-                        Trasparenza sui contenuti consigliati
-                      </h6>
-                    </a>
-                    <p className="text-muted">
-                      Scopri di più sui contenuti consigliati
-                    </p>
-                  </li>
-                </div>
-              </ul>
-            </Col>
           </Row>
         </Col>
-
-        {/* Language Dropdown */}
-        <Col lg={3} className="d-flex align-items-center justify-content-end">
-          <Dropdown>
-            <p className="mb-0">Seleziona lingua</p>
-            <Dropdown.Toggle variant="outline-dark" id="dropdown-language">
-              Italiano (Italiano)
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Italiano</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">English</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Français</Dropdown.Item>
-              <Dropdown.Item href="#/action-4">Español</Dropdown.Item>
-              <Dropdown.Item href="#/action-5">Deutsch</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
       </Row>
-      <div>LinkedIn Corporation © 2024</div>
-
-      {/* Copyright */}
     </div>
   );
 };
-
-export default MyFooter;
+export default FootAldo;
