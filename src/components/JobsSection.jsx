@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
+import { fetchJobsAction } from "../redux/actions/profileActions";
 
 const JobSection = function () {
-
+  const dispatch = useDispatch()
   const jobs = useSelector((state) => state.jobs.jobs);
+
+  useEffect(() => {
+    dispatch(fetchJobsAction("developer"))
+  }, [])
   
   return (
     <>
