@@ -11,7 +11,7 @@ export const postReducer = (state = initialState, action) => {
         case FETCH_POSTS:
             return {
                 ...state,
-                post: action.payload,
+                posts: action.payload,
                 error: null
             }
 

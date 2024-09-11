@@ -5,17 +5,19 @@ import { fetchPostsAction } from "../redux/actions/profileActions";
 const TestPostsPage = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts); // Accesso ai post dal reducer
-  console.log('ECCO I POST',posts);
   const error = useSelector((state) => state.posts.error); // Accesso agli errori dal reducer
 
   useEffect(() => {
-    dispatch(fetchPostsAction()); // Richiama l'azione al caricamento della pagina
-    console.log('ECCO I POST',posts);
+    // Richiama l'azione al caricamento della pagina
+    dispatch(fetchPostsAction());
   }, [dispatch]);
 
-  useEffect(()=> {
-    console.log('Array post fetch:', posts);
-  }, [])
+  // Usa un secondo useEffect per loggare i post quando cambiano
+  useEffect(() => {
+    if (posts && posts.length > 0) {
+      console.log('Array post fetch:', posts);
+    }
+  }, [posts]);
 
   return (
     <div>
@@ -24,7 +26,7 @@ const TestPostsPage = () => {
         <p>Error: {error}</p>
       ) : (
         <ul>
-          {posts.map((post, index) => (
+          {posts && posts.map((post, index) => (
             <li key={index}>{post.text}</li>
           ))}
         </ul>
@@ -34,3 +36,4 @@ const TestPostsPage = () => {
 };
 
 export default TestPostsPage;
+

@@ -195,14 +195,15 @@ const POSTS_URL = 'https://striveschool-api.herokuapp.com/api/posts/'
 
 export const fetchPostsAction = () => async (dispatch) => {
   try {
-    const response = axios.get(POSTS_URL, {
+    const response = await axios.get(POSTS_URL, {
       headers: { Authorization: 'Bearer ' + TOKEN },
     });
+    console.log('response',response.data)
     dispatch({
       type : FETCH_POSTS,
-      payload : response.data
+      payload : response.data.slice(-30)
     })
-    console.log('response',response.data)
+
   } catch (error) {
     dispatch({
       type: POSTS_ERROR,
