@@ -10,7 +10,7 @@ const SearchResults = () => {
 
     useEffect(() => {
         if (searchTerm) {
-            dispatch(fetchProfiles());
+            dispatch(fetchProfiles(searchTerm));
         }
     }, [dispatch, searchTerm]);
 

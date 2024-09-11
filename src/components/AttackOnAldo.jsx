@@ -17,9 +17,13 @@ const AttackOnAldo = () => {
 
   React.useEffect(() => {
     if (searchTerm) {
-      dispatch(fetchProfiles());
+      dispatch(fetchProfiles(searchTerm));
     }
   }, [dispatch, searchTerm]);
+
+  const handleClick = () => {
+    dispatch(fetchProfiles());
+  }
 
   return (
     <div className="tabPro mt-2">
@@ -40,6 +44,7 @@ const AttackOnAldo = () => {
               <Link
                 to={`/profile/${profile._id}`}
                 style={{ textDecoration: "none", color: "inherit" }}
+                onClick={() => {handleClick()}}
               >
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar>

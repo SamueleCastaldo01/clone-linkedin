@@ -25,7 +25,8 @@ const shuffleArray = (array) => {
 };
 
 // Funzione per ottenere la lista dei profili utente o cercare profili
-export const fetchProfiles = () =>
+export const fetchProfiles =
+  (searchTerm = "") =>
   async (dispatch) => {
     try {
       // Chiamata API per ottenere tutti i profili
@@ -34,8 +35,17 @@ export const fetchProfiles = () =>
       });
       console.log("Fetch profiles:", response.data);
 
-      // Mescolare i profili
-      const shuffledProfiles = shuffleArray(response.data);
+      // Filtrare i profili in base ai criteri di ricerca
+      const filteredProfiles = response.data.filter(
+        (profile) =>
+          profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      console.log("Filtered profiles:", filteredProfiles);
+
+      // Mescolare i profili filtrati
+      const shuffledProfiles = shuffleArray(filteredProfiles);
 
       // Prendere massimo i primi 5 profili casuali
       const randomProfiles = shuffledProfiles.slice(0, 5);
