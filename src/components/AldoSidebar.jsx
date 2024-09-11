@@ -15,6 +15,7 @@ const AldoSidebar = () => {
   const [flagPerm, setFlagPerm] = useState(false);
   const profile = useSelector((state) => state.profile.profile);
   const [isLoading, setIsLoading] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const idAldo = "66dff513af434b00159d8330";
 
@@ -50,6 +51,18 @@ const AldoSidebar = () => {
 
   if (isLoading) return <p>Loading...</p>;
   console.log("profile", profile);
+
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const maxLength = 63;
+
+  const truncatedBio =
+    profile.bio.length > maxLength
+      ? profile.bio.slice(0, maxLength) + "..."
+      : profile.bio;
+
   return (
     <>
       <div className="bg-white rounded-4 position-relative tabPro">
@@ -63,7 +76,7 @@ const AldoSidebar = () => {
           <div className="divAv">
             <Avatar
               src={profile.image}
-              sx={{ bgcolor: deepOrange[500], width: 90, height: 90 }}
+              sx={{ bgcolor: deepOrange[500], width: 80, height: 80 }}
             >
               {profile.name[0]}
             </Avatar>
@@ -81,12 +94,23 @@ const AldoSidebar = () => {
         <div className="p-3">
           <div className="row mt-4">
             <div className="col-8">
-              <h3 className="m-0">
+              <h4 className="m-0">
                 {profile.name.charAt(0).toUpperCase() + profile.name.slice(1)} -{" "}
                 {profile.surname.charAt(0).toUpperCase() +
                   profile.surname.slice(1)}
-              </h3>
-              <p className="m-0">{profile.bio}</p>{" "}
+              </h4>
+              <p className="m-0">
+                {" "}
+                {isExpanded ? profile.bio : truncatedBio}
+                {profile.bio.length > maxLength && (
+                  <span
+                    onClick={handleToggleExpand}
+                    style={{ color: "#0A66C2", cursor: "pointer" }}
+                  >
+                    {isExpanded ? " Mostra meno" : " Mostra altro"}
+                  </span>
+                )}
+              </p>{" "}
               {/* Qui viene mostrato il titolo di lavoro */}
               <p className="pTabProfile mt-1">{profile.area} </p>
             </div>
