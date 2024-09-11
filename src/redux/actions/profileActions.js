@@ -303,15 +303,26 @@ const company = '?company='
 
 export const fetchJobsAction = (query) => async (dispatch) => {
   try {
-    const response = await axios.get(JOBS_URL + search + query)
-    dispatch({
-      type: FETCH_JOBS_SEARCH,
-      payload: response.data
-    })
+    const response = await axios.get(JOBS_URL + search + query);
+
+    // Assumiamo che response.data sia l'array dei lavori che vogliamo salvare nel redux store
+    const jobsArray = response.data.data;  // Estrai l'array `data` dalla risposta
+
+    // Verifica se jobsArray è un array valido
+    if (Array.isArray(jobsArray)) {
+      dispatch({
+        type: FETCH_JOBS_SEARCH,
+        payload: jobsArray.slice(0, 10),  // Passa l'array al reducer
+      });
+      console.log('Jobs array:', jobsArray);
+    } else {
+      throw new Error('La struttura dei dati non è valida, array mancante.');
+    }
   } catch (error) {
     dispatch({
       type: JOBS_ERROR,
-      payload: error.messsage
-    })
+      payload: error.message,  // Corretto il messaggio d'errore
+    });
+    console.error('Errore nella fetch:', error.message);
   }
-}
+};

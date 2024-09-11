@@ -50,7 +50,6 @@ const AldoSidebar = () => {
   }, [userId]);
 
   if (isLoading) return <p>Loading...</p>;
-  console.log("profile", profile);
 
   const handleToggleExpand = () => {
     setIsExpanded(!isExpanded);
