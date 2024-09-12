@@ -350,7 +350,7 @@ export const fetchCommentsAction = () => async (dispatch) => {
     })
     dispatch({
       type: FETCH_COMMENTS,
-      payload: response.data,
+      payload: response.data.slice(-5),
     });
   } catch (error) {
     dispatch({
