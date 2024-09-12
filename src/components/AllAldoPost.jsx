@@ -4,7 +4,7 @@ import {
   fetchPostsAction,
   deletePostAction,
   updatePostAction,
-} from "../redux/actions/profileActions"; // Importa le azioni
+} from "../redux/actions/profileActions";
 import {
   Card,
   CardHeader,
@@ -24,7 +24,6 @@ import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 import SendIcon from "@mui/icons-material/Send";
 import { Modal, Button } from "react-bootstrap";
-
 import CardMedia from "@mui/material/CardMedia";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommentAldo from "./CommentAldo";
@@ -38,7 +37,7 @@ const ExpandMore = ({ expand, onClick, ...other }) => {
         aria-label="show more"
         style={{
           transform: expand ? "rotate(180deg)" : "rotate(0deg)",
-          transition: "transform 0.3s ease", // Applicazione della transizione
+          transition: "transform 0.3s ease",
         }}
       >
         <ExpandMoreIcon />
@@ -50,37 +49,39 @@ const ExpandMore = ({ expand, onClick, ...other }) => {
 
 const AllAldoPost = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.posts); // Recupera i post dal Redux store
+  const posts = useSelector((state) => state.posts.posts);
 
-  const [expanded, setExpanded] = useState(false);
+  const [expandedPostId, setExpandedPostId] = useState(null); // ID del post espanso
   const [editPost, setEditPost] = useState(null); // Post corrente in modifica
   const [editText, setEditText] = useState(""); // Testo del post in modifica
   const [show, setShow] = useState(false);
   const [postId, setPostId] = useState("");
 
   useEffect(() => {
-    dispatch(fetchPostsAction()); // Fetch dei post al caricamento del componente
+    dispatch(fetchPostsAction());
   }, [dispatch]);
 
   const handleEditPost = (post) => {
-    setEditPost(post); // Imposta il post da modificare
-    setEditText(post.text); // Imposta il testo per l'editing
+    setEditPost(post);
+    setEditText(post.text);
     setPostId(post._id);
-    setShow(true); // Mostra la modale
+    setShow(true);
   };
 
   const handleDeletePost = (postId) => {
-    dispatch(deletePostAction(postId)); // Elimina il post
+    dispatch(deletePostAction(postId));
     setShow(false);
   };
 
   const handleSaveEditPost = () => {
-    dispatch(updatePostAction(editPost._id, { text: editText })); // Modifica il post
-    setShow(false); // Chiudi la modale
+    dispatch(updatePostAction(editPost._id, { text: editText }));
+    setShow(false);
   };
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+
+  const handleExpandClick = (postId) => {
+    setExpandedPostId(expandedPostId === postId ? null : postId); // Toggle espansione
   };
+
   return (
     <div>
       {posts.map((post) => (
@@ -94,7 +95,7 @@ const AllAldoPost = () => {
             action={
               <IconButton
                 aria-label="settings"
-                onClick={() => {handleEditPost(post)}}
+                onClick={() => handleEditPost(post)}
               >
                 <MoreVertIcon />
               </IconButton>
@@ -119,9 +120,9 @@ const AllAldoPost = () => {
           />
           <CardActions disableSpacing className="justify-content-end mx-3">
             <ExpandMore
-              expand={expanded}
-              onClick={()=>{handleExpandClick()}}
-              aria-expanded={expanded}
+              expand={expandedPostId === post._id} // Controlla se questo post è espanso
+              onClick={() => handleExpandClick(post._id)}
+              aria-expanded={expandedPostId === post._id}
               aria-label="show more"
             />
           </CardActions>
@@ -139,10 +140,10 @@ const AllAldoPost = () => {
               <SendIcon />
             </IconButton>
           </div>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Collapse in={expandedPostId === post._id} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography sx={{ marginBottom: 2 }}>
-                <CommentAldo key={post._id}/>
+                <CommentAldo key={post._id} />
               </Typography>
             </CardContent>
           </Collapse>
@@ -181,3 +182,4 @@ const AllAldoPost = () => {
 };
 
 export default AllAldoPost;
+

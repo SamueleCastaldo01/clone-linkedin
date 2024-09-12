@@ -341,11 +341,12 @@ export const fetchJobsAction = (query) => async (dispatch) => {
 
 // AZIONI PER I COMMENTI
 const COMMENTS_POST_URL = "https://striveschool-api.herokuapp.com/api/comments/"
+const TOKEN_FOR_COOMENTS = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUyYmNiNjU0M2E0YzAwMTU5MDFlMTkiLCJpYXQiOjE3MjYxMzU0NzgsImV4cCI6MTcyNzM0NTA3OH0.zqvix3VlQQc_YEOZqgIjN6p7UYvvFRZHJiHAWVImpI4'
 
 export const fetchCommentsAction = (postId) => async (dispatch) => {
   try {
     const response = await axios.get(COMMENTS_POST_URL + postId, {
-      headers: { Authorization: "Bearer " + TOKEN },
+      headers: { Authorization: "Bearer " + TOKEN_FOR_COOMENTS },
     })
     dispatch({
       type: FETCH_COMMENTS,
@@ -362,7 +363,7 @@ export const fetchCommentsAction = (postId) => async (dispatch) => {
 export const addCommentAction = (postId) => async (dispatch) => {
   try {
     const response = await axios.post(COMMENTS_POST_URL + postId, {
-      headers: { Authorization: "Bearer " + TOKEN },
+      headers: { Authorization: "Bearer " + TOKEN_FOR_COOMENTS },
     })
     dispatch({
       type: ADD_COMMENTS,
@@ -382,12 +383,12 @@ export const updateCommentAction = (commentId, updatedCommentData) => async (dis
       `${COMMENTS_POST_URL}/${commentId}`,
       updatedCommentData,
       {
-        headers: { Authorization: "Bearer " + TOKEN },
+        headers: { Authorization: "Bearer " + TOKEN_FOR_COOMENTS },
       }
     );
     dispatch({
       type: UPDATE_COMMENTS,
-      payload: { id: commentId, data: response.data }, // Passa l'ID e i dati aggiornati
+      payload: { id: commentId, data: response.data },
     });
   } catch (error) {
     dispatch({
@@ -400,11 +401,11 @@ export const updateCommentAction = (commentId, updatedCommentData) => async (dis
 export const deleteCommentAction = (commentId) => async (dispatch) => {
   try {
     await axios.delete(`${COMMENTS_POST_URL}/${commentId}`, {
-      headers: { Authorization: "Bearer " + TOKEN },
+      headers: { Authorization: "Bearer " + TOKEN_FOR_COOMENTS },
     });
     dispatch({
       type: DELETE_COMMENTS,
-      payload: commentId, // ID del post eliminato
+      payload: commentId,
     });
   } catch (error) {
     dispatch({
