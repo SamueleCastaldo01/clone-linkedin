@@ -13,10 +13,10 @@ const SearchPage = () => {
         </header>
         <main>
           <div className="row mt-3">
-            <div className="col-9">
+            <div className="col-md-8 col-sm-12">
               <AttackOnAldo />
             </div>
-            <div className="col-3 d-flex flex-column align-items-end">
+            <div className="col-4 d-sm-none d-md-flex flex-column align-items-end">
               <MyHomeSIdebar />
             </div>
           </div>
