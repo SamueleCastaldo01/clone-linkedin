@@ -360,9 +360,9 @@ export const fetchCommentsAction = () => async (dispatch) => {
   }
 }
 
-export const addCommentAction = (postId) => async (dispatch) => {
+export const addCommentAction = () => async (dispatch) => {
   try {
-    const response = await axios.post(COMMENTS_POST_URL + postId, {
+    const response = await axios.post(COMMENTS_POST_URL, {
       headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
     })
     dispatch({
