@@ -127,14 +127,15 @@ const Experience = () => {
                 </div>
                 <div>
                   <h6 className="m-0 fw-bold">{experience.role}</h6>
-                  <p className="m-0">{experience.area}</p>
-                  <p className="m-0">
-                    {moment(experience.startDate).format("DD/MM/YY")} -
+                  <p className="m-0 pExp">{experience.company}</p>
+                  <p className="m-0 jobCity">
+                  {experience.area} &nbsp; &nbsp;
+                     {moment(experience.startDate).format("DD/MM/YY")} - &nbsp;
                     {experience.endDate
                       ? moment(experience.endDate).format("DD/MM/YY")
                       : "Presente"}
                   </p>
-                  <p className="m-0">{experience.company}</p>
+                  
                 </div>
               </div>
               <div>

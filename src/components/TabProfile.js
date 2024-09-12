@@ -1,13 +1,16 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfile, fetchSpecificProfile } from "../redux/actions/profileActions";
+import {
+  fetchProfile,
+  fetchSpecificProfile,
+} from "../redux/actions/profileActions";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import EditIcon from "@mui/icons-material/Edit";
 import { useParams } from "react-router";
-import Modal from "@mui/material/Modal";
+import Modal from 'react-bootstrap/Modal';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -16,7 +19,7 @@ import axios from "axios";
 function TabProfile() {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  const [flagPerm, setFlagPerm] = useState(false)
+  const [flagPerm, setFlagPerm] = useState(false);
   const profile = useSelector((state) => state.profile.profile);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,7 +28,8 @@ function TabProfile() {
   const [imageFile, setImageFile] = useState(null);
 
   const idAldo = "66dff513af434b00159d8330";
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
 
   function awaitAldo() {
     const fetchData = async () => {
@@ -43,56 +47,64 @@ function TabProfile() {
     fetchData();
   }
 
-  useEffect(( ) => {
+  useEffect(() => {
     if (userId) {
       searchAldo();
     } else {
       awaitAldo();
     }
-    if(userId === idAldo) {
+    if (userId === idAldo) {
       setFlagPerm(true);
-    }else {
+    } else {
       setFlagPerm(false);
     }
   }, [userId]);
 
-   // Modal handlers
-   const handleOpen = () => setShowModal(true);
-   const handleClose = () => setShowModal(false);
- 
-   const handleFileChange = (event) => {
-     setImageFile(event.target.files[0]);
-   };
- 
-   const handleSubmit = async (event) => {
-     event.preventDefault();
- 
-     if (!imageFile) return;
- 
-     const formData = new FormData();
-     formData.append("profile", imageFile); // Supponendo che si sta caricando un'immagine del profilo
- 
-     try {
-       await axios.post(`https://striveschool-api.herokuapp.com/api/profile/${userId || idAldo}/picture`, formData, {
-         headers: {
-           "Content-Type": "multipart/form-data",
-           "Authorization": `Bearer ${token}`, 
-         },
-       });
- 
-       // Recupero il profilo per ottenere l'immagine aggiornata
-       if (userId) {
-         dispatch(fetchSpecificProfile(userId));
-       } else {
-         dispatch(fetchProfile(idAldo));
-       }
- 
-       handleClose();
-     } catch (error) {
-       console.error("Error uploading image:", error.response?.data || error.message);
-     }
-   };
+  // Modal handlers
+  const handleOpen = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
 
+  const handleFileChange = (event) => {
+    setImageFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!imageFile) return;
+
+    const formData = new FormData();
+    formData.append("profile", imageFile); // Supponendo che si sta caricando un'immagine del profilo
+
+    try {
+      await axios.post(
+        `https://striveschool-api.herokuapp.com/api/profile/${
+          userId || idAldo
+        }/picture`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Recupero il profilo per ottenere l'immagine aggiornata
+      if (userId) {
+        dispatch(fetchSpecificProfile(userId));
+      } else {
+        dispatch(fetchProfile(idAldo));
+      }
+
+      handleClose();
+    } catch (error) {
+      console.error(
+        "Error uploading image:",
+        error.response?.data || error.message
+      );
+    }
+  };
 
   if (isLoading) return <p>Loading...</p>;
   console.log(profile);
@@ -102,43 +114,11 @@ function TabProfile() {
         <div className="bannerProfile rounded-4">
           <div className="divCam">
             <IconButton size="small" aria-label="delete">
-              <CameraAltIcon style={{ color: "#0A66C2" }} onClick={handleOpen} />
+              <CameraAltIcon
+                style={{ color: "#0A66C2" }}
+                onClick={handleOpen}
+              />
             </IconButton>
-            <Modal open={showModal} onClose={handleClose}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24, 
-            p: 4,
-          }}
-        >
-          <h2>Aggiungi Foto</h2>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              type="file"
-              fullWidth
-              onChange={handleFileChange}
-              sx={{ mt: 2 }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              fullWidth
-              sx={{ mt: 2 }}
-              onClick={handleSubmit}
-            >
-              Carica
-            </Button>
-          </form>
-        </Box>
-      </Modal>
           </div>
 
           <div className="divAv">
@@ -152,12 +132,11 @@ function TabProfile() {
         </div>
 
         <div className="divEdi">
-          {flagPerm &&
-          <IconButton size="medium" aria-label="delete">
-            <EditIcon style={{ color: "black" }} />
-          </IconButton>
-          }
-
+          {flagPerm && (
+            <IconButton size="medium" aria-label="delete">
+              <EditIcon style={{ color: "black" }} />
+            </IconButton>
+          )}
         </div>
 
         <div className="p-3">
@@ -190,6 +169,28 @@ function TabProfile() {
           </div>
         </div>
       </div>
+
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Inserisci immagine</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <TextField
+              type="file"
+              fullWidth
+              onChange={handleFileChange}
+              sx={{ mt: 2 }}
+            />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className="me-2" variant="contained" color="error"  onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="contained"  onClick={handleSubmit}>
+            Carica
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

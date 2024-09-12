@@ -15,13 +15,13 @@ const Jobs = () => {
                 </header>
                 <main>
                     <div className="row mt-3">
-                        <div className="col-3">
+                        <div className="col-md-3 d-sm-none d-lg-block">
                             <AldoSidebar />
                         </div>
-                        <div className="col-6">
+                        <div className="col-md-7 col-lg-6 col-sm-12">
                             <JobSection />
                         </div>
-                        <div className="col-3 d-flex flex-column align-items-end">
+                        <div className="col-md-5 col-lg-3 d-sm-none d-md-flex flex-column align-items-end">
                             <MyHomeSIdebar />
                             <FootAldo />
                         </div>

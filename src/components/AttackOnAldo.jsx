@@ -29,9 +29,7 @@ const AttackOnAldo = () => {
   };
 
   return (
-    <div className="tabPro mt-2">
-      <h2>Risultati della ricerca per "{searchTerm}"</h2>
-
+    <div className="tabPro">
       <div className="bg-white rounded-4 position-relative tabPro p-4 mb-4">
         <div className=" justify-content-between mb-3">
           <h5 className="fw-bold m-0">Persone</h5>
