@@ -41,6 +41,12 @@ const AllAldoPost = () => {
     dispatch(fetchPostsAction()); // Fetch dei post al caricamento del componente
   }, [dispatch]);
 
+  useEffect(() => {
+    if (posts) {
+      setShow(false); // Chiudi la modale dopo la modifica o eliminazione
+    }
+  }, [posts]);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
