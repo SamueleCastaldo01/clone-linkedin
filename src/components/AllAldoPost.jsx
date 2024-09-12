@@ -4,7 +4,7 @@ import {
   fetchPostsAction,
   deletePostAction,
   updatePostAction,
-} from "../redux/actions/profileActions";
+} from "../redux/actions/profileActions"; // Importa le azioni
 import {
   Card,
   CardHeader,
@@ -20,10 +20,12 @@ import { red } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PublicIcon from "@mui/icons-material/Public";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp"; //
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 import SendIcon from "@mui/icons-material/Send";
 import { Modal, Button } from "react-bootstrap";
+
 import CardMedia from "@mui/material/CardMedia";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommentAldo from "./CommentAldo";
@@ -49,43 +51,57 @@ const ExpandMore = ({ expand, onClick, ...other }) => {
 
 const AllAldoPost = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.posts);
+  const posts = useSelector((state) => state.posts.posts); // Recupera i post dal Redux store
 
-  const [expandedPostId, setExpandedPostId] = useState(null); // ID del post espanso
+  const [expanded, setExpanded] = useState(false);
   const [editPost, setEditPost] = useState(null); // Post corrente in modifica
   const [editText, setEditText] = useState(""); // Testo del post in modifica
   const [show, setShow] = useState(false);
   const [postId, setPostId] = useState("");
 
+  const [likedPosts, setLikedPosts] = useState({}); // Stato per tenere traccia dei post "likati"
+
   useEffect(() => {
-    dispatch(fetchPostsAction());
+    dispatch(fetchPostsAction()); // Fetch dei post al caricamento del componente
   }, [dispatch]);
 
   const handleEditPost = (post) => {
-    setEditPost(post);
-    setEditText(post.text);
+    setEditPost(post); // Imposta il post da modificare
+    setEditText(post.text); // Imposta il testo per l'editing
     setPostId(post._id);
-    setShow(true);
+    setShow(true); // Mostra la modale
   };
 
   const handleDeletePost = (postId) => {
-    dispatch(deletePostAction(postId));
+    dispatch(deletePostAction(postId)); // Elimina il post
     setShow(false);
   };
 
   const handleSaveEditPost = () => {
-    dispatch(updatePostAction(editPost._id, { text: editText }));
-    setShow(false);
+    dispatch(updatePostAction(editPost._id, { text: editText })); // Modifica il post
+    setShow(false); // Chiudi la modale
   };
 
-  const handleExpandClick = (postId) => {
-    setExpandedPostId(expandedPostId === postId ? null : postId); // Toggle espansione
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  // Funzione per gestire il "like" dei post
+  const toggleLike = (postId) => {
+    setLikedPosts((prevLikes) => ({
+      ...prevLikes,
+      [postId]: !prevLikes[postId], // Alterna il valore "like" del post
+    }));
   };
 
   return (
     <div>
       {posts.map((post) => (
-        <Card sx={{ maxWidth: 345 }} key={post._id} className="my-3 rounded-4 cardOmbra">
+        <Card
+          sx={{ maxWidth: 345 }}
+          key={post._id}
+          className="my-3 rounded-4 cardOmbra"
+        >
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -120,15 +136,23 @@ const AllAldoPost = () => {
           />
           <CardActions disableSpacing className="justify-content-end mx-3">
             <ExpandMore
-              expand={expandedPostId === post._id} // Controlla se questo post è espanso
-              onClick={() => handleExpandClick(post._id)}
-              aria-expanded={expandedPostId === post._id}
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
               aria-label="show more"
             />
           </CardActions>
           <div className="d-flex justify-content-around flex-grow-1">
-            <IconButton aria-label="add to favorites">
-              <ThumbUpOffAltIcon />
+            {/* Icona "like" con alternanza */}
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => toggleLike(post._id)} // Gestisce il click sull'icona
+            >
+              {likedPosts[post._id] ? (
+                <ThumbUpIcon /> // Mostra l'icona "like" se il post è "likato"
+              ) : (
+                <ThumbUpOffAltIcon /> // Mostra l'icona "non like" se non è "likato"
+              )}
             </IconButton>
             <IconButton aria-label="add comment">
               <CommentIcon />
@@ -140,7 +164,7 @@ const AllAldoPost = () => {
               <SendIcon />
             </IconButton>
           </div>
-          <Collapse in={expandedPostId === post._id} timeout="auto" unmountOnExit>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography sx={{ marginBottom: 2 }}>
                 <CommentAldo postId={post._id} />
@@ -182,4 +206,3 @@ const AllAldoPost = () => {
 };
 
 export default AllAldoPost;
-
