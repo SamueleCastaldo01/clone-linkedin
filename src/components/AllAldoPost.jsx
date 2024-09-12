@@ -20,6 +20,7 @@ import { red } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PublicIcon from "@mui/icons-material/Public";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp"; //
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 import SendIcon from "@mui/icons-material/Send";
@@ -38,7 +39,7 @@ const ExpandMore = ({ expand, onClick, ...other }) => {
         aria-label="show more"
         style={{
           transform: expand ? "rotate(180deg)" : "rotate(0deg)",
-          transition: "transform 0.3s ease", // Applicazione della transizione
+          transition: "transform 0.3s ease",
         }}
       >
         <ExpandMoreIcon />
@@ -57,6 +58,8 @@ const AllAldoPost = () => {
   const [editText, setEditText] = useState(""); // Testo del post in modifica
   const [show, setShow] = useState(false);
   const [postId, setPostId] = useState("");
+
+  const [likedPosts, setLikedPosts] = useState({}); // Stato per tenere traccia dei post "likati"
 
   useEffect(() => {
     dispatch(fetchPostsAction()); // Fetch dei post al caricamento del componente
@@ -78,13 +81,27 @@ const AllAldoPost = () => {
     dispatch(updatePostAction(editPost._id, { text: editText })); // Modifica il post
     setShow(false); // Chiudi la modale
   };
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  // Funzione per gestire il "like" dei post
+  const toggleLike = (postId) => {
+    setLikedPosts((prevLikes) => ({
+      ...prevLikes,
+      [postId]: !prevLikes[postId], // Alterna il valore "like" del post
+    }));
+  };
+
   return (
     <div>
       {posts.map((post) => (
-        <Card sx={{ maxWidth: 345 }} key={post._id} className="my-3 rounded-4 cardOmbra">
+        <Card
+          sx={{ maxWidth: 345 }}
+          key={post._id}
+          className="my-3 rounded-4 cardOmbra"
+        >
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -126,8 +143,16 @@ const AllAldoPost = () => {
             />
           </CardActions>
           <div className="d-flex justify-content-around flex-grow-1">
-            <IconButton aria-label="add to favorites">
-              <ThumbUpOffAltIcon />
+            {/* Icona "like" con alternanza */}
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => toggleLike(post._id)} // Gestisce il click sull'icona
+            >
+              {likedPosts[post._id] ? (
+                <ThumbUpIcon /> // Mostra l'icona "like" se il post è "likato"
+              ) : (
+                <ThumbUpOffAltIcon /> // Mostra l'icona "non like" se non è "likato"
+              )}
             </IconButton>
             <IconButton aria-label="add comment">
               <CommentIcon />
