@@ -154,6 +154,7 @@ const CommentAldo = () => {
                 <StarIcon style={{ color: "#FFD700" }} />{" "}
                 {/* Colore giallo per le stelle */}
               </div>
+              s
             </div>
           ))}
         </div>
