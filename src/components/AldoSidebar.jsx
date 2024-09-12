@@ -64,12 +64,10 @@ const AldoSidebar = () => {
 
   return (
     <>
-      <div className="bg-white rounded-4 position-relative tabPro">
+      <div className="bg-white rounded-4 position-relative tabPro mb-4">
         <div className="bannerProfile2 rounded-4">
           <div className="divCam">
-            <IconButton size="small" aria-label="delete">
-              <CameraAltIcon style={{ color: "#0A66C2" }} />
-            </IconButton>
+       
           </div>
 
           <div className="divAv">
