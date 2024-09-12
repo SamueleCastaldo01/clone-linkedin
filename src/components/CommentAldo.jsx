@@ -1,110 +1,178 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCommentsAction } from "../redux/actions/profileActions";
-import { Button, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Avatar, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import { deepOrange } from "@mui/material/colors";
+import StarIcon from '@mui/icons-material/Star';
 
-const CommentAldo = ({ postId }) => {
-useEffect(() => {
-  console.log("Questo è l'ID del post ",postId)
-},[postId]) 
+const CommentAldo = () => {
+  const profile = useSelector((state) => state.profile.profile); // Accesso al profilo dallo stato Redux
+  const profileImage = profile?.image ? profile.image : null;
 
-  // const dispatch = useDispatch()
-  // const comments = useSelector((state)=> state.comments.comments)
-  // const error = useSelector((state) => state.comments.error)
-  // console.log('QUESTI SONO I COMMENT',comments)
+  // Stato per il commento corrente, la lista dei commenti e il voto
+  const [currentComment, setCurrentComment] = useState("");
+  const [currentRating, setCurrentRating] = useState(1); // Default rating
+  const [comments, setComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  const [comments, setComments] = useState({
-    comment: "",
-    rate: "",
-    elementId: postId,
-  });
+   // Recupera i commenti all'inizio
+   useEffect(() => {
+    fetchComments();
+  }, []);
 
-  // useEffect(() => {
-  //   dispatch(fetchCommentsAction());
-  // }, [dispatch]);
-
-  const handleSubmit = (e) => {
-    //questo sarebbe il post
-    e.preventDefault();
-    // ora inviamo i dati alle API di EPICODE per salvare la prenotazione
-    // inviamo i dati tramite una chiamata con metodo 'POST'
-
-        // Aggiungi l'ID del post al commento prima di inviare
-        setComments((prevState) => ({
-          ...prevState,
-          elementId: postId,
-        }));
-
+  const fetchComments = () => {
     fetch("https://striveschool-api.herokuapp.com/api/comments/", {
-      method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUyYmNiNjU0M2E0YzAwMTU5MDFlMTkiLCJpYXQiOjE3MjYxMzU0NzgsImV4cCI6MTcyNzM0NTA3OH0.zqvix3VlQQc_YEOZqgIjN6p7UYvvFRZHJiHAWVImpI4",
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUyYmNiNjU0M2E0YzAwMTU5MDFlMTkiLCJpYXQiOjE3MjYxMzU0NzgsImV4cCI6MTcyNzM0NTA3OH0.zqvix3VlQQc_YEOZqgIjN6p7UYvvFRZHJiHAWVImpI4",
       },
-      body: JSON.stringify(comments),
     })
       .then((response) => {
         if (response.ok) {
-          // svuota i campi
-          setComments({
-            comment: "",
-            rate: "",
-            elementId: "",
-          });
-
+          return response.json();
         } else {
-          alert("riprova più tardi");
-          throw new Error("errore!");
+          throw new Error(`La chiamata non è andata a buon fine: ${response.status}`);
         }
       })
+      .then((arrayOfComments) => {
+        console.log("Commenti recuperati dal server:", arrayOfComments);
+        // Limita a 10 commenti
+        setComments(arrayOfComments.slice(-10));
+        setIsLoading(false);
+      })
       .catch((err) => {
-        alert(err);
+        console.error("Errore nel recupero dati:", err.message);
+        setIsLoading(false);
+        setIsError(true);
       });
   };
 
-  const handleChange = (e, property) => {
-    //questo è per i campi di input
-    setComments({
-      ...comments,
-      [property]: e.target.value,
-    });
+  // Gestione del cambiamento della textarea
+  const handleCommentChange = (event) => {
+    setCurrentComment(event.target.value);
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <TextField
-          className="w-100"
-          id="outlined-basic"
-          label="Commento"
-          variant="outlined"
-          required
-          onChange={(e) => {
-            handleChange(e, "comment");
-          }}
-          value={comments.comment}
-        />
-      </div>
-      <div>
-        <TextField
-          className="w-100 mb-2"
-          id="outlined-basic"
-          label="Rate"
-          type="number"
-          variant="outlined"
-          required
-          onChange={(e) => {
-            handleChange(e, "rate");
-          }}
-          value={comments.rate}
-        />
-      </div>
+  // Gestione del cambiamento del voto
+  const handleRatingChange = (event) => {
+    setCurrentRating(parseInt(event.target.value));
+  };
 
-      <Button type="submit" variant="inserisci">
-        Invia
-      </Button>
-    </form>
+  // Gestione del clic sul pulsante "Carica"
+  const handleSubmit = () => {
+    if (currentComment.trim()) {
+      setComments([...comments, { text: currentComment, rating: currentRating }]);
+      setCurrentComment(""); // Pulisce la textarea dopo l'invio
+      setCurrentRating(1); // Reset rating after submit
+    }
+  };
+
+
+
+  return (
+    <div className="bg-white p-1">
+      <div className="d-flex align-items-center">
+        <Avatar
+          src={profileImage}
+          sx={{
+            bgcolor: profileImage ? "transparent" : deepOrange[500],
+            width: 45,
+            height: 45,
+          }}
+        >
+          {!profileImage && profile?.name ? profile.name[0] : ""}
+        </Avatar>
+        <textarea
+          className="flex-grow-1 mx-2"
+          placeholder="Scrivi un commento..."
+          value={currentComment}
+          onChange={handleCommentChange}
+          style={{
+            borderRadius: 20,
+            padding: "5px 10px", // Ridotto il padding per renderla più bassa
+            border: "2px solid #ced4da",
+            width: "100%",
+            height: "40px", // Altezza fissa
+            resize: "none",
+            fontSize: "14px",
+            color: "#495057",
+            fontFamily: "Arial, sans-serif",
+            marginLeft: "0", // Rimosso lo spazio tra la textarea e l'immagine del profilo
+          }}
+        />
+        <FormControl style={{ marginLeft: "10px", minWidth: 60 }}>
+          <InputLabel>Voto</InputLabel>
+          <Select
+            value={currentRating}
+            onChange={handleRatingChange}
+            size="small"
+            label="Voto"
+          >
+            {[1, 2, 3, 4, 5].map((num) => (
+              <MenuItem key={num} value={num}>
+                {num}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          style={{
+            borderRadius: 50,
+            height: "40px", // Altezza fissa
+            marginLeft: "10px",
+            padding: "10px 16px",
+            textTransform: "none",
+            alignSelf: "center", // Allinea verticalmente il bottone
+          }}
+        >
+          Carica
+        </Button>
+      </div>
+      <div className="mt-3">
+        <h4>Commenti:</h4>
+        <div>
+          {comments.map((comment, index) => (
+            <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              <Avatar
+                src={profileImage}
+                sx={{
+                  bgcolor: profileImage ? "transparent" : deepOrange[500],
+                  width: 30,
+                  height: 30,
+                  marginRight: 10,
+                }}
+              >
+                {!profileImage && profile?.name ? profile.name[0] : ""}
+              </Avatar>
+              <div style={{
+                backgroundColor: "#F2F2F2",
+                borderRadius: 5,
+                padding: "10px",
+                fontSize: "14px",
+                color: "#495057",
+                fontFamily: "Arial, sans-serif",
+                maxWidth: "80%", // Limita la larghezza del box
+                wordWrap: "break-word", // Fa andare a capo il testo lungo
+                marginRight: '10px', // Spazio tra il box e il voto
+                flex: 1, // Permette al box di occupare spazio disponibile
+              }}>
+                {comment.comment}
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginLeft: 'auto', // Sposta il voto a destra
+              }}>
+                <span style={{ marginRight: '5px' }}>{comment.rate}</span>
+                <StarIcon style={{ color: '#FFD700' }} /> {/* Colore giallo per le stelle */}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
+
 export default CommentAldo;
