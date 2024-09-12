@@ -367,7 +367,7 @@ export const addCommentAction = () => async (dispatch) => {
     })
     dispatch({
       type: ADD_COMMENTS,
-      payload: response.data,
+      payload: response.data
     });
   } catch (error) {
     dispatch({
