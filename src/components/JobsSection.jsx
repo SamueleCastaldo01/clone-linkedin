@@ -14,7 +14,7 @@ const JobSection = function () {
 
   return (
     <>
-      <div className="bg-white rounded-4 position-relative tabPro p-4">
+      <div className="bg-white rounded-4 position-relative tabPro p-4 cardOmbra mb-5">
         <div className=" justify-content-between mb-3">
           <h5 className="fw-bold m-0">Offerte di lavoro per te</h5>
           <p>

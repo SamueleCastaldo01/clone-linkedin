@@ -235,3 +235,11 @@ header {
 .jobCompany {
   font-size: 15px;
 }
+
+.pExp {
+  font-size: 14px;
+}
+
+.cardOmbra {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
