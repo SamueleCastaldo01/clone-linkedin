@@ -35,7 +35,7 @@ const MySidebar = () => {
       <Box
         borderRadius={2}
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        className={"mb-2"}
+        className= "mb-2 cardOmbra rounded-4"
       >
         <nav aria-label="main mailbox folders">
           <List>
@@ -68,7 +68,7 @@ const MySidebar = () => {
       {/* qua verrà inserito il map delle persone che conosciamo */}
       <List
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        className="rounded-2 mb-2"
+        className="rounded-4 mb-2 cardOmbra"
       >
         <ListItem disablePadding>
           <div id="news">

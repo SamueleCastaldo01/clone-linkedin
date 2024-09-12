@@ -12,7 +12,7 @@ const MyHomeSIdebar = () => {
     <Box
       borderRadius={2}
       sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-      className={"mb-2"}
+      className= "mb-2 cardOmbra rounded-4"
     >
       <nav aria-label="main mailbox folders">
         <List>

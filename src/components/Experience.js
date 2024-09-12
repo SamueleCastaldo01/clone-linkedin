@@ -101,7 +101,7 @@ const Experience = () => {
 
   return (
     <>
-      <div className="bg-white rounded-4 position-relative tabPro mt-3 p-4">
+      <div className="bg-white rounded-4 position-relative tabPro mt-3 p-4 cardOmbra">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <h5 className="fw-bold m-0">Esperienza</h5>
           {flagPerm && (

@@ -83,7 +83,7 @@ const AllAldoPost = () => {
   return (
     <div>
       {posts.map((post) => (
-        <Card sx={{ maxWidth: 345 }} key={post._id} className="my-3 rounded-3">
+        <Card sx={{ maxWidth: 345 }} key={post._id} className="my-3 rounded-4 cardOmbra">
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

@@ -64,7 +64,7 @@ const AldoSidebar = () => {
 
   return (
     <>
-      <div className="bg-white rounded-4 position-relative tabPro mb-4">
+      <div className="bg-white rounded-4 position-relative tabPro mb-4 cardOmbra">
         <div className="bannerProfile2 rounded-4">
           <div className="divCam">
        

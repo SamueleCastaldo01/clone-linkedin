@@ -44,7 +44,7 @@ const NewAldoPost = () => {
   };
 
   return (
-    <div className="bg-white p-3 rounded-3">
+    <div className="bg-white p-3 rounded-4 cardOmbra">
       <div className="d-flex">
         <Avatar
           src={profile.image}
@@ -74,19 +74,19 @@ const NewAldoPost = () => {
       <div className="d-flex justify-content-between mt-3">
         <div className="d-flex align-items-center">
           <InsertPhotoIcon style={{ color: "#378FE9" }} />
-          <Typography variant="p" component="div" className="ms-1">
+          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
             Contenuti multimediali
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <CalendarMonthIcon style={{ color: "#C37D16" }} />
-          <Typography variant="p" component="div" className="ms-1">
+          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
             Evento
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <ArticleIcon style={{ color: "#E06847" }} />
-          <Typography variant="p" component="div" className="ms-1">
+          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
             Scrivi un articolo
           </Typography>
         </div>
