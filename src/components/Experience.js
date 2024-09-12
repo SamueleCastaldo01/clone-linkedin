@@ -33,6 +33,7 @@ const Experience = () => {
     endDate: "",
     description: "",
     area: "",
+    image: "", // Aggiunta del campo immagine
   });
 
   useEffect(() => {
@@ -65,6 +66,7 @@ const Experience = () => {
       endDate: experience.endDate,
       description: experience.description,
       area: experience.area,
+      image: experience.image || "", // Imposta l'immagine esistente o una stringa vuota
     });
     setCurrentId(experience._id);
     setModalMode("edit");
@@ -94,6 +96,7 @@ const Experience = () => {
       endDate: "",
       description: "",
       area: "",
+      image: "", // Resetta il campo immagine
     });
     setModalMode("add");
     setCurrentId(null);
@@ -120,7 +123,10 @@ const Experience = () => {
               <div className="d-flex align-items-center">
                 <div className="me-2">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
+                    src={
+                      experience.image ||
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
+                    } // Usa l'immagine fornita o una predefinita
                     style={{ width: "50px", height: "50px" }}
                     alt="company"
                   />
@@ -129,13 +135,12 @@ const Experience = () => {
                   <h6 className="m-0 fw-bold">{experience.role}</h6>
                   <p className="m-0 pExp">{experience.company}</p>
                   <p className="m-0 jobCity">
-                  {experience.area} &nbsp; &nbsp;
-                     {moment(experience.startDate).format("DD/MM/YY")} - &nbsp;
+                    {experience.area} &nbsp; &nbsp;
+                    {moment(experience.startDate).format("DD/MM/YY")} - &nbsp;
                     {experience.endDate
                       ? moment(experience.endDate).format("DD/MM/YY")
                       : "Presente"}
                   </p>
-                  
                 </div>
               </div>
               <div>
@@ -234,6 +239,18 @@ const Experience = () => {
                 setNewExperience({
                   ...newExperience,
                   description: e.target.value,
+                })
+              }
+            />
+            <TextField
+              label="Immagine URL" // Campo aggiunto per l'immagine
+              variant="outlined"
+              className="w-100 mt-3"
+              value={newExperience.image}
+              onChange={(e) =>
+                setNewExperience({
+                  ...newExperience,
+                  image: e.target.value,
                 })
               }
             />
