@@ -5,7 +5,7 @@ import { Button, TextField } from "@mui/material";
 
 const CommentAldo = ({ postId }) => {
 useEffect(() => {
-  console.log(postId)
+  console.log("Questo è l'ID del post ",postId)
 },[postId]) 
 
   // const dispatch = useDispatch()
