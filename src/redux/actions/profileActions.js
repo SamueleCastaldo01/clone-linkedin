@@ -19,6 +19,8 @@ import {
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
+//ACTIONS PER IL PROFILE
+
 const PROFILE_URL = "https://striveschool-api.herokuapp.com/api/profile/";
 const TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
@@ -127,6 +129,8 @@ export const updateProfile = (profile) => async (dispatch) => {
   }
 };
 
+// ACTIONS PER LE ESPERIENZE
+
 export const Experiencesfetch = (userId) => async (dispatch) => {
   try {
     const response = await axios.get(PROFILE_URL + userId + "/experiences", {
@@ -220,6 +224,8 @@ export const modifyExperienceAction =
     }
   };
 
+  //ACTIONS PER I POSTS
+
 const POSTS_URL = "https://striveschool-api.herokuapp.com/api/posts/";
 
 export const fetchPostsAction = () => async (dispatch) => {
@@ -297,6 +303,8 @@ export const updatePostAction =
     }
   };
 
+  // ACTIONS PER I LAVORI
+
 const JOBS_URL = 'https://strive-benchmark.herokuapp.com/api/jobs'
 const search = '?search='
 const company = '?company='
@@ -326,3 +334,5 @@ export const fetchJobsAction = (query) => async (dispatch) => {
     console.error('Errore nella fetch:', error.message);
   }
 };
+
+// AZIONI PER I COMMENTI
