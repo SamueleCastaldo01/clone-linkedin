@@ -27,6 +27,7 @@ import { Modal, Button } from "react-bootstrap";
 import CardMedia from "@mui/material/CardMedia";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommentAldo from "./CommentAldo";
+import CommentArea from "./CommentArea";
 
 const ExpandMore = ({ expand, onClick, ...other }) => {
   return (
@@ -143,7 +144,8 @@ const AllAldoPost = () => {
           <Collapse in={expandedPostId === post._id} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography sx={{ marginBottom: 2 }}>
-                <CommentAldo key={post._id} />
+                <CommentAldo postId={post._id} />
+                <CommentArea postId={post._id}/>
               </Typography>
             </CardContent>
           </Collapse>
