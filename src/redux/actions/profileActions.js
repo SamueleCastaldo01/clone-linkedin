@@ -343,9 +343,9 @@ export const fetchJobsAction = (query) => async (dispatch) => {
 const COMMENTS_POST_URL = "https://striveschool-api.herokuapp.com/api/comments/"
 const TOKEN_FOR_COMMENTS = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUyYmNiNjU0M2E0YzAwMTU5MDFlMTkiLCJpYXQiOjE3MjYxMzU0NzgsImV4cCI6MTcyNzM0NTA3OH0.zqvix3VlQQc_YEOZqgIjN6p7UYvvFRZHJiHAWVImpI4'
 
-export const fetchCommentsAction = (postId) => async (dispatch) => {
+export const fetchCommentsAction = () => async (dispatch) => {
   try {
-    const response = await axios.get(COMMENTS_POST_URL + postId, {
+    const response = await axios.get(COMMENTS_POST_URL, {
       headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
     })
     dispatch({
