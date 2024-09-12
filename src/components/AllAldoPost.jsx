@@ -29,7 +29,6 @@ import { Modal, Button } from "react-bootstrap";
 const AllAldoPost = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts); // Recupera i post dal Redux store
-  const profile = useSelector((state) => state.profile.profile);
 
   const [expanded, setExpanded] = useState(false);
   const [editPost, setEditPost] = useState(null); // Post corrente in modifica
@@ -41,15 +40,7 @@ const AllAldoPost = () => {
     dispatch(fetchPostsAction()); // Fetch dei post al caricamento del componente
   }, [dispatch]);
 
-  useEffect(() => {
-    if (posts) {
-      setShow(false); // Chiudi la modale dopo la modifica o eliminazione
-    }
-  }, [posts]);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const handleEditPost = (post) => {
     setEditPost(post); // Imposta il post da modificare
