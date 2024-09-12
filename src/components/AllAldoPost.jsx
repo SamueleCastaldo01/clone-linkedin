@@ -94,7 +94,7 @@ const AllAldoPost = () => {
             action={
               <IconButton
                 aria-label="settings"
-                onClick={() => handleEditPost(post)}
+                onClick={() => {handleEditPost(post)}}
               >
                 <MoreVertIcon />
               </IconButton>
@@ -120,7 +120,7 @@ const AllAldoPost = () => {
           <CardActions disableSpacing className="justify-content-end mx-3">
             <ExpandMore
               expand={expanded}
-              onClick={handleExpandClick}
+              onClick={()=>{handleExpandClick()}}
               aria-expanded={expanded}
               aria-label="show more"
             />
@@ -142,7 +142,7 @@ const AllAldoPost = () => {
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography sx={{ marginBottom: 2 }}>
-                <CommentAldo postId={post._id} />
+                <CommentAldo key={post._id}/>
               </Typography>
             </CardContent>
           </Collapse>
