@@ -27,6 +27,7 @@ import { Modal, Button } from "react-bootstrap";
 
 import CardMedia from "@mui/material/CardMedia";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CommentAldo from "./CommentAldo";
 
 const ExpandMore = ({ expand, onClick, ...other }) => {
   return (
@@ -140,22 +141,8 @@ const AllAldoPost = () => {
           </div>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography sx={{ marginBottom: 2 }}>Method:</Typography>
               <Typography sx={{ marginBottom: 2 }}>
-                Heat 1/2 cup of the broth in a pot until simmering, add saffron
-                and set aside for 10 minutes.
-              </Typography>
-              <Typography sx={{ marginBottom: 2 }}>
-                Heat oil in a (14- to 16-inch) paella pan or a large, deep
-                skillet over medium-high heat.
-              </Typography>
-              <Typography sx={{ marginBottom: 2 }}>
-                Add rice and stir very gently to distribute. (Discard any
-                mussels that don&apos;t open.)
-              </Typography>
-              <Typography>
-                Set aside off of the heat to let rest for 10 minutes, and then
-                serve.
+                <CommentAldo postId={post._id} />
               </Typography>
             </CardContent>
           </Collapse>
