@@ -17,7 +17,6 @@ import {
   TextField,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PublicIcon from "@mui/icons-material/Public";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
