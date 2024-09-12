@@ -4,7 +4,7 @@ const FootAldo = () => {
   return (
     <div className="text-center text-lg-start divFooter">
       <Row>
-        <Col lg={12}>
+        <Col sm={12}>
           <Row className="justify-content-around">
             {/* Section: Links 1 */}
             <Col lg={3} md={6} className="mb-4">

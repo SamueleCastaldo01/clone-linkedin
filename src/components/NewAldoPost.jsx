@@ -7,6 +7,13 @@ import ArticleIcon from "@mui/icons-material/Article";
 import { useState } from "react";
 import { addPostAction } from "../redux/actions/profileActions"; // Azione per creare un post
 import { Modal } from "react-bootstrap";
+import CardTravelIcon from "@mui/icons-material/CardTravel";
+import DescriptionIcon from "@mui/icons-material/Description";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import StarsIcon from "@mui/icons-material/Stars";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 
 const NewAldoPost = () => {
   const dispatch = useDispatch();
@@ -64,22 +71,22 @@ const NewAldoPost = () => {
         </Button>
       </div>
 
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between mt-3">
         <div className="d-flex align-items-center">
           <InsertPhotoIcon style={{ color: "#378FE9" }} />
-          <Typography variant="h6" component="div" className="ms-1">
+          <Typography variant="p" component="div" className="ms-1">
             Contenuti multimediali
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <CalendarMonthIcon style={{ color: "#C37D16" }} />
-          <Typography variant="h6" component="div" className="ms-1">
+          <Typography variant="p" component="div" className="ms-1">
             Evento
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <ArticleIcon style={{ color: "#E06847" }} />
-          <Typography variant="h6" component="div" className="ms-1">
+          <Typography variant="p" component="div" className="ms-1">
             Scrivi un articolo
           </Typography>
         </div>
@@ -104,7 +111,20 @@ const NewAldoPost = () => {
                 })
               }
             />
-            <div className="d-flex justify-content-end align-items-center mt-3">
+            <div>
+              <SentimentSatisfiedAltIcon style={{ color: "#666666" }} />
+            </div>
+            <div className="d-flex w-50 justify-content-between mt-3">
+              <InsertPhotoIcon style={{ color: "#666666" }} />
+              <CalendarMonthIcon style={{ color: "#666666" }} />
+              <StarsIcon style={{ color: "#666666" }} />
+              <CardTravelIcon style={{ color: "#666666" }} />
+              <BarChartIcon style={{ color: "#666666" }} />
+              <DescriptionIcon style={{ color: "#666666" }} />
+              <AccountBoxIcon style={{ color: "#666666" }} />
+            </div>
+            <div className="d-flex justify-content-end align-items-center ">
+              <AccessTimeIcon style={{ color: "#666666" }} className="m-3" />
               <Button
                 variant="contained"
                 color="primary"
@@ -125,4 +145,3 @@ const NewAldoPost = () => {
 };
 
 export default NewAldoPost;
-

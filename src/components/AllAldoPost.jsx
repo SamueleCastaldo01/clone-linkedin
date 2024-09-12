@@ -25,6 +25,28 @@ import ShareIcon from "@mui/icons-material/Share";
 import SendIcon from "@mui/icons-material/Send";
 import { Modal, Button } from "react-bootstrap";
 
+import CardMedia from "@mui/material/CardMedia";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+const ExpandMore = ({ expand, onClick, ...other }) => {
+  return (
+    <div {...other}>
+      <IconButton
+        onClick={onClick}
+        aria-expanded={expand}
+        aria-label="show more"
+        style={{
+          transform: expand ? "rotate(180deg)" : "rotate(0deg)",
+          transition: "transform 0.3s ease", // Applicazione della transizione
+        }}
+      >
+        <ExpandMoreIcon />
+      </IconButton>
+      <span>Commenti</span>
+    </div>
+  );
+};
+
 const AllAldoPost = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts); // Recupera i post dal Redux store
@@ -33,33 +55,33 @@ const AllAldoPost = () => {
   const [editPost, setEditPost] = useState(null); // Post corrente in modifica
   const [editText, setEditText] = useState(""); // Testo del post in modifica
   const [show, setShow] = useState(false);
-  const [postId, setPostId] = useState('')
+  const [postId, setPostId] = useState("");
 
   useEffect(() => {
     dispatch(fetchPostsAction()); // Fetch dei post al caricamento del componente
   }, [dispatch]);
 
-
-
   const handleEditPost = (post) => {
     setEditPost(post); // Imposta il post da modificare
     setEditText(post.text); // Imposta il testo per l'editing
-    setPostId(post._id)
+    setPostId(post._id);
     setShow(true); // Mostra la modale
   };
 
   const handleDeletePost = (postId) => {
     dispatch(deletePostAction(postId)); // Elimina il post
-    setShow(false)
+    setShow(false);
   };
 
   const handleSaveEditPost = () => {
     dispatch(updatePostAction(editPost._id, { text: editText })); // Modifica il post
     setShow(false); // Chiudi la modale
   };
-
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   return (
-    <div >
+    <div>
       {posts.map((post) => (
         <Card sx={{ maxWidth: 345 }} key={post._id} className="my-3 rounded-3">
           <CardHeader
@@ -87,7 +109,22 @@ const AllAldoPost = () => {
               {post.text}
             </Typography>
           </CardContent>
+
+          <CardMedia
+            component="img"
+            height="194"
+            image="https://placedog.net/500"
+            alt="Paella dish"
+          />
           <CardActions disableSpacing className="justify-content-end mx-3">
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            />
+          </CardActions>
+          <div className="d-flex justify-content-around flex-grow-1">
             <IconButton aria-label="add to favorites">
               <ThumbUpOffAltIcon />
             </IconButton>
@@ -100,11 +137,26 @@ const AllAldoPost = () => {
             <IconButton aria-label="send">
               <SendIcon />
             </IconButton>
-          </CardActions>
+          </div>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph>Commenti:</Typography>
-              {/* Qui puoi inserire la gestione dei commenti */}
+              <Typography sx={{ marginBottom: 2 }}>Method:</Typography>
+              <Typography sx={{ marginBottom: 2 }}>
+                Heat 1/2 cup of the broth in a pot until simmering, add saffron
+                and set aside for 10 minutes.
+              </Typography>
+              <Typography sx={{ marginBottom: 2 }}>
+                Heat oil in a (14- to 16-inch) paella pan or a large, deep
+                skillet over medium-high heat.
+              </Typography>
+              <Typography sx={{ marginBottom: 2 }}>
+                Add rice and stir very gently to distribute. (Discard any
+                mussels that don&apos;t open.)
+              </Typography>
+              <Typography>
+                Set aside off of the heat to let rest for 10 minutes, and then
+                serve.
+              </Typography>
             </CardContent>
           </Collapse>
         </Card>
@@ -132,7 +184,7 @@ const AllAldoPost = () => {
           <Button variant="primary" onClick={handleSaveEditPost}>
             Salva modifiche
           </Button>
-          <Button variant="danger" onClick={()=>handleDeletePost(postId)}>
+          <Button variant="danger" onClick={() => handleDeletePost(postId)}>
             DELETE
           </Button>
         </Modal.Footer>
