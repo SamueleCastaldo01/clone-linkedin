@@ -4,8 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArticleIcon from "@mui/icons-material/Article";
+import axios from "axios";
 import { useState } from "react";
-import { addPostAction, fetchPostsAction } from "../redux/actions/profileActions"; // Azione per creare un post
+import {
+  addPostAction,
+  fetchPostsAction,
+} from "../redux/actions/profileActions"; // Azione per creare un post
 import { Modal } from "react-bootstrap";
 import CardTravelIcon from "@mui/icons-material/CardTravel";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -14,15 +18,20 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import StarsIcon from "@mui/icons-material/Stars";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import { uploadImageAction } from "../redux/actions/profileActions";
 
 const NewAldoPost = () => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
+  const posts = useSelector((state) => state.posts.posts);
+  const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
 
   const [show, setShow] = useState(false);
   const [newPost, setNewPost] = useState({
     text: "", // Solo il campo "text" è necessario per creare un post
   });
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleClose = () => {
     resetForm();
@@ -33,15 +42,72 @@ const NewAldoPost = () => {
     setShow(true);
   };
 
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addPostAction(newPost)); // Dispatch dell'azione per creare un nuovo post
-    dispatch(fetchPostsAction());
-    handleClose();
+  
+    try {
+      await dispatch(addPostAction(newPost));
+      console.log("Post aggiunto");
+  
+      await dispatch(fetchPostsAction());
+      console.log("Post aggiornati");
+  
+      // 3. Trova l'ultimo post aggiunto. Assumiamo che il post appena creato sia l'ultimo nella lista
+      // Nota: Potrebbe essere necessario un modo più robusto per identificare il post appena creato
+      const latestPost = posts[posts.length - 1];  //errore non prende l'ultmo posts
+  
+      if (latestPost && latestPost._id) {
+        console.log("ID del post appena creato:", latestPost._id);
+  
+          console.log("Avvio del caricamento dell'immagine per il post con ID:", latestPost._id);
+          handleFetchImage(latestPost._id);
+    
+      } else {
+        console.error("Impossibile trovare l'ID del post appena creato.");
+      }
+      handleClose();
+    } catch (error) {
+      console.error("Errore durante il salvataggio del post o l'aggiornamento dei post:", error);
+    }
+  };
+  
+
+
+  const handleFetchImage = async (postId) => {
+    if (!selectedImage) return;
+
+    const formData = new FormData();
+    formData.append("profile", selectedImage); // Supponendo che si sta caricando un'immagine del profilo
+
+    try {
+      await axios.post(
+        `https://striveschool-api.herokuapp.com/api/posts/${postId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+    } catch (error) {
+      console.error(
+        "Error uploading image:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
+
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0]); // Memorizza l'immagine selezionata
   };
 
   const resetForm = () => {
     setNewPost({ text: "" });
+    setSelectedImage(null);
   };
 
   return (
@@ -118,7 +184,7 @@ const NewAldoPost = () => {
               label="Di cosa vorresti parlare?"
               rows={4}
               multiline
-              className="w-100 mt-3"
+              className="w-100 mt-1"
               value={newPost.text}
               onChange={(e) =>
                 setNewPost({
@@ -126,6 +192,16 @@ const NewAldoPost = () => {
                   text: e.target.value,
                 })
               }
+              variant="standard" // Usa 'standard' per rimuovere il bordo
+              InputProps={{
+                disableUnderline: true, // Rimuove il bordo inferiore
+              }}
+            />
+            <input
+              type="file"
+              onChange={handleImageChange}
+              className="form-control mt-3"
+              accept="image/*"
             />
             <div>
               <SentimentSatisfiedAltIcon style={{ color: "#666666" }} />

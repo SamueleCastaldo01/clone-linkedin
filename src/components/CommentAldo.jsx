@@ -75,7 +75,6 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
   useEffect(() => {
     dispatch(fetchCommentsAction(postId)); // Fetch dei commenti del post
   }, [dispatch, postId]);
-  console.log("Questi sono i commenti:", comments);
 
   // Gestione del cambiamento del commento
   const handleCommentChange = (event) => {

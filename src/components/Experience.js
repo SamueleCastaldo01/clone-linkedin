@@ -11,7 +11,6 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
 
@@ -24,7 +23,7 @@ const Experience = () => {
   const [flagPerm, setFlagPerm] = useState(false);
 
   const [show, setShow] = useState(false);
-  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
+  const [modalMode, setModalMode] = useState("add");
   const [currentId, setCurrentId] = useState(null);
   const [newExperience, setNewExperience] = useState({
     role: "",
@@ -33,19 +32,16 @@ const Experience = () => {
     endDate: "",
     description: "",
     area: "",
-    image: "", // Aggiunta del campo immagine
+    image: "", // Campo immagine
   });
+  const [selectedImage, setSelectedImage] = useState(null); // Nuovo stato per immagine
 
   useEffect(() => {
     if (profile && profile._id) {
       dispatch(Experiencesfetch(profile._id));
     }
 
-    if (idAldo === profile._id) {
-      setFlagPerm(true);
-    } else {
-      setFlagPerm(false);
-    }
+    setFlagPerm(idAldo === profile._id);
   }, [dispatch, profile]);
 
   const handleClose = () => {
@@ -66,7 +62,7 @@ const Experience = () => {
       endDate: experience.endDate,
       description: experience.description,
       area: experience.area,
-      image: experience.image || "", // Imposta l'immagine esistente o una stringa vuota
+      image: experience.image || "", // Imposta immagine esistente o stringa vuota
     });
     setCurrentId(experience._id);
     setModalMode("edit");
@@ -81,11 +77,59 @@ const Experience = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (modalMode === "add") {
-      dispatch(AddExperience(profile._id, newExperience));
+      dispatch(AddExperience(profile._id, newExperience)).then(
+        (createdExperience) => {
+          if (selectedImage) {
+            uploadExperienceImage(
+              profile._id,
+              createdExperience,
+              selectedImage
+            );
+          }
+        }
+      );
     } else if (modalMode === "edit") {
-      dispatch(modifyExperienceAction(profile._id, currentId, newExperience));
+      dispatch(
+        modifyExperienceAction(profile._id, currentId, newExperience)
+      ).then(() => {
+        if (selectedImage) {
+          uploadExperienceImage(profile._id, currentId, selectedImage);
+        }
+      });
     }
     handleClose();
+  };
+  const TOKEN =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRmZjUxM2FmNDM0YjAwMTU5ZDgzMzAiLCJpYXQiOjE3MjU5NTMyOTksImV4cCI6MTcyNzE2Mjg5OX0.n-M-g7ZghOBgKrcQWWZVAbMrGzHoBDjK8KPBUQay_9A";
+  // Funzione per caricare l'immagine
+  const uploadExperienceImage = async (userId, expId, imageFile) => {
+    const formData = new FormData();
+    formData.append("experience", imageFile); // Nome del campo immagine
+
+    try {
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/${expId}/picture/`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Errore durante il caricamento dell'immagine");
+      }
+
+      console.log("Immagine caricata con successo!");
+    } catch (error) {
+      console.error("Errore:", error);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0]); // Salva l'immagine selezionata
   };
 
   const resetForm = () => {
@@ -98,6 +142,7 @@ const Experience = () => {
       area: "",
       image: "", // Resetta il campo immagine
     });
+    setSelectedImage(null); // Resetta immagine
     setModalMode("add");
     setCurrentId(null);
   };
@@ -126,7 +171,7 @@ const Experience = () => {
                     src={
                       experience.image ||
                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuy8Th0qZPzQUtjChGa8fvmoGeCdmk9mtpWg&s"
-                    } // Usa l'immagine fornita o una predefinita
+                    }
                     style={{ width: "50px", height: "50px" }}
                     alt="company"
                   />
@@ -243,7 +288,7 @@ const Experience = () => {
               }
             />
             <TextField
-              label="Immagine URL" // Campo aggiunto per l'immagine
+              label="Immagine URL"
               variant="outlined"
               className="w-100 mt-3"
               value={newExperience.image}
@@ -254,6 +299,17 @@ const Experience = () => {
                 })
               }
             />
+            <div className="mt-3">
+              <label htmlFor="imageUpload">Carica Immagine</label>
+              <input
+                type="file"
+                id="imageUpload"
+                onChange={handleImageChange}
+                accept="image/*"
+                className="form-control"
+              />
+            </div>
+
             {modalMode === "add" ? (
               <Button
                 variant="contained"

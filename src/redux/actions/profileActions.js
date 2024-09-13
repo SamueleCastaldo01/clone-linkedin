@@ -20,7 +20,9 @@ import {
   COMMENTS_ERROR,
   ADD_COMMENTS,
   UPDATE_COMMENTS,
-  DELETE_COMMENTS
+  DELETE_COMMENTS,
+  UPLOAD_EXPERIENCE_IMAGE_SUCCESS,
+  UPLOAD_EXPERIENCE_IMAGE_FAIL,
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -41,41 +43,41 @@ const shuffleArray = (array) => {
 // Funzione per ottenere la lista dei profili utente o cercare profili
 export const fetchProfiles =
   (searchTerm = "") =>
-    async (dispatch) => {
-      try {
-        // Chiamata API per ottenere tutti i profili
-        const response = await axios.get(`${PROFILE_URL}`, {
-          headers: { Authorization: `Bearer ${TOKEN}` },
-        });
-        console.log("Fetch profiles:", response.data);
+  async (dispatch) => {
+    try {
+      // Chiamata API per ottenere tutti i profili
+      const response = await axios.get(`${PROFILE_URL}`, {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      });
+      console.log("Fetch profiles:", response.data);
 
-        // Filtrare i profili in base ai criteri di ricerca
-        const filteredProfiles = response.data.filter(
-          (profile) =>
-            profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        console.log("Filtered profiles:", filteredProfiles);
+      // Filtrare i profili in base ai criteri di ricerca
+      const filteredProfiles = response.data.filter(
+        (profile) =>
+          profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      console.log("Filtered profiles:", filteredProfiles);
 
-        // Mescolare i profili filtrati
-        const shuffledProfiles = shuffleArray(filteredProfiles);
+      // Mescolare i profili filtrati
+      const shuffledProfiles = shuffleArray(filteredProfiles);
 
-        // Prendere massimo i primi 5 profili casuali
-        const randomProfiles = shuffledProfiles.slice(0, 5);
-        console.log("Random profiles:", randomProfiles);
+      // Prendere massimo i primi 5 profili casuali
+      const randomProfiles = shuffledProfiles.slice(0, 5);
+      console.log("Random profiles:", randomProfiles);
 
-        dispatch({
-          type: FETCH_PROFILES,
-          payload: randomProfiles,
-        });
-      } catch (error) {
-        dispatch({
-          type: PROFILE_ERROR,
-          payload: error.message,
-        });
-      }
-    };
+      dispatch({
+        type: FETCH_PROFILES,
+        payload: randomProfiles,
+      });
+    } catch (error) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 
 // Funzione per ottenere il profilo utente
 export const fetchProfile = () => async (dispatch) => {
@@ -220,7 +222,6 @@ export const modifyExperienceAction =
 
       // Esegui il refetch delle esperienze per aggiornare lo stato
       dispatch(Experiencesfetch(userId)); // Refetch delle esperienze
-
     } catch (error) {
       dispatch({
         type: EXPERIENCE_ERROR,
@@ -229,7 +230,7 @@ export const modifyExperienceAction =
     }
   };
 
-//ACTIONS PER I POSTS
+//ACTIONS PER I POSTS, GET
 
 const POSTS_URL = "https://striveschool-api.herokuapp.com/api/posts/";
 
@@ -289,68 +290,71 @@ export const deletePostAction = (postId) => async (dispatch) => {
   }
 };
 
-export const updatePostAction = (postId, updatedPostData) => async (dispatch) => {
-  try {
-    const response = await axios.put(
-      `${POSTS_URL}/${postId}`,
-      updatedPostData,
-      {
-        headers: { Authorization: "Bearer " + TOKEN },
-      }
-    );
-    dispatch({
-      type: UPDATE_POST,
-      payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
-    });
-  } catch (error) {
-    dispatch({
-      type: POSTS_ERROR,
-      payload: error.message,
-    });
-  }
-};
+export const updatePostAction =
+  (postId, updatedPostData) => async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${POSTS_URL}/${postId}`,
+        updatedPostData,
+        {
+          headers: { Authorization: "Bearer " + TOKEN },
+        }
+      );
+      dispatch({
+        type: UPDATE_POST,
+        payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
+      });
+    } catch (error) {
+      dispatch({
+        type: POSTS_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 
 // ACTIONS PER I LAVORI
 
-const JOBS_URL = 'https://strive-benchmark.herokuapp.com/api/jobs'
-const search = '?search='
-const company = '?company='
+const JOBS_URL = "https://strive-benchmark.herokuapp.com/api/jobs";
+const search = "?search=";
+const company = "?company=";
 
 export const fetchJobsAction = (query) => async (dispatch) => {
   try {
     const response = await axios.get(JOBS_URL + search + query);
 
     // Assumiamo che response.data sia l'array dei lavori che vogliamo salvare nel redux store
-    const jobsArray = response.data.data;  // Estrai l'array `data` dalla risposta
+    const jobsArray = response.data.data; // Estrai l'array `data` dalla risposta
 
     // Verifica se jobsArray è un array valido
     if (Array.isArray(jobsArray)) {
       dispatch({
         type: FETCH_JOBS_SEARCH,
-        payload: jobsArray.slice(0, 10),  // Passa l'array al reducer
+        payload: jobsArray.slice(0, 10), // Passa l'array al reducer
       });
-      console.log('Jobs array:', jobsArray);
+      console.log("Jobs array:", jobsArray);
     } else {
-      throw new Error('La struttura dei dati non è valida, array mancante.');
+      throw new Error("La struttura dei dati non è valida, array mancante.");
     }
   } catch (error) {
     dispatch({
       type: JOBS_ERROR,
-      payload: error.message,  // Corretto il messaggio d'errore
+      payload: error.message, // Corretto il messaggio d'errore
     });
-    console.error('Errore nella fetch:', error.message);
+    console.error("Errore nella fetch:", error.message);
   }
 };
 
 // AZIONI PER I COMMENTI
-const COMMENTS_POST_URL = "https://striveschool-api.herokuapp.com/api/comments/"
-const TOKEN_FOR_COMMENTS = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUyYmNiNjU0M2E0YzAwMTU5MDFlMTkiLCJpYXQiOjE3MjYxMzU0NzgsImV4cCI6MTcyNzM0NTA3OH0.zqvix3VlQQc_YEOZqgIjN6p7UYvvFRZHJiHAWVImpI4'
+const COMMENTS_POST_URL =
+  "https://striveschool-api.herokuapp.com/api/comments/";
+const TOKEN_FOR_COMMENTS =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUyYmNiNjU0M2E0YzAwMTU5MDFlMTkiLCJpYXQiOjE3MjYxMzU0NzgsImV4cCI6MTcyNzM0NTA3OH0.zqvix3VlQQc_YEOZqgIjN6p7UYvvFRZHJiHAWVImpI4";
 
 export const fetchCommentsAction = () => async (dispatch) => {
   try {
     const response = await axios.get(COMMENTS_POST_URL, {
       headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
-    })
+    });
     dispatch({
       type: FETCH_COMMENTS,
       payload: response.data.slice(-7),
@@ -361,8 +365,7 @@ export const fetchCommentsAction = () => async (dispatch) => {
       payload: error.message,
     });
   }
-}
-
+};
 
 // const POST_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3MzAzNjQzYTU2ODAwMTU4ZWMzZDciLCJpYXQiOjE3MjYxNjExNjgsImV4cCI6MTcyNzM3MDc2OH0.Pm-Zmxol5m8J6pz7vUBhjGnTYgZUghS2DiMUOTcX5zA'
 // export const addCommentAction = (postId, commentData) => async (dispatch) => {
@@ -382,27 +385,27 @@ export const fetchCommentsAction = () => async (dispatch) => {
 //   }
 // };
 
-
-export const updateCommentAction = (commentId, updatedCommentData) => async (dispatch) => {
-  try {
-    const response = await axios.put(
-      `${COMMENTS_POST_URL}/${commentId}`,
-      updatedCommentData,
-      {
-        headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
-      }
-    );
-    dispatch({
-      type: UPDATE_COMMENTS,
-      payload: { id: commentId, data: response.data },
-    });
-  } catch (error) {
-    dispatch({
-      type: COMMENTS_ERROR,
-      payload: error.message,
-    });
-  }
-};
+export const updateCommentAction =
+  (commentId, updatedCommentData) => async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${COMMENTS_POST_URL}/${commentId}`,
+        updatedCommentData,
+        {
+          headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
+        }
+      );
+      dispatch({
+        type: UPDATE_COMMENTS,
+        payload: { id: commentId, data: response.data },
+      });
+    } catch (error) {
+      dispatch({
+        type: COMMENTS_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 
 export const deleteCommentAction = (commentId) => async (dispatch) => {
   try {
@@ -420,3 +423,54 @@ export const deleteCommentAction = (commentId) => async (dispatch) => {
     });
   }
 };
+export const uploadImageAction = (postId, formData) => async (dispatch) => {
+  try {
+    await axios.post(
+      `https://striveschool-api.herokuapp.com/api/posts/${postId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data", // Necessario per inviare il file
+        },
+      }
+    );
+    dispatch(fetchPostsAction()); // Aggiorna i post dopo il caricamento dell'immagine
+  } catch (error) {
+    console.error("Errore durante il caricamento dell'immagine:", error);
+  }
+};
+
+export const uploadExperienceImageAction =
+  (userId, experienceId, imageFile) => async (dispatch) => {
+    try {
+      const formData = new FormData();
+      formData.append("experience", imageFile); // Nome del campo immagine
+
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/${experienceId}/picture/`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Errore durante il caricamento dell'immagine");
+      }
+
+      const data = await response.json();
+
+      dispatch({
+        type: UPLOAD_EXPERIENCE_IMAGE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPLOAD_EXPERIENCE_IMAGE_FAIL,
+        payload: error.message,
+      });
+    }
+  };
