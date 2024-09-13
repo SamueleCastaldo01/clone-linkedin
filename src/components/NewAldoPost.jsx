@@ -5,7 +5,10 @@ import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useState } from "react";
-import { addPostAction, fetchPostsAction } from "../redux/actions/profileActions"; // Azione per creare un post
+import {
+  addPostAction,
+  fetchPostsAction,
+} from "../redux/actions/profileActions"; // Azione per creare un post
 import { Modal } from "react-bootstrap";
 import CardTravelIcon from "@mui/icons-material/CardTravel";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -118,7 +121,7 @@ const NewAldoPost = () => {
               label="Di cosa vorresti parlare?"
               rows={4}
               multiline
-              className="w-100 mt-3"
+              className="w-100 mt-1"
               value={newPost.text}
               onChange={(e) =>
                 setNewPost({
@@ -126,6 +129,10 @@ const NewAldoPost = () => {
                   text: e.target.value,
                 })
               }
+              variant="standard" // Usa 'standard' per rimuovere il bordo
+              InputProps={{
+                disableUnderline: true, // Rimuove il bordo inferiore
+              }}
             />
             <div>
               <SentimentSatisfiedAltIcon style={{ color: "#666666" }} />
