@@ -146,7 +146,7 @@ const AllAldoPost = () => {
             image="https://placedog.net/500"
             alt="Paella dish"
           />
-          <CardActions disableSpacing className="justify-content-end mx-3">
+          <CardActions disableSpacing className="d-flex justify-content-end mx-3">
             <ExpandMore
               expand={expandedPosts[post._id]} // Controlla lo stato di espansione per il post
               onClick={() => handleExpandClick(post._id)} // Espandi o chiudi il post
@@ -155,21 +155,33 @@ const AllAldoPost = () => {
             />
           </CardActions>
           <div className="d-flex justify-content-around flex-grow-1 mb-2">
-            <IconButton
+            <div className="d-flex justify-content-center align-items-center">
+            <IconButton className="pe-0"
               aria-label="add to favorites"
               onClick={() => toggleLike(post._id)}
             >
               {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
             </IconButton>
-            <IconButton aria-label="add comment">
+            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Consiglia</p>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+            <IconButton className="pe-0" aria-label="add comment">
               <CommentIcon />
             </IconButton>
-            <IconButton aria-label="share">
+            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Commenta</p>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+            <IconButton className="pe-0" aria-label="share">
               <ShareIcon />
-            </IconButton>
-            <IconButton aria-label="send">
+            </IconButton> 
+            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Condividi</p>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+            <IconButton className="pe-0" aria-label="send">
               <SendIcon />
             </IconButton>
+            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Invia</p>
+            </div>
           </div>
           <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
             <CardContent>
