@@ -257,7 +257,7 @@ export const fetchPostsAction = () => async (dispatch) => {
       type: SET_LOADING,
       payload: false
     })
-    
+
   } catch (error) {
     dispatch({
       type: POSTS_ERROR,
@@ -369,7 +369,7 @@ export const fetchCommentsAction = () => async (dispatch) => {
     });
     dispatch({
       type: FETCH_COMMENTS,
-      payload: response.data.slice(-7),
+      payload: response.data.slice(-3),
     });
   } catch (error) {
     dispatch({
