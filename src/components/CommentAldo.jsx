@@ -7,8 +7,12 @@ import {
   Select,
   FormControl,
   InputLabel,
+  IconButton,
+  Icon,
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from '@mui/icons-material/Edit';
 import StarIcon from "@mui/icons-material/Star";
 import {
   fetchCommentsAction,
@@ -95,11 +99,11 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
           })
         );
         setEditingCommentId(null); // Reset dell'ID in modifica
-        dispatch(fetchCommentsAction())
+        dispatch(fetchCommentsAction());
       } else {
         // Altrimenti aggiungi un nuovo commento
         addCommentAction();
-        dispatch(fetchCommentsAction())
+        dispatch(fetchCommentsAction());
       }
       setCurrentComment(""); // Pulisci il campo del commento
       setCurrentRating(1); // Reset del rating
@@ -189,25 +193,27 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
           <div>
             {comments.map((comment) => (
               <div
+                className="row d-flex justify-content-between align-items-center"
                 key={comment._id}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
                   marginBottom: "10px",
                 }}
               >
-                <Avatar
-                  src={profileImage}
-                  sx={{
-                    bgcolor: profileImage ? "transparent" : deepOrange[500],
-                    width: 30,
-                    height: 30,
-                    marginRight: 10,
-                  }}
-                >
-                  {!profileImage && profile?.name ? profile.name[0] : ""}
-                </Avatar>
+                <div className="col-2 pe-0">
+                  <Avatar
+                    src={profileImage}
+                    sx={{
+                      bgcolor: profileImage ? "transparent" : deepOrange[500],
+                      width: 30,
+                      height: 30,
+                      marginRight: 10,
+                    }}
+                  >
+                    {!profileImage && profile?.name ? profile.name[0] : ""}
+                  </Avatar>
+                </div>
                 <div
+                  className="col-6 px-0"
                   style={{
                     backgroundColor: "#F2F2F2",
                     borderRadius: 5,
@@ -215,38 +221,26 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
                     fontSize: "14px",
                     color: "#495057",
                     fontFamily: "Arial, sans-serif",
-                    maxWidth: "80%",
-                    wordWrap: "break-word",
-                    marginRight: "10px",
-                    flex: 1,
                   }}
                 >
                   {comment.comment}
                 </div>
                 <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginLeft: "auto",
-                  }}
+                  className="col-4 d-flex justify-content-between align-items-center"
                 >
-                  <span style={{ marginRight: "5px" }}>{comment.rate}</span>
-                  <StarIcon style={{ color: "#FFD700" }} />
-                  <Button
-                    size="small"
-                    onClick={() =>
+                  <div>
+                    <span style={{ marginRight: "5px" }}>{comment.rate}</span>
+                    <StarIcon style={{ color: "#FFD700" }} />
+                  </div>
+             
+                  <IconButton onClick={() =>
                       handleEdit(comment._id, comment.comment, comment.rate)
-                    }
-                  >
-                    Modifica
-                  </Button>
-                  <Button
-                    size="small"
-                    color="secondary"
-                    onClick={() => handleDelete(comment._id)}
-                  >
-                    Elimina
-                  </Button>
+                    }>
+                    <EditIcon color="primary"/>
+                  </IconButton>
+                  <IconButton aria-label="add comment" onClick={() => handleDelete(comment._id)}>
+                    <DeleteIcon color="error"/>
+                  </IconButton>
                 </div>
               </div>
             ))}
