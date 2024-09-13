@@ -193,13 +193,13 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
           <div>
             {comments.map((comment) => (
               <div
-                className="row d-flex align-items-center justify-content-between"
+                className=" d-flex align-items-center justify-content-between"
                 key={comment._id}
                 style={{
                   marginBottom: "10px",
                 }}
               >
-                <div className="col-2 pe-0" style={{ width: "50px" }}>
+                <div className=" pe-0" style={{ width: "40px" }}>
                   <Avatar
                     src={profileImage}
                     sx={{
@@ -213,7 +213,7 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
                   </Avatar>
                 </div>
                 <div
-                  className="col-6 px-0"
+                  className=" flex-grow-1 px-0"
                   style={{
                     backgroundColor: "#F2F2F2",
                     borderRadius: 5,
@@ -225,12 +225,12 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
                 >
                   {comment.comment}
                 </div>
-                <div className="col-4 d-flex align-items-center justify-content-end ps-0">
+                <div className=" d-flex align-items-center justify-content-end ps-0 ms-2">
                   <div>
                     <span style={{ marginRight: "5px" }}>{comment.rate}</span>
                     <StarIcon style={{ color: "#FFD700" }} />
                   </div>
-                  <div>
+                  <div className="ms-2">
                     <IconButton
                       onClick={() =>
                         handleEdit(comment._id, comment.comment, comment.rate)
