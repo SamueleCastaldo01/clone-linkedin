@@ -4,6 +4,7 @@ import {
   fetchPostsAction,
   deletePostAction,
   updatePostAction,
+  fetchCommentsAction,
 } from "../redux/actions/profileActions";
 import {
   Card,
@@ -97,10 +98,10 @@ const AllAldoPost = () => {
   };
 
   // Funzione per ricaricare i commenti
-  const handleCommentAdded = () => {
-    // Se vuoi fare qualcosa dopo che un commento è stato aggiunto (ad esempio aggiornare lo stato)
-    console.log("Commento aggiunto! Aggiorna i commenti o lo stato qui.");
-  };
+  // const handleCommentAdded = () => {
+  //   // Se vuoi fare qualcosa dopo che un commento è stato aggiunto (ad esempio aggiornare lo stato)
+  //   console.log("Commento aggiunto! Aggiorna i commenti o lo stato qui.");
+  // };
 
   return (
     <div style={{ marginBottom: "100px" }}>
@@ -110,7 +111,8 @@ const AllAldoPost = () => {
           key={post._id}
           className="my-3 rounded-4 cardOmbra"
         >
-          <CardHeader sx={{padding: "15px 10px 0px 10px"}}
+          <CardHeader
+            sx={{ padding: "15px 10px 0px 10px" }}
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                 {post.username[0]}
@@ -129,12 +131,12 @@ const AllAldoPost = () => {
               <span style={{ display: "flex", alignItems: "center" }}>
                 {new Date(post.createdAt).toLocaleString()}
                 <IconButton aria-label="public">
-                  <PublicIcon style={{fontSize: "20px"}}/>
+                  <PublicIcon style={{ fontSize: "20px" }} />
                 </IconButton>
               </span>
             }
           />
-          <CardContent sx={{padding: "8px 10px 15px 10px"}}>
+          <CardContent sx={{ padding: "8px 10px 15px 10px" }}>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               {post.text}
             </Typography>
@@ -146,7 +148,10 @@ const AllAldoPost = () => {
             image="https://placedog.net/500"
             alt="Paella dish"
           />
-          <CardActions disableSpacing className="d-flex justify-content-end mx-3">
+          <CardActions
+            disableSpacing
+            className="d-flex justify-content-end mx-3"
+          >
             <ExpandMore
               expand={expandedPosts[post._id]} // Controlla lo stato di espansione per il post
               onClick={() => handleExpandClick(post._id)} // Espandi o chiudi il post
@@ -156,31 +161,40 @@ const AllAldoPost = () => {
           </CardActions>
           <div className="d-flex justify-content-around flex-grow-1 mb-2">
             <div className="d-flex justify-content-center align-items-center">
-            <IconButton className="pe-0"
-              aria-label="add to favorites"
-              onClick={() => toggleLike(post._id)}
-            >
-              {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-            </IconButton>
-            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Consiglia</p>
+              <IconButton
+                className="pe-0"
+                aria-label="add to favorites"
+                onClick={() => toggleLike(post._id)}
+              >
+                {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+              </IconButton>
+              <p style={{ fontSize: "14px" }} className="mb-0 fw-bold">
+                Consiglia
+              </p>
             </div>
             <div className="d-flex align-items-center justify-content-center">
-            <IconButton className="pe-0" aria-label="add comment">
-              <CommentIcon />
-            </IconButton>
-            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Commenta</p>
+              <IconButton className="pe-0" aria-label="add comment">
+                <CommentIcon />
+              </IconButton>
+              <p style={{ fontSize: "14px" }} className="mb-0 fw-bold">
+                Commenta
+              </p>
             </div>
             <div className="d-flex align-items-center justify-content-center">
-            <IconButton className="pe-0" aria-label="share">
-              <ShareIcon />
-            </IconButton> 
-            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Condividi</p>
+              <IconButton className="pe-0" aria-label="share">
+                <ShareIcon />
+              </IconButton>
+              <p style={{ fontSize: "14px" }} className="mb-0 fw-bold">
+                Condividi
+              </p>
             </div>
             <div className="d-flex align-items-center justify-content-center">
-            <IconButton className="pe-0" aria-label="send">
-              <SendIcon />
-            </IconButton>
-            <p style={{fontSize: "14px"}} className="mb-0 fw-bold">Invia</p>
+              <IconButton className="pe-0" aria-label="send">
+                <SendIcon />
+              </IconButton>
+              <p style={{ fontSize: "14px" }} className="mb-0 fw-bold">
+                Invia
+              </p>
             </div>
           </div>
           <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
@@ -188,7 +202,7 @@ const AllAldoPost = () => {
               <Typography sx={{ marginBottom: 2 }}>
                 <CommentAldo
                   postId={post._id}
-                  onCommentAdded={handleCommentAdded}
+                  onCommentAdded={() => dispatch(fetchCommentsAction(post._id))}
                 />
               </Typography>
             </CardContent>
