@@ -228,8 +228,8 @@ header {
 }
 
 .jobCity {
- color: gray;
- font-size: 12px;
+  color: gray;
+  font-size: 12px;
 }
 
 .jobCompany {
@@ -242,4 +242,32 @@ header {
 
 .cardOmbra {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+@media (max-width: 768px) {
+  .center-section {
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    padding-top: 2rem;
+  }
+
+  .center-section .d-flex {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 991px) {
+  .center-section {
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    left: -12px;
+  }
+
+  .center-section .d-flex {
+    justify-content: center;
+    text-align: center;
+  }
 }

@@ -60,7 +60,7 @@ const NavComponent = () => {
 
         {/* Icona del profilo visibile solo su mobile */}
         <Nav className="d-flex align-items-center d-lg-none">
-          <Nav.Link href="#profile">
+          <Nav.Link href={`/profile/${userId}`}>
             <Person2Rounded fontSize="large" />
           </Nav.Link>
         </Nav>
@@ -143,20 +143,28 @@ const NavComponent = () => {
       </Navbar>
 
       {/* Footer con i tasti Home, Rete, Notifiche, Lavoro visibili su mobile */}
-      <div className="d-lg-none fixed-bottom bg-light">
-        <Nav className="d-flex justify-content-around  align-items-center">
-          <Nav.Link href="#home" className="text-center">
-            <HomeRounded fontSize="medium" />
-          </Nav.Link>
+      <div className="d-lg-none fixed-bottom bg-light" style={{height:'55px'}}>
+        <Nav className="d-flex justify-content-around  align-items-center p-0">
+          <Link to={'/'} className="text-decoration-none">
+            <Nav.Link href="#home" className="text-center">
+              <HomeRounded fontSize="medium" />
+              <div className="navFs">Home</div>
+            </Nav.Link>
+          </Link>
           <Nav.Link href="#features" className="text-center">
             <GroupRounded fontSize="medium" />
+            <div className="navFs">La mia rete</div>
           </Nav.Link>
           <Nav.Link href="#notifications" className="text-center">
             <NotificationsRounded fontSize="medium" />
+            <div className="navFs">Notifiche</div>
           </Nav.Link>
-          <Nav.Link href="#pricing" className="text-center">
-            <WorkRounded fontSize="medium" />
-          </Nav.Link>
+          <Link to={'/jobs/developer'} className="text-decoration-none">
+            <Nav.Link href="#pricing" className="text-center">
+              <WorkRounded fontSize="medium" />
+              <div className="navFs">Lavoro</div>
+            </Nav.Link>
+          </Link>
         </Nav>
       </div>
     </>

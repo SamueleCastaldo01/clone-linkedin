@@ -31,7 +31,10 @@ import CommentAldo from "./CommentAldo";
 
 const ExpandMore = ({ expand, onClick, ...other }) => {
   return (
-    <div {...other}>
+    <div
+      {...other}
+      style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+    >
       <IconButton
         onClick={onClick}
         aria-expanded={expand}
@@ -43,7 +46,9 @@ const ExpandMore = ({ expand, onClick, ...other }) => {
       >
         <ExpandMoreIcon />
       </IconButton>
-      <span>Commenti</span>
+      <span onClick={onClick} style={{ marginLeft: "8px", cursor: "pointer" }}>
+        Commenti
+      </span>
     </div>
   );
 };
@@ -96,6 +101,16 @@ const AllAldoPost = () => {
     }));
   };
 
+  // Funzione per gestire l'apertura dei commenti
+  const handleCommentClick = (postId) => {
+    handleExpandClick(postId); // Usa la funzione di espansione esistente
+  };
+
+  // Funzione per gestire il "like" dei post
+  const handleLikeClick = (postId) => {
+    toggleLike(postId); // Alterna il "like" quando si clicca
+  };
+
   // Funzione per ricaricare i commenti
   const handleCommentAdded = () => {
     // Se vuoi fare qualcosa dopo che un commento è stato aggiunto (ad esempio aggiornare lo stato)
@@ -111,6 +126,7 @@ const AllAldoPost = () => {
           className="my-3 rounded-4 cardOmbra"
         >
           <CardHeader
+            sx={{ padding: "15px 10px 0px 10px" }}
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                 {post.username[0]}
@@ -125,12 +141,16 @@ const AllAldoPost = () => {
               </IconButton>
             }
             title={post.username}
-            subheader={new Date(post.createdAt).toLocaleString()}
+            subheader={
+              <span style={{ display: "flex", alignItems: "center" }}>
+                {new Date(post.createdAt).toLocaleString()}
+                <IconButton aria-label="public">
+                  <PublicIcon style={{ fontSize: "20px" }} />
+                </IconButton>
+              </span>
+            }
           />
-          <IconButton aria-label="public">
-            <PublicIcon />
-          </IconButton>
-          <CardContent>
+          <CardContent sx={{ padding: "8px 10px 15px 10px" }}>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               {post.text}
             </Typography>
@@ -138,11 +158,14 @@ const AllAldoPost = () => {
 
           <CardMedia
             component="img"
-            height="194"
+            height="300"
             image="https://placedog.net/500"
             alt="Paella dish"
           />
-          <CardActions disableSpacing className="justify-content-end mx-3">
+          <CardActions
+            disableSpacing
+            className="d-flex justify-content-end mx-3"
+          >
             <ExpandMore
               expand={expandedPosts[post._id]} // Controlla lo stato di espansione per il post
               onClick={() => handleExpandClick(post._id)} // Espandi o chiudi il post
@@ -150,29 +173,98 @@ const AllAldoPost = () => {
               aria-label="show more"
             />
           </CardActions>
-          <div className="d-flex justify-content-around flex-grow-1">
-            <IconButton
-              aria-label="add to favorites"
-              onClick={() => toggleLike(post._id)}
-            >
-              {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-            </IconButton>
-            <IconButton aria-label="add comment">
-              <CommentIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-            <IconButton aria-label="send">
-              <SendIcon />
-            </IconButton>
+          <div className="d-flex justify-content-around flex-grow-1 mb-2">
+            <div className="d-flex justify-content-center align-items-center">
+              <IconButton
+                className="pe-0"
+                aria-label="add to favorites"
+                onClick={() => handleLikeClick(post._id)} // Alterna il "like" anche con il clic sul testo "Consiglia"
+                style={{ transition: "none", cursor: "pointer" }} // Rimuove le animazioni e aggiunge il cursore
+              >
+                {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+              </IconButton>
+              <p
+                style={{
+                  fontSize: "14px",
+                  margin: 0,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  padding: "10px",
+                }}
+                onClick={() => handleLikeClick(post._id)} // Alterna il "like" anche con il clic sul testo "Consiglia"
+              >
+                Consiglia
+              </p>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+              <IconButton
+                className="pe-0"
+                aria-label="add comment"
+                onClick={() => handleCommentClick(post._id)} // Aggiungi gestore per CommentIcon
+                style={{ cursor: "pointer" }}
+              >
+                <CommentIcon />
+              </IconButton>
+              <p
+                style={{
+                  fontSize: "14px",
+                  margin: 0,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  padding: "10px",
+                }}
+                onClick={() => handleCommentClick(post._id)} // Aggiungi gestore per "Commenta"
+              >
+                Commenta
+              </p>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+              <IconButton
+                className="pe-0"
+                aria-label="share"
+                style={{ cursor: "pointer" }}
+              >
+                <ShareIcon />
+              </IconButton>
+              <p
+                style={{
+                  fontSize: "14px",
+                  margin: 0,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  padding: "10px",
+                }}
+              >
+                Condividi
+              </p>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+              <IconButton
+                className="pe-0"
+                aria-label="send"
+                style={{ cursor: "pointer" }}
+              >
+                <SendIcon />
+              </IconButton>
+              <p
+                style={{
+                  fontSize: "14px",
+                  margin: 0,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  padding: "10px",
+                }}
+              >
+                Invia
+              </p>
+            </div>
           </div>
           <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography sx={{ marginBottom: 2 }}>
                 <CommentAldo
                   postId={post._id}
-                  onCommentAdded={handleCommentAdded}
+                  handleCommentAdded={handleCommentAdded}
                 />
               </Typography>
             </CardContent>
@@ -180,19 +272,19 @@ const AllAldoPost = () => {
         </Card>
       ))}
 
-      {/* Modale per modificare il post */}
+      {/* Modal per la modifica del post */}
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Modifica Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <TextField
-            label="Modifica il testo"
+            label="Modifica il testo del post"
             multiline
             rows={4}
+            fullWidth
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
-            className="w-100"
           />
         </Modal.Body>
         <Modal.Footer>
@@ -200,10 +292,10 @@ const AllAldoPost = () => {
             Annulla
           </Button>
           <Button variant="primary" onClick={handleSaveEditPost}>
-            Salva modifiche
+            Salva Cambiamenti
           </Button>
           <Button variant="danger" onClick={() => handleDeletePost(postId)}>
-            DELETE
+            Elimina Post
           </Button>
         </Modal.Footer>
       </Modal>

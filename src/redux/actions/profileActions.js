@@ -239,9 +239,12 @@ export const fetchPostsAction = () => async (dispatch) => {
     const response = await axios.get(POSTS_URL, {
       headers: { Authorization: "Bearer " + TOKEN },
     });
+    const lastThirtyPosts = response.data.slice(-30);
+    const sortedPosts = lastThirtyPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
     dispatch({
       type: FETCH_POSTS,
-      payload: response.data.slice(-30),
+      payload: sortedPosts,
     });
   } catch (error) {
     dispatch({
@@ -354,7 +357,7 @@ export const fetchCommentsAction = () => async (dispatch) => {
     });
     dispatch({
       type: FETCH_COMMENTS,
-      payload: response.data.slice(-5),
+      payload: response.data.slice(-7),
     });
   } catch (error) {
     dispatch({

@@ -5,7 +5,10 @@ import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useState } from "react";
-import { addPostAction } from "../redux/actions/profileActions"; // Azione per creare un post
+import {
+  addPostAction,
+  fetchPostsAction,
+} from "../redux/actions/profileActions"; // Azione per creare un post
 import { Modal } from "react-bootstrap";
 import CardTravelIcon from "@mui/icons-material/CardTravel";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -37,15 +40,8 @@ const NewAldoPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPostAction(newPost)).then((createdPost) => {
-      if (selectedImage) {
-        const formData = new FormData();
-        formData.append("post", selectedImage); // Nome del campo per l'immagine
-
-        // Dispatch dell'azione per caricare l'immagine dopo aver creato il post
-        dispatch(uploadImageAction(createdPost, formData));
-      }
-    }); // Dispatch dell'azione per creare un nuovo post
+    dispatch(addPostAction(newPost)); // Dispatch dell'azione per creare un nuovo post
+    dispatch(fetchPostsAction());
     handleClose();
   };
 
