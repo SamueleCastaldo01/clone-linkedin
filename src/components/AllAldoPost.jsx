@@ -142,7 +142,7 @@ const AllAldoPost = () => {
 
           <CardMedia
             component="img"
-            height="194"
+            height="300"
             image="https://placedog.net/500"
             alt="Paella dish"
           />
