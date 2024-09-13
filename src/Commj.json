@@ -1,0 +1,40 @@
+{
+    "comments": [
+      {
+        "comment": "Great post! Really enjoyed reading it.",
+        "rate": 5,
+        "elementId": 101,
+        "username": "john_doe",
+        "img": "https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_82_standard-3.jpg"
+      },
+      {
+        "comment": "Interesting perspective, but I have some thoughts...",
+        "rate": 4,
+        "elementId": 102,
+        "username": "jane_smith",
+        "img": "https://images.unsplash.com/photo-1464863979621-258859e62245?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGdpcmwlMjBwcm9maWxlfGVufDB8fDB8fHww"
+      },
+      {
+        "comment": "Thanks for sharing, very helpful!",
+        "rate": 5,
+        "elementId": 103,
+        "username": "mark_twain",
+        "img": "https://photosking.net/wp-content/uploads/2024/05/sad-girl-profile-pictures_30.webp"
+      },
+      {
+        "comment": "I disagree with some points, but overall a good read.",
+        "rate": 3,
+        "elementId": 104,
+        "username": "alice_jones",
+        "img": "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?cs=srgb&dl=pexels-olly-3763188.jpg&fm=jpg"
+      },
+      {
+        "comment": "Amazing content as always, keep it up!",
+        "rate": 5,
+        "elementId": 105,
+        "username": "charles_brown",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzHMDlwRCHOHZP_tX7jRYNxV8W8MpNEog45w&s"
+      }
+    ]
+  }
+  

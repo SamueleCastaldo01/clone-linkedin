@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Commij from "../Commj.json";
 import {
   Avatar,
   Button,
@@ -243,6 +244,49 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
                     >
                       <DeleteIcon color="error" />
                     </IconButton>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {Commij.comments.map((comment) => (
+              <div
+                className=" d-flex align-items-center justify-content-between"
+                key={comment._id}
+                style={{
+                  marginBottom: "10px",
+                }}
+              >
+                <div className=" pe-0" style={{ width: "40px" }}>
+                  <Avatar
+                    src={comment.img}
+                    sx={{
+                      bgcolor: profileImage ? "transparent" : deepOrange[500],
+                      width: 30,
+                      height: 30,
+                      marginRight: 10,
+                    }}
+                  >
+                    {!profileImage && profile?.name ? profile.name[0] : ""}
+                  </Avatar>
+                </div>
+                <div
+                  className=" flex-grow-1 px-2"
+                  style={{
+                    backgroundColor: "#F2F2F2",
+                    borderRadius: 5,
+                    padding: "10px",
+                    fontSize: "14px",
+                    color: "#495057",
+                    fontFamily: "Arial, sans-serif",
+                  }}
+                >
+                  {comment.comment}
+                </div>
+                <div className=" d-flex align-items-center justify-content-end ps-0 ms-2">
+                  <div>
+                    <span style={{ marginRight: "5px" }}>{comment.rate}</span>
+                    <StarIcon style={{ color: "#FFD700" }} />
                   </div>
                 </div>
               </div>
