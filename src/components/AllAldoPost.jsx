@@ -154,7 +154,7 @@ const AllAldoPost = () => {
               aria-label="show more"
             />
           </CardActions>
-          <div className="d-flex justify-content-around flex-grow-1">
+          <div className="d-flex justify-content-around flex-grow-1 mb-2">
             <IconButton
               aria-label="add to favorites"
               onClick={() => toggleLike(post._id)}
