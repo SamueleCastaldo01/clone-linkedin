@@ -4,6 +4,7 @@ import FootAldo from "../components/FootAldo";
 import MyHomeSIdebar from "../components/MyHomeSidebar";
 import NavComponent from "../components/NavComponent";
 import NewAldoPost from "../components/NewAldoPost";
+import { Annuncio } from "../components/Annuncio";
 
 const CasALdo = () => {
   return (
@@ -23,7 +24,11 @@ const CasALdo = () => {
             </div>
             <div className="col-md-5 col-lg-3 d-sm-none d-md-flex flex-column align-items-end">
               <MyHomeSIdebar />
+              <div className=" position-sticky top-0">
+              <Annuncio />
               <FootAldo />
+              </div>
+           
             </div>
           </div>
         </main>
