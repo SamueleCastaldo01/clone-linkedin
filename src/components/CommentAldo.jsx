@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import StarIcon from "@mui/icons-material/Star";
 import {
   fetchCommentsAction,
@@ -193,13 +193,13 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
           <div>
             {comments.map((comment) => (
               <div
-                className="row d-flex justify-content-between align-items-center"
+                className="row d-flex align-items-center justify-content-between"
                 key={comment._id}
                 style={{
                   marginBottom: "10px",
                 }}
               >
-                <div className="col-2 pe-0">
+                <div className="col-2 pe-0" style={{ width: "50px" }}>
                   <Avatar
                     src={profileImage}
                     sx={{
@@ -225,22 +225,26 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
                 >
                   {comment.comment}
                 </div>
-                <div
-                  className="col-4 d-flex justify-content-between align-items-center"
-                >
+                <div className="col-4 d-flex align-items-center justify-content-end ps-0">
                   <div>
                     <span style={{ marginRight: "5px" }}>{comment.rate}</span>
                     <StarIcon style={{ color: "#FFD700" }} />
                   </div>
-             
-                  <IconButton onClick={() =>
-                      handleEdit(comment._id, comment.comment, comment.rate)
-                    }>
-                    <EditIcon color="primary"/>
-                  </IconButton>
-                  <IconButton aria-label="add comment" onClick={() => handleDelete(comment._id)}>
-                    <DeleteIcon color="error"/>
-                  </IconButton>
+                  <div>
+                    <IconButton
+                      onClick={() =>
+                        handleEdit(comment._id, comment.comment, comment.rate)
+                      }
+                    >
+                      <EditIcon color="primary" />
+                    </IconButton>
+                    <IconButton
+                      aria-label="add comment"
+                      onClick={() => handleDelete(comment._id)}
+                    >
+                      <DeleteIcon color="error" />
+                    </IconButton>
+                  </div>
                 </div>
               </div>
             ))}
