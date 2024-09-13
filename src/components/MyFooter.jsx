@@ -126,7 +126,7 @@ const MyFooter = () => {
             </Col>
 
             {/* Section: Links 4 */}
-            <Col lg={3} md={6} className="mb-4">
+            <Col lg={3} md={6} className="mb-4 center center-section">
               <ul className="list-unstyled">
                 <div className="d-flex align-items-start">
                   <HelpIcon className="me-2" />
