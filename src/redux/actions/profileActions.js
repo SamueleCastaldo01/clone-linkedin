@@ -15,9 +15,16 @@ import {
   DELETE_POST,
   UPDATE_POST,
   FETCH_JOBS_SEARCH,
-  JOBS_ERROR
+  JOBS_ERROR,
+  FETCH_COMMENTS,
+  COMMENTS_ERROR,
+  ADD_COMMENTS,
+  UPDATE_COMMENTS,
+  DELETE_COMMENTS
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
+
+//ACTIONS PER IL PROFILE
 
 const PROFILE_URL = "https://striveschool-api.herokuapp.com/api/profile/";
 const TOKEN =
@@ -127,6 +134,8 @@ export const updateProfile = (profile) => async (dispatch) => {
   }
 };
 
+// ACTIONS PER LE ESPERIENZE
+
 export const Experiencesfetch = (userId) => async (dispatch) => {
   try {
     const response = await axios.get(PROFILE_URL + userId + "/experiences", {
@@ -220,6 +229,8 @@ export const modifyExperienceAction =
     }
   };
 
+//ACTIONS PER I POSTS
+
 const POSTS_URL = "https://striveschool-api.herokuapp.com/api/posts/";
 
 export const fetchPostsAction = () => async (dispatch) => {
@@ -275,27 +286,28 @@ export const deletePostAction = (postId) => async (dispatch) => {
   }
 };
 
-export const updatePostAction =
-  (postId, updatedPostData) => async (dispatch) => {
-    try {
-      const response = await axios.put(
-        `${POSTS_URL}/${postId}`,
-        updatedPostData,
-        {
-          headers: { Authorization: "Bearer " + TOKEN },
-        }
-      );
-      dispatch({
-        type: UPDATE_POST,
-        payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
-      });
-    } catch (error) {
-      dispatch({
-        type: POSTS_ERROR,
-        payload: error.message,
-      });
-    }
-  };
+export const updatePostAction = (postId, updatedPostData) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      `${POSTS_URL}/${postId}`,
+      updatedPostData,
+      {
+        headers: { Authorization: "Bearer " + TOKEN },
+      }
+    );
+    dispatch({
+      type: UPDATE_POST,
+      payload: { id: postId, data: response.data }, // Passa l'ID e i dati aggiornati
+    });
+  } catch (error) {
+    dispatch({
+      type: POSTS_ERROR,
+      payload: error.message,
+    });
+  }
+};
+
+// ACTIONS PER I LAVORI
 
 const JOBS_URL = 'https://strive-benchmark.herokuapp.com/api/jobs'
 const search = '?search='
@@ -324,5 +336,84 @@ export const fetchJobsAction = (query) => async (dispatch) => {
       payload: error.message,  // Corretto il messaggio d'errore
     });
     console.error('Errore nella fetch:', error.message);
+  }
+};
+
+// AZIONI PER I COMMENTI
+const COMMENTS_POST_URL = "https://striveschool-api.herokuapp.com/api/comments/"
+const TOKEN_FOR_COMMENTS = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUyYmNiNjU0M2E0YzAwMTU5MDFlMTkiLCJpYXQiOjE3MjYxMzU0NzgsImV4cCI6MTcyNzM0NTA3OH0.zqvix3VlQQc_YEOZqgIjN6p7UYvvFRZHJiHAWVImpI4'
+
+export const fetchCommentsAction = () => async (dispatch) => {
+  try {
+    const response = await axios.get(COMMENTS_POST_URL, {
+      headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
+    })
+    dispatch({
+      type: FETCH_COMMENTS,
+      payload: response.data.slice(-5),
+    });
+  } catch (error) {
+    dispatch({
+      type: COMMENTS_ERROR,
+      payload: error.message,
+    });
+  }
+}
+
+
+// const POST_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3MzAzNjQzYTU2ODAwMTU4ZWMzZDciLCJpYXQiOjE3MjYxNjExNjgsImV4cCI6MTcyNzM3MDc2OH0.Pm-Zmxol5m8J6pz7vUBhjGnTYgZUghS2DiMUOTcX5zA'
+// export const addCommentAction = (postId, commentData) => async (dispatch) => {
+//   try {
+//     const response = await axios.post(`${COMMENTS_POST_URL}${postId}`, commentData, {
+//       headers: { Authorization: "Bearer " + POST_TOKEN },
+//     });
+//     dispatch({
+//       type: ADD_COMMENTS,
+//       payload: response.data,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: COMMENTS_ERROR,
+//       payload: error.message,
+//     });
+//   }
+// };
+
+
+export const updateCommentAction = (commentId, updatedCommentData) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      `${COMMENTS_POST_URL}/${commentId}`,
+      updatedCommentData,
+      {
+        headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
+      }
+    );
+    dispatch({
+      type: UPDATE_COMMENTS,
+      payload: { id: commentId, data: response.data },
+    });
+  } catch (error) {
+    dispatch({
+      type: COMMENTS_ERROR,
+      payload: error.message,
+    });
+  }
+};
+
+export const deleteCommentAction = (commentId) => async (dispatch) => {
+  try {
+    await axios.delete(`${COMMENTS_POST_URL}/${commentId}`, {
+      headers: { Authorization: "Bearer " + TOKEN_FOR_COMMENTS },
+    });
+    dispatch({
+      type: DELETE_COMMENTS,
+      payload: commentId,
+    });
+  } catch (error) {
+    dispatch({
+      type: COMMENTS_ERROR,
+      payload: error.message,
+    });
   }
 };
