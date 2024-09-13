@@ -35,6 +35,7 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
   const [currentRating, setCurrentRating] = useState(1); // Default rating
   const [editingCommentId, setEditingCommentId] = useState(null); // Stato per il commento in modifica
 
+
   const POST_TOKEN =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3MzAzNjQzYTU2ODAwMTU4ZWMzZDciLCJpYXQiOjE3MjYxNjExNjgsImV4cCI6MTcyNzM3MDc2OH0.Pm-Zmxol5m8J6pz7vUBhjGnTYgZUghS2DiMUOTcX5zA";
 
