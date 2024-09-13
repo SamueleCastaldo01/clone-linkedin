@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Avatar, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
-import StarIcon from '@mui/icons-material/Star';
-import { fetchCommentsAction, addCommentAction, updateCommentAction, deleteCommentAction } from "../redux/actions/profileActions"; // Importa le azioni Redux
+import StarIcon from "@mui/icons-material/Star";
+import {
+  fetchCommentsAction,
+  updateCommentAction,
+  deleteCommentAction,
+} from "../redux/actions/profileActions"; // Importa le azioni Redux
 
-const CommentAldo = ({ postId }) => {
+const CommentAldo = ({ postId, onCommentAdded }) => {
   const dispatch = useDispatch();
 
   // Accesso ai commenti, caricamento e errori dallo store Redux
@@ -19,9 +30,51 @@ const CommentAldo = ({ postId }) => {
   const [currentRating, setCurrentRating] = useState(1); // Default rating
   const [editingCommentId, setEditingCommentId] = useState(null); // Stato per il commento in modifica
 
+  const POST_TOKEN =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3MzAzNjQzYTU2ODAwMTU4ZWMzZDciLCJpYXQiOjE3MjYxNjExNjgsImV4cCI6MTcyNzM3MDc2OH0.Pm-Zmxol5m8J6pz7vUBhjGnTYgZUghS2DiMUOTcX5zA";
+
+    const addCommentAction = () => {
+      const comments = {
+        comment: currentComment,
+        rate: currentRating,
+        elementId: postId, // L'id del post al quale associare il commento
+      };
+  
+      fetch("https://striveschool-api.herokuapp.com/api/comments/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + POST_TOKEN,
+        },
+        body: JSON.stringify(comments),
+      })
+        .then((response) => {
+          if (response.ok) {
+            // svuota i campi
+            setCurrentComment("");
+            setCurrentRating(1); // Resetta il rating
+  
+            // Chiama la funzione per ricaricare i commenti
+            if (onCommentAdded) {
+              onCommentAdded();
+            }
+          } else {
+            alert("Riprova più tardi");
+            throw new Error("Errore durante l'aggiunta del commento");
+          }
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    };
+  
+ 
   useEffect(() => {
     dispatch(fetchCommentsAction(postId)); // Fetch dei commenti del post
   }, [dispatch, postId]);
+  console.log("Questi sono i commenti:", comments);
+
+
 
   // Gestione del cambiamento del commento
   const handleCommentChange = (event) => {
@@ -38,11 +91,21 @@ const CommentAldo = ({ postId }) => {
     if (currentComment.trim()) {
       if (editingCommentId) {
         // Se c'è un commento in modifica, esegui l'aggiornamento
-        dispatch(updateCommentAction(editingCommentId, { comment: currentComment, rate: currentRating }));
+        dispatch(
+          updateCommentAction(editingCommentId, {
+            comment: currentComment,
+            rate: currentRating,
+          })
+        );
         setEditingCommentId(null); // Reset dell'ID in modifica
       } else {
         // Altrimenti aggiungi un nuovo commento
-        dispatch(addCommentAction(postId, { comment: currentComment, rate: currentRating }));
+        dispatch(
+          addCommentAction(postId, {
+            comment: currentComment,
+            rate: currentRating,
+          })
+        );
       }
       setCurrentComment(""); // Pulisci il campo del commento
       setCurrentRating(1); // Reset del rating
@@ -131,7 +194,14 @@ const CommentAldo = ({ postId }) => {
         ) : (
           <div>
             {comments.map((comment) => (
-              <div key={comment._id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              <div
+                key={comment._id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
                 <Avatar
                   src={profileImage}
                   sx={{
@@ -143,29 +213,46 @@ const CommentAldo = ({ postId }) => {
                 >
                   {!profileImage && profile?.name ? profile.name[0] : ""}
                 </Avatar>
-                <div style={{
-                  backgroundColor: "#F2F2F2",
-                  borderRadius: 5,
-                  padding: "10px",
-                  fontSize: "14px",
-                  color: "#495057",
-                  fontFamily: "Arial, sans-serif",
-                  maxWidth: "80%",
-                  wordWrap: "break-word",
-                  marginRight: '10px',
-                  flex: 1,
-                }}>
+                <div
+                  style={{
+                    backgroundColor: "#F2F2F2",
+                    borderRadius: 5,
+                    padding: "10px",
+                    fontSize: "14px",
+                    color: "#495057",
+                    fontFamily: "Arial, sans-serif",
+                    maxWidth: "80%",
+                    wordWrap: "break-word",
+                    marginRight: "10px",
+                    flex: 1,
+                  }}
+                >
                   {comment.comment}
                 </div>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginLeft: 'auto',
-                }}>
-                  <span style={{ marginRight: '5px' }}>{comment.rate}</span>
-                  <StarIcon style={{ color: '#FFD700' }} />
-                  <Button size="small" onClick={() => handleEdit(comment._id, comment.comment, comment.rate)}>Modifica</Button>
-                  <Button size="small" color="secondary" onClick={() => handleDelete(comment._id)}>Elimina</Button>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginLeft: "auto",
+                  }}
+                >
+                  <span style={{ marginRight: "5px" }}>{comment.rate}</span>
+                  <StarIcon style={{ color: "#FFD700" }} />
+                  <Button
+                    size="small"
+                    onClick={() =>
+                      handleEdit(comment._id, comment.comment, comment.rate)
+                    }
+                  >
+                    Modifica
+                  </Button>
+                  <Button
+                    size="small"
+                    color="secondary"
+                    onClick={() => handleDelete(comment._id)}
+                  >
+                    Elimina
+                  </Button>
                 </div>
               </div>
             ))}

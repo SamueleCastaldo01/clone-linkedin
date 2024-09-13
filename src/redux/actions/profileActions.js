@@ -362,22 +362,22 @@ export const fetchCommentsAction = () => async (dispatch) => {
 
 
 const POST_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3MzAzNjQzYTU2ODAwMTU4ZWMzZDciLCJpYXQiOjE3MjYxNjExNjgsImV4cCI6MTcyNzM3MDc2OH0.Pm-Zmxol5m8J6pz7vUBhjGnTYgZUghS2DiMUOTcX5zA'
-export const addCommentAction = (postId, commentData) => async (dispatch) => {
-  try {
-    const response = await axios.post(`${COMMENTS_POST_URL}${postId}`, commentData, {
-      headers: { Authorization: "Bearer " + POST_TOKEN },
-    });
-    dispatch({
-      type: ADD_COMMENTS,
-      payload: response.data,
-    });
-  } catch (error) {
-    dispatch({
-      type: COMMENTS_ERROR,
-      payload: error.message,
-    });
-  }
-};
+// export const addCommentAction = (postId, commentData) => async (dispatch) => {
+//   try {
+//     const response = await axios.post(`${COMMENTS_POST_URL}${postId}`, commentData, {
+//       headers: { Authorization: "Bearer " + POST_TOKEN },
+//     });
+//     dispatch({
+//       type: ADD_COMMENTS,
+//       payload: response.data,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: COMMENTS_ERROR,
+//       payload: error.message,
+//     });
+//   }
+// };
 
 
 export const updateCommentAction = (commentId, updatedCommentData) => async (dispatch) => {

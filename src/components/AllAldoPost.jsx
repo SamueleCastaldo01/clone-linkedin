@@ -96,6 +96,12 @@ const AllAldoPost = () => {
     }));
   };
 
+    // Funzione per ricaricare i commenti
+    const handleCommentAdded = () => {
+      // Se vuoi fare qualcosa dopo che un commento è stato aggiunto (ad esempio aggiornare lo stato)
+      console.log("Commento aggiunto! Aggiorna i commenti o lo stato qui.");
+    };
+
   return (
     <div>
       {posts.map((post) => (
@@ -168,7 +174,7 @@ const AllAldoPost = () => {
           <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography sx={{ marginBottom: 2 }}>
-                <CommentAldo postId={post._id} />
+                <CommentAldo postId={post._id} onCommentAdded={handleCommentAdded} />
               </Typography>
             </CardContent>
           </Collapse>
