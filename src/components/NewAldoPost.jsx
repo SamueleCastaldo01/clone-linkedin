@@ -60,10 +60,9 @@ const NewAldoPost = () => {
       if (latestPost && latestPost._id) {
         console.log("ID del post appena creato:", latestPost._id);
   
-        setTimeout(() => {
           console.log("Avvio del caricamento dell'immagine per il post con ID:", latestPost._id);
           handleFetchImage(latestPost._id);
-        }, 1000); // Ritardo di 2 secondi (2000 ms)
+    
       } else {
         console.error("Impossibile trovare l'ID del post appena creato.");
       }
