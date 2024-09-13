@@ -238,9 +238,10 @@ export const fetchPostsAction = () => async (dispatch) => {
     const response = await axios.get(POSTS_URL, {
       headers: { Authorization: "Bearer " + TOKEN },
     });
+    const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     dispatch({
       type: FETCH_POSTS,
-      payload: response.data.slice(-30),
+      payload: sortedPosts.slice(-30),
     });
   } catch (error) {
     dispatch({
