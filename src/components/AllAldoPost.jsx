@@ -68,6 +68,10 @@ const AllAldoPost = () => {
     dispatch(fetchPostsAction());
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log("i miei post", posts)
+  }, [posts])
+
   const handleEditPost = (post) => {
     setEditPost(post);
     setEditText(post.text);

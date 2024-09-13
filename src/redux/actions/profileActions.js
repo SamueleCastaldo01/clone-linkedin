@@ -230,7 +230,7 @@ export const modifyExperienceAction =
     }
   };
 
-//ACTIONS PER I POSTS
+//ACTIONS PER I POSTS, GET
 
 const POSTS_URL = "https://striveschool-api.herokuapp.com/api/posts/";
 
