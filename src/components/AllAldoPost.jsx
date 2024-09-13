@@ -26,48 +26,25 @@ import ShareIcon from "@mui/icons-material/Share";
 import SendIcon from "@mui/icons-material/Send";
 import { Modal, Button } from "react-bootstrap";
 import CardMedia from "@mui/material/CardMedia";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommentAldo from "./CommentAldo";
-
-const ExpandMore = ({ expand, onClick, ...other }) => {
-  return (
-    <div
-      {...other}
-      style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-    >
-      <IconButton
-        onClick={onClick}
-        aria-expanded={expand}
-        aria-label="show more"
-        style={{
-          transform: expand ? "rotate(180deg)" : "rotate(0deg)",
-          transition: "transform 0.3s ease",
-        }}
-      >
-        <ExpandMoreIcon />
-      </IconButton>
-      <span onClick={onClick} style={{ marginLeft: "8px", cursor: "pointer" }}>
-        Commenti
-      </span>
-    </div>
-  );
-};
 
 const AllAldoPost = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
 
-  const [expandedPosts, setExpandedPosts] = useState({}); // Stato per tenere traccia dell'espansione dei post
-  const [editPost, setEditPost] = useState(null); // Post corrente in modifica
-  const [editText, setEditText] = useState(""); // Testo del post in modifica
+  const [expandedPosts, setExpandedPosts] = useState({});
+  const [editPost, setEditPost] = useState(null);
+  const [editText, setEditText] = useState("");
   const [show, setShow] = useState(false);
   const [postId, setPostId] = useState("");
-  const [likedPosts, setLikedPosts] = useState({}); // Stato per tenere traccia dei post "likati"
+  const [likedPosts, setLikedPosts] = useState({});
 
+  // Effetto per caricare i post quando il componente è montato
   useEffect(() => {
     dispatch(fetchPostsAction());
   }, [dispatch]);
 
+  // Funzione per avviare la modifica di un post
   const handleEditPost = (post) => {
     setEditPost(post);
     setEditText(post.text);
@@ -75,50 +52,71 @@ const AllAldoPost = () => {
     setShow(true);
   };
 
+  // Funzione per eliminare un post
   const handleDeletePost = (postId) => {
     dispatch(deletePostAction(postId));
     setShow(false);
   };
 
+  // Funzione per salvare le modifiche al post
   const handleSaveEditPost = () => {
     dispatch(updatePostAction(editPost._id, { text: editText }));
     setShow(false);
   };
 
-  // Funzione per gestire l'espansione di un singolo post
+  // Funzione per gestire l'espansione dei commenti
   const handleExpandClick = (postId) => {
     setExpandedPosts((prevExpanded) => ({
       ...prevExpanded,
-      [postId]: !prevExpanded[postId], // Alterna lo stato di espansione per il post selezionato
+      [postId]: !prevExpanded[postId],
     }));
   };
 
-  // Funzione per gestire il "like" dei post
+  // Funzione per alternare il "mi piace" su un post
   const toggleLike = (postId) => {
     setLikedPosts((prevLikes) => ({
       ...prevLikes,
-      [postId]: !prevLikes[postId], // Alterna il valore "like" del post
+      [postId]: !prevLikes[postId],
     }));
   };
 
-  // Funzione per gestire l'apertura dei commenti
+  // Funzione per gestire il click sul pulsante dei commenti
   const handleCommentClick = (postId) => {
-    handleExpandClick(postId); // Usa la funzione di espansione esistente
+    handleExpandClick(postId);
   };
 
-  // Funzione per gestire il "like" dei post
+  // Funzione per gestire il click sul pulsante "mi piace"
   const handleLikeClick = (postId) => {
-    toggleLike(postId); // Alterna il "like" quando si clicca
+    toggleLike(postId);
   };
 
-  // Funzione per ricaricare i commenti
+  // Funzione chiamata quando un commento è stato aggiunto
   const handleCommentAdded = () => {
-    // Se vuoi fare qualcosa dopo che un commento è stato aggiunto (ad esempio aggiornare lo stato)
     console.log("Commento aggiunto! Aggiorna i commenti o lo stato qui.");
+  };
+
+  // Stili per i pulsanti
+  const buttonStyle = {
+    display: "flex",
+    alignItems: "center",
+    fontSize: "14px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    padding: "10px",
+    border: "none",
+    background: "none",
+    color: "inherit",
+    transition: "color 0.3s ease, background-color 0.3s ease",
+  };
+
+  // Stili per i pulsanti delle icone
+  const iconButtonStyle = {
+    transition: "color 0.3s ease",
   };
 
   return (
     <div style={{ marginBottom: "100px" }}>
+      {/* Mappa attraverso tutti i post e li visualizza */}
       {posts.map((post) => (
         <Card
           sx={{ maxWidth: 345 }}
@@ -136,6 +134,7 @@ const AllAldoPost = () => {
               <IconButton
                 aria-label="settings"
                 onClick={() => handleEditPost(post)}
+                style={iconButtonStyle}
               >
                 <MoreVertIcon />
               </IconButton>
@@ -144,7 +143,7 @@ const AllAldoPost = () => {
             subheader={
               <span style={{ display: "flex", alignItems: "center" }}>
                 {new Date(post.createdAt).toLocaleString()}
-                <IconButton aria-label="public">
+                <IconButton aria-label="public" style={iconButtonStyle}>
                   <PublicIcon style={{ fontSize: "20px" }} />
                 </IconButton>
               </span>
@@ -166,97 +165,50 @@ const AllAldoPost = () => {
             disableSpacing
             className="d-flex justify-content-end mx-3"
           >
-            <ExpandMore
-              expand={expandedPosts[post._id]} // Controlla lo stato di espansione per il post
-              onClick={() => handleExpandClick(post._id)} // Espandi o chiudi il post
-              aria-expanded={expandedPosts[post._id]}
-              aria-label="show more"
-            />
+            {/* Rimosso il componente ExpandMore */}
           </CardActions>
           <div className="d-flex justify-content-around flex-grow-1 mb-2">
-            <div className="d-flex justify-content-center align-items-center">
+            <div className="d-flex align-items-center">
               <IconButton
-                className="pe-0"
                 aria-label="add to favorites"
-                onClick={() => handleLikeClick(post._id)} // Alterna il "like" anche con il clic sul testo "Consiglia"
-                style={{ transition: "none", cursor: "pointer" }} // Rimuove le animazioni e aggiunge il cursore
+                onClick={() => handleLikeClick(post._id)}
+                style={{ ...iconButtonStyle, marginRight: "8px" }}
               >
                 {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
               </IconButton>
-              <p
-                style={{
-                  fontSize: "14px",
-                  margin: 0,
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  padding: "10px",
-                }}
-                onClick={() => handleLikeClick(post._id)} // Alterna il "like" anche con il clic sul testo "Consiglia"
+              <button
+                onClick={() => handleLikeClick(post._id)}
+                style={buttonStyle}
               >
                 Consiglia
-              </p>
+              </button>
             </div>
-            <div className="d-flex align-items-center justify-content-center">
+            <div className="d-flex align-items-center">
               <IconButton
-                className="pe-0"
                 aria-label="add comment"
-                onClick={() => handleCommentClick(post._id)} // Aggiungi gestore per CommentIcon
-                style={{ cursor: "pointer" }}
+                onClick={() => handleCommentClick(post._id)}
+                style={iconButtonStyle}
               >
                 <CommentIcon />
               </IconButton>
-              <p
-                style={{
-                  fontSize: "14px",
-                  margin: 0,
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  padding: "10px",
-                }}
-                onClick={() => handleCommentClick(post._id)} // Aggiungi gestore per "Commenta"
+              <button
+                onClick={() => handleCommentClick(post._id)}
+                style={buttonStyle}
               >
                 Commenta
-              </p>
+              </button>
             </div>
-            <div className="d-flex align-items-center justify-content-center">
-              <IconButton
-                className="pe-0"
-                aria-label="share"
-                style={{ cursor: "pointer" }}
-              >
+            <div className="d-flex align-items-center">
+              <IconButton aria-label="share" style={iconButtonStyle}>
                 <ShareIcon />
               </IconButton>
-              <p
-                style={{
-                  fontSize: "14px",
-                  margin: 0,
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  padding: "10px",
-                }}
-              >
-                Condividi
-              </p>
+              <button style={buttonStyle}>Condividi</button>
             </div>
-            <div className="d-flex align-items-center justify-content-center">
-              <IconButton
-                className="pe-0"
-                aria-label="send"
-                style={{ cursor: "pointer" }}
-              >
+            <div className="d-flex align-items-center">
+              <IconButton aria-label="send" style={iconButtonStyle}>
                 <SendIcon />
               </IconButton>
-              <p
-                style={{
-                  fontSize: "14px",
-                  margin: 0,
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  padding: "10px",
-                }}
-              >
-                Invia
-              </p>
+              <button style={buttonStyle}>Invia</button>
             </div>
           </div>
           <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
