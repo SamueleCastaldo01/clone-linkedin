@@ -64,7 +64,7 @@ const AllAldoPost = () => {
   }, [dispatch]);
 
   const handleEditPost = (post) => {
-    setEditPost(post); 
+    setEditPost(post);
     setEditText(post.text);
     setPostId(post._id);
     setShow(true);
@@ -96,14 +96,14 @@ const AllAldoPost = () => {
     }));
   };
 
-    // Funzione per ricaricare i commenti
-    const handleCommentAdded = () => {
-      // Se vuoi fare qualcosa dopo che un commento è stato aggiunto (ad esempio aggiornare lo stato)
-      console.log("Commento aggiunto! Aggiorna i commenti o lo stato qui.");
-    };
+  // Funzione per ricaricare i commenti
+  const handleCommentAdded = () => {
+    // Se vuoi fare qualcosa dopo che un commento è stato aggiunto (ad esempio aggiornare lo stato)
+    console.log("Commento aggiunto! Aggiorna i commenti o lo stato qui.");
+  };
 
   return (
-    <div style={{marginBottom:'100px'}}>
+    <div style={{ marginBottom: "100px" }}>
       {posts.map((post) => (
         <Card
           sx={{ maxWidth: 345 }}
@@ -155,11 +155,7 @@ const AllAldoPost = () => {
               aria-label="add to favorites"
               onClick={() => toggleLike(post._id)}
             >
-              {likedPosts[post._id] ? (
-                <ThumbUpIcon />
-              ) : (
-                <ThumbUpOffAltIcon />
-              )}
+              {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
             </IconButton>
             <IconButton aria-label="add comment">
               <CommentIcon />
@@ -174,7 +170,10 @@ const AllAldoPost = () => {
           <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography sx={{ marginBottom: 2 }}>
-                <CommentAldo postId={post._id} onCommentAdded={handleCommentAdded} />
+                <CommentAldo
+                  postId={post._id}
+                  onCommentAdded={handleCommentAdded}
+                />
               </Typography>
             </CardContent>
           </Collapse>

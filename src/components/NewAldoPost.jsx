@@ -14,6 +14,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import StarsIcon from "@mui/icons-material/Stars";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import { uploadImageAction } from "../redux/actions/profileActions";
 
 const NewAldoPost = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const NewAldoPost = () => {
   const [newPost, setNewPost] = useState({
     text: "", // Solo il campo "text" è necessario per creare un post
   });
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleClose = () => {
     resetForm();
@@ -35,12 +37,25 @@ const NewAldoPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPostAction(newPost)); // Dispatch dell'azione per creare un nuovo post
+    dispatch(addPostAction(newPost)).then((createdPost) => {
+      if (selectedImage) {
+        const formData = new FormData();
+        formData.append("post", selectedImage); // Nome del campo per l'immagine
+
+        // Dispatch dell'azione per caricare l'immagine dopo aver creato il post
+        dispatch(uploadImageAction(createdPost, formData));
+      }
+    }); // Dispatch dell'azione per creare un nuovo post
     handleClose();
+  };
+
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0]); // Memorizza l'immagine selezionata
   };
 
   const resetForm = () => {
     setNewPost({ text: "" });
+    setSelectedImage(null);
   };
 
   return (
@@ -74,19 +89,34 @@ const NewAldoPost = () => {
       <div className="d-flex justify-content-between mt-3">
         <div className="d-flex align-items-center">
           <InsertPhotoIcon style={{ color: "#378FE9" }} />
-          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
+          <Typography
+            style={{ fontSize: "14px" }}
+            variant="p"
+            component="div"
+            className="ms-1"
+          >
             Contenuti multimediali
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <CalendarMonthIcon style={{ color: "#C37D16" }} />
-          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
+          <Typography
+            style={{ fontSize: "14px" }}
+            variant="p"
+            component="div"
+            className="ms-1"
+          >
             Evento
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <ArticleIcon style={{ color: "#E06847" }} />
-          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
+          <Typography
+            style={{ fontSize: "14px" }}
+            variant="p"
+            component="div"
+            className="ms-1"
+          >
             Scrivi un articolo
           </Typography>
         </div>
@@ -110,6 +140,12 @@ const NewAldoPost = () => {
                   text: e.target.value,
                 })
               }
+            />
+            <input
+              type="file"
+              onChange={handleImageChange}
+              className="form-control mt-3"
+              accept="image/*"
             />
             <div>
               <SentimentSatisfiedAltIcon style={{ color: "#666666" }} />
