@@ -5,7 +5,7 @@ import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useState } from "react";
-import { addPostAction } from "../redux/actions/profileActions"; // Azione per creare un post
+import { addPostAction, fetchPostsAction } from "../redux/actions/profileActions"; // Azione per creare un post
 import { Modal } from "react-bootstrap";
 import CardTravelIcon from "@mui/icons-material/CardTravel";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -36,6 +36,7 @@ const NewAldoPost = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addPostAction(newPost)); // Dispatch dell'azione per creare un nuovo post
+    dispatch(fetchPostsAction());
     handleClose();
   };
 
@@ -74,19 +75,34 @@ const NewAldoPost = () => {
       <div className="d-flex justify-content-between mt-3">
         <div className="d-flex align-items-center">
           <InsertPhotoIcon style={{ color: "#378FE9" }} />
-          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
+          <Typography
+            style={{ fontSize: "14px" }}
+            variant="p"
+            component="div"
+            className="ms-1"
+          >
             Contenuti multimediali
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <CalendarMonthIcon style={{ color: "#C37D16" }} />
-          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
+          <Typography
+            style={{ fontSize: "14px" }}
+            variant="p"
+            component="div"
+            className="ms-1"
+          >
             Evento
           </Typography>
         </div>
         <div className="d-flex align-items-center">
           <ArticleIcon style={{ color: "#E06847" }} />
-          <Typography style={{fontSize: "14px"}} variant="p" component="div" className="ms-1">
+          <Typography
+            style={{ fontSize: "14px" }}
+            variant="p"
+            component="div"
+            className="ms-1"
+          >
             Scrivi un articolo
           </Typography>
         </div>
