@@ -4,6 +4,7 @@ import {
   fetchPostsAction,
   deletePostAction,
   updatePostAction,
+  fetchSpecificProfile
 } from "../redux/actions/profileActions";
 import {
   Card,
@@ -31,6 +32,8 @@ import CommentAldo from "./CommentAldo";
 const AllAldoPost = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
+  const profile = useSelector((state) => state.profile.profile);
+  const idAldo = "66dff513af434b00159d8330";
 
   const [expandedPosts, setExpandedPosts] = useState({});
   const [editPost, setEditPost] = useState(null);
@@ -42,6 +45,7 @@ const AllAldoPost = () => {
   // Effetto per caricare i post quando il componente è montato
   useEffect(() => {
     dispatch(fetchPostsAction());
+    dispatch(fetchSpecificProfile(idAldo))
   }, [dispatch]);
 
   // Funzione per avviare la modifica di un post
@@ -126,7 +130,7 @@ const AllAldoPost = () => {
           <CardHeader
             sx={{ padding: "15px 10px 0px 10px" }}
             avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+              <Avatar  src={profile.username === post.username ? profile.image : undefined}  sx={{ bgcolor: red[500] }} aria-label="recipe">
                 {post.username[0]}
               </Avatar>
             }
