@@ -14,7 +14,6 @@ import {
   fetchCommentsAction,
   updateCommentAction,
   deleteCommentAction,
-  addCommentAction,
 } from "../redux/actions/profileActions"; // Importa le azioni Redux
 
 const CommentAldo = ({ postId, onCommentAdded }) => {
@@ -31,51 +30,48 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
   const [currentRating, setCurrentRating] = useState(1); // Default rating
   const [editingCommentId, setEditingCommentId] = useState(null); // Stato per il commento in modifica
 
-  // const POST_TOKEN =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3MzAzNjQzYTU2ODAwMTU4ZWMzZDciLCJpYXQiOjE3MjYxNjExNjgsImV4cCI6MTcyNzM3MDc2OH0.Pm-Zmxol5m8J6pz7vUBhjGnTYgZUghS2DiMUOTcX5zA";
+  const POST_TOKEN =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3MzAzNjQzYTU2ODAwMTU4ZWMzZDciLCJpYXQiOjE3MjYxNjExNjgsImV4cCI6MTcyNzM3MDc2OH0.Pm-Zmxol5m8J6pz7vUBhjGnTYgZUghS2DiMUOTcX5zA";
 
-  //   const addCommentAction = () => {
-  //     const comments = {
-  //       comment: currentComment,
-  //       rate: currentRating,
-  //       elementId: postId, // L'id del post al quale associare il commento
-  //     };
-  
-  //     fetch("https://striveschool-api.herokuapp.com/api/comments/", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer " + POST_TOKEN,
-  //       },
-  //       body: JSON.stringify(comments),
-  //     })
-  //       .then((response) => {
-  //         if (response.ok) {
-  //           // svuota i campi
-  //           setCurrentComment("");
-  //           setCurrentRating(1); // Resetta il rating
-  
-  //           // Chiama la funzione per ricaricare i commenti
-  //           if (onCommentAdded) {
-  //             onCommentAdded();
-  //           }
-  //         } else {
-  //           alert("Riprova più tardi");
-  //           throw new Error("Errore durante l'aggiunta del commento");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         alert(err.message);
-  //       });
-  //   };
-  
- 
+  const addCommentAction = () => {
+    const comments = {
+      comment: currentComment,
+      rate: currentRating,
+      elementId: postId, // L'id del post al quale associare il commento
+    };
+
+    fetch("https://striveschool-api.herokuapp.com/api/comments/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + POST_TOKEN,
+      },
+      body: JSON.stringify(comments),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // svuota i campi
+          setCurrentComment("");
+          setCurrentRating(1); // Resetta il rating
+
+          // Chiama la funzione per ricaricare i commenti
+          if (onCommentAdded) {
+            onCommentAdded();
+          }
+        } else {
+          alert("Riprova più tardi");
+          throw new Error("Errore durante l'aggiunta del commento");
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
   useEffect(() => {
     dispatch(fetchCommentsAction(postId)); // Fetch dei commenti del post
   }, [dispatch, postId]);
   console.log("Questi sono i commenti:", comments);
-
-
 
   // Gestione del cambiamento del commento
   const handleCommentChange = (event) => {
@@ -99,14 +95,11 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
           })
         );
         setEditingCommentId(null); // Reset dell'ID in modifica
+        dispatch(fetchCommentsAction())
       } else {
         // Altrimenti aggiungi un nuovo commento
-        dispatch(
-          addCommentAction(postId, {
-            comment: currentComment,
-            rate: currentRating,
-          })
-        );
+        addCommentAction();
+        dispatch(fetchCommentsAction())
       }
       setCurrentComment(""); // Pulisci il campo del commento
       setCurrentRating(1); // Reset del rating
