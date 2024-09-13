@@ -2,7 +2,8 @@ import { FETCH_JOBS_SEARCH, JOBS_ERROR } from "../actions/types"
 
 const initialState = {
     jobs: [],
-    error: null
+    error: null,
+    isLoading:false
 }
 
 export const jobsReducer = (state = initialState, action) => {

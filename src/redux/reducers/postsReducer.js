@@ -3,7 +3,8 @@ import { ADD_TO_POST, DELETE_POST, FETCH_POSTS, POSTS_ERROR, UPDATE_POST } from 
 
 const initialState = {
     posts: [],
-    error: null
+    error: null,
+    isLoading:false
 }
 
 export const postReducer = (state = initialState, action) => {
