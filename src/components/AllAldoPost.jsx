@@ -16,6 +16,7 @@ import {
   Typography,
   Collapse,
   TextField,
+  CircularProgress
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -41,6 +42,7 @@ const AllAldoPost = () => {
   const [show, setShow] = useState(false);
   const [postId, setPostId] = useState("");
   const [likedPosts, setLikedPosts] = useState({});
+  const isLoading = useSelector((state) => state.posts.isLoading);
 
   // Effetto per caricare i post quando il componente è montato
   useEffect(() => {
@@ -120,113 +122,120 @@ const AllAldoPost = () => {
 
   return (
     <div style={{ marginBottom: "100px" }}>
-      {/* Mappa attraverso tutti i post e li visualizza */}
-      {posts.map((post) => (
-        <Card
-          sx={{ maxWidth: 345 }}
-          key={post._id}
-          className="my-3 rounded-4 cardOmbra"
-        >
-          <CardHeader
-            sx={{ padding: "15px 10px 0px 10px" }}
-            avatar={
-              <Avatar  src={profile.username === post.username ? profile.image : undefined}  sx={{ bgcolor: red[500] }} aria-label="recipe">
-                {post.username[0]}
-              </Avatar>
-            }
-            action={
-              <IconButton
-                aria-label="settings"
-                onClick={() => handleEditPost(post)}
-                style={iconButtonStyle}
-              >
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={post.username}
-            subheader={
-              <span style={{ display: "flex", alignItems: "center" }}>
-                {new Date(post.createdAt).toLocaleString()}
-                <IconButton aria-label="public" style={iconButtonStyle}>
-                  <PublicIcon style={{ fontSize: "20px" }} />
-                </IconButton>
-              </span>
-            }
-          />
-          <CardContent sx={{ padding: "8px 10px 15px 10px" }}>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              {post.text}
-            </Typography>
-          </CardContent>
-
-          <CardMedia
-            component="img"
-            height="300"
-            image="https://placedog.net/500"
-            alt="Paella dish"
-          />
-          <CardActions
-            disableSpacing
-            className="d-flex justify-content-end mx-3"
+      {/* Spinner che appare mentre `isLoading` è true */}
+      {isLoading ? (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <CircularProgress /> {/* Spinner */}
+        </div>
+      ) : (
+        // Mappa attraverso tutti i post e li visualizza
+        posts.map((post) => (
+          <Card
+            sx={{ maxWidth: 345 }}
+            key={post._id}
+            className="my-3 rounded-4 cardOmbra"
           >
-            {/* Rimosso il componente ExpandMore */}
-          </CardActions>
-          <div className="d-flex justify-content-around flex-grow-1 mb-2">
-            <div className="d-flex align-items-center">
-              <IconButton
-                aria-label="add to favorites"
-                onClick={() => handleLikeClick(post._id)}
-                style={{ ...iconButtonStyle, marginRight: "8px" }}
-              >
-                {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-              </IconButton>
-              <button
-                onClick={() => handleLikeClick(post._id)}
-                style={buttonStyle}
-              >
-                Consiglia
-              </button>
-            </div>
-            <div className="d-flex align-items-center">
-              <IconButton
-                aria-label="add comment"
-                onClick={() => handleCommentClick(post._id)}
-                style={iconButtonStyle}
-              >
-                <CommentIcon />
-              </IconButton>
-              <button
-                onClick={() => handleCommentClick(post._id)}
-                style={buttonStyle}
-              >
-                Commenta
-              </button>
-            </div>
-            <div className="d-flex align-items-center">
-              <IconButton aria-label="share" style={iconButtonStyle}>
-                <ShareIcon />
-              </IconButton>
-              <button style={buttonStyle}>Condividi</button>
-            </div>
-            <div className="d-flex align-items-center">
-              <IconButton aria-label="send" style={iconButtonStyle}>
-                <SendIcon />
-              </IconButton>
-              <button style={buttonStyle}>Invia</button>
-            </div>
-          </div>
-          <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography sx={{ marginBottom: 2 }}>
-                <CommentAldo
-                  postId={post._id}
-                  handleCommentAdded={handleCommentAdded}
-                />
+            <CardHeader
+              sx={{ padding: "15px 10px 0px 10px" }}
+              avatar={
+                <Avatar  src={profile.username === post.username ? profile.image : undefined}  sx={{ bgcolor: red[500] }} aria-label="recipe">
+                  {post.username[0]}
+                </Avatar>
+              }
+              action={
+                <IconButton
+                  aria-label="settings"
+                  onClick={() => handleEditPost(post)}
+                  style={iconButtonStyle}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              title={post.username}
+              subheader={
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  {new Date(post.createdAt).toLocaleString()}
+                  <IconButton aria-label="public" style={iconButtonStyle}>
+                    <PublicIcon style={{ fontSize: "20px" }} />
+                  </IconButton>
+                </span>
+              }
+            />
+            <CardContent sx={{ padding: "8px 10px 15px 10px" }}>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                {post.text}
               </Typography>
             </CardContent>
-          </Collapse>
-        </Card>
-      ))}
+
+            <CardMedia
+              component="img"
+              height="300"
+              image="https://placedog.net/500"
+              alt="Paella dish"
+            />
+            <CardActions
+              disableSpacing
+              className="d-flex justify-content-end mx-3"
+            >
+              {/* Rimosso il componente ExpandMore */}
+            </CardActions>
+            <div className="d-flex justify-content-around flex-grow-1 mb-2">
+              <div className="d-flex align-items-center">
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={() => handleLikeClick(post._id)}
+                  style={{ ...iconButtonStyle, marginRight: "8px" }}
+                >
+                  {likedPosts[post._id] ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+                </IconButton>
+                <button
+                  onClick={() => handleLikeClick(post._id)}
+                  style={buttonStyle}
+                >
+                  Consiglia
+                </button>
+              </div>
+              <div className="d-flex align-items-center">
+                <IconButton
+                  aria-label="add comment"
+                  onClick={() => handleCommentClick(post._id)}
+                  style={iconButtonStyle}
+                >
+                  <CommentIcon />
+                </IconButton>
+                <button
+                  onClick={() => handleCommentClick(post._id)}
+                  style={buttonStyle}
+                >
+                  Commenta
+                </button>
+              </div>
+              <div className="d-flex align-items-center">
+                <IconButton aria-label="share" style={iconButtonStyle}>
+                  <ShareIcon />
+                </IconButton>
+                <button style={buttonStyle}>Condividi</button>
+              </div>
+              <div className="d-flex align-items-center">
+                <IconButton aria-label="send" style={iconButtonStyle}>
+                  <SendIcon />
+                </IconButton>
+                <button style={buttonStyle}>Invia</button>
+              </div>
+            </div>
+            <Collapse in={expandedPosts[post._id]} timeout="auto" unmountOnExit>
+              <CardContent>
+                <Typography sx={{ marginBottom: 2 }}>
+                  <CommentAldo
+                    postId={post._id}
+                    handleCommentAdded={handleCommentAdded}
+                  />
+                </Typography>
+              </CardContent>
+            </Collapse>
+          </Card>
+        ))
+      )}
 
       {/* Modal per la modifica del post */}
       <Modal show={show} onHide={() => setShow(false)}>
