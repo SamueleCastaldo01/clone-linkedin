@@ -103,7 +103,7 @@ const AllAldoPost = () => {
     };
 
   return (
-    <div>
+    <div style={{marginBottom:'100px'}}>
       {posts.map((post) => (
         <Card
           sx={{ maxWidth: 345 }}
