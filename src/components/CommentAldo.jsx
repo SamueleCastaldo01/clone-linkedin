@@ -213,7 +213,7 @@ const CommentAldo = ({ postId, onCommentAdded }) => {
                   </Avatar>
                 </div>
                 <div
-                  className=" flex-grow-1 px-0"
+                  className=" flex-grow-1 px-2"
                   style={{
                     backgroundColor: "#F2F2F2",
                     borderRadius: 5,
