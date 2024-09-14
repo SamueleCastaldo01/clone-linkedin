@@ -11,6 +11,7 @@ import {
 const initialState = {
   experiences: [],
   error: null,
+  isLoading:false
 };
 
 export const experienceReducer = (state = initialState, action) => {

@@ -1,13 +1,21 @@
-import { ADD_TO_POST, DELETE_POST, FETCH_POSTS, POSTS_ERROR, UPDATE_POST } from "../actions/types"
+import { ADD_TO_POST, DELETE_POST, FETCH_POSTS, POSTS_ERROR, SET_LOADING, UPDATE_POST } from "../actions/types"
 
 
 const initialState = {
     posts: [],
-    error: null
+    error: null,
+    isLoading: false
 }
 
 export const postReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case SET_LOADING:
+            return {
+                ...state,
+                isLoading: action.payload, // Imposta isLoading in base all'azione
+            };
+
         case FETCH_POSTS:
             return {
                 ...state,

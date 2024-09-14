@@ -2,7 +2,8 @@ import { ADD_COMMENTS, COMMENTS_ERROR, DELETE_COMMENTS, FETCH_COMMENTS, UPDATE_C
 
 const initialState = {
     comments: [],
-    error: null
+    error: null,
+    isLoading:false
 }
 
 export const commentReducer= (state= initialState, action) => {

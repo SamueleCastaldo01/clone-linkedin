@@ -23,6 +23,7 @@ import {
   DELETE_COMMENTS,
   UPLOAD_EXPERIENCE_IMAGE_SUCCESS,
   UPLOAD_EXPERIENCE_IMAGE_FAIL,
+  SET_LOADING,
 } from "./types";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -43,41 +44,41 @@ const shuffleArray = (array) => {
 // Funzione per ottenere la lista dei profili utente o cercare profili
 export const fetchProfiles =
   (searchTerm = "") =>
-  async (dispatch) => {
-    try {
-      // Chiamata API per ottenere tutti i profili
-      const response = await axios.get(`${PROFILE_URL}`, {
-        headers: { Authorization: `Bearer ${TOKEN}` },
-      });
-      console.log("Fetch profiles:", response.data);
+    async (dispatch) => {
+      try {
+        // Chiamata API per ottenere tutti i profili
+        const response = await axios.get(`${PROFILE_URL}`, {
+          headers: { Authorization: `Bearer ${TOKEN}` },
+        });
+        console.log("Fetch profiles:", response.data);
 
-      // Filtrare i profili in base ai criteri di ricerca
-      const filteredProfiles = response.data.filter(
-        (profile) =>
-          profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      console.log("Filtered profiles:", filteredProfiles);
+        // Filtrare i profili in base ai criteri di ricerca
+        const filteredProfiles = response.data.filter(
+          (profile) =>
+            profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            profile.surname.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        console.log("Filtered profiles:", filteredProfiles);
 
-      // Mescolare i profili filtrati
-      const shuffledProfiles = shuffleArray(filteredProfiles);
+        // Mescolare i profili filtrati
+        const shuffledProfiles = shuffleArray(filteredProfiles);
 
-      // Prendere massimo i primi 5 profili casuali
-      const randomProfiles = shuffledProfiles.slice(0, 5);
-      console.log("Random profiles:", randomProfiles);
+        // Prendere massimo i primi 5 profili casuali
+        const randomProfiles = shuffledProfiles.slice(0, 5);
+        console.log("Random profiles:", randomProfiles);
 
-      dispatch({
-        type: FETCH_PROFILES,
-        payload: randomProfiles,
-      });
-    } catch (error) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: error.message,
-      });
-    }
-  };
+        dispatch({
+          type: FETCH_PROFILES,
+          payload: randomProfiles,
+        });
+      } catch (error) {
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: error.message,
+        });
+      }
+    };
 
 // Funzione per ottenere il profilo utente
 export const fetchProfile = () => async (dispatch) => {
@@ -236,6 +237,11 @@ const POSTS_URL = "https://striveschool-api.herokuapp.com/api/posts/";
 
 export const fetchPostsAction = () => async (dispatch) => {
   try {
+    dispatch({
+      type: SET_LOADING,
+      payload: true
+    })
+
     const response = await axios.get(POSTS_URL, {
       headers: { Authorization: "Bearer " + TOKEN },
     });
@@ -246,6 +252,12 @@ export const fetchPostsAction = () => async (dispatch) => {
       type: FETCH_POSTS,
       payload: sortedPosts,
     });
+
+    dispatch({
+      type: SET_LOADING,
+      payload: false
+    })
+
   } catch (error) {
     dispatch({
       type: POSTS_ERROR,
@@ -357,7 +369,7 @@ export const fetchCommentsAction = () => async (dispatch) => {
     });
     dispatch({
       type: FETCH_COMMENTS,
-      payload: response.data.slice(-7),
+      payload: response.data.slice(-5),
     });
   } catch (error) {
     dispatch({

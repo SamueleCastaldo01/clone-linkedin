@@ -4,7 +4,8 @@ import { FETCH_PROFILES, FETCH_PROFILE, UPDATE_PROFILE, PROFILE_ERROR } from '..
 const initialState = {
     profiles: [],  // Lista di profili ottenuti dalla ricerca
     profile: {},   // Profilo utente corrente
-    error: null    // Messaggio di errore
+    error: null,   // Messaggio di errore
+    isLoading:false
 };
 
 // Reducer per gestire le azioni relative ai profili
